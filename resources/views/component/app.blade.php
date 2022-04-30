@@ -16,6 +16,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{asset('lte/bower_components/Ionicons/css/ionicons.min.css')}}">
     <!-- Theme style -->
+    <link rel="stylesheet" href="{{asset('lte/dist/css/style.css')}}">
+    {{-- template css --}}
     <link rel="stylesheet" href="{{asset('lte/dist/css/AdminLTE.min.css')}}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
