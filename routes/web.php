@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// ketika akses url public/ maka langsung diarahkan ke route dashboard
-Route::get('/', function(){return redirect()->route('classes');});
 // Route::get('/', function(){return redirect()->route('dashboard');});
 
 //use App\Http\Controllers\ClassesController;
@@ -28,3 +26,7 @@ Route::group(array('prefix' => 'class'), function(){
   //Route::get('/', [ClassController::class, 'index'])->name('class');
   Route::get('/', 'ClassController@index')->name('class');
 });
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
