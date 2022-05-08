@@ -3,11 +3,16 @@
 
 @endsection
 @section('content')
+
+<!-- MENU -->
 <div class="row" style="padding-left: 7px;">
   <button type="button" class="btn bg-purple btn-flat margin"><i class="fa fa-check-square-o"></i> To do</button>
   <button type="button" class="btn bg-purple btn-flat margin"><i class="fa fa-folder-o"></i> To be checked</button>
   <button type="button" class="btn bg-purple btn-flat margin"><i class="fa fa-calendar"></i> Calendar</button>
 </div><br>
+<!-- MENU -->
+
+<!-- CLASSES -->
 <div class="row">
   <div class="col-md-4">
     <!-- Widget: user widget style 1 -->
@@ -32,6 +37,8 @@
     </div>
     <!-- /.widget-user -->
   </div>
+  <!-- CLASSES -->
+  
   <div class="col-md-4">
     <!-- Widget: user widget style 1 -->
     <div class="box box-widget widget-user-2">

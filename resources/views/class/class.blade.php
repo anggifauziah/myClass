@@ -7,115 +7,231 @@
 <!-- Custom Tabs (Pulled to the right) -->
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right box-header with-border bg-blue">
-        <li><a class="tablinks" onclick="openCity(event, 'Forum')">Forum</a></li>
-        <li><a class="tablinks " onclick="openCity(event, 'Tugas Kelas')">Tugas Kelas<span class="badge">3</span></a></li>
-        <li><a class="tablinks" onclick="openCity(event, 'Anggota')">Anggota</a></li>
-        <li><a class="tablinks" onclick="openCity(event, 'Anggota')">Anggota</a></li>
-        {{-- <li><a href="{{ url('tab1') }}" class="{{ request()->is('tab2') ? "activated" : null }}">Nilai</a></li> --}}
+        <li>
+            <a class="tablinks" onclick="openCity(event, 'Anggota')" style="color: white;">Anggota</a>
+        </li>
+        <li>
+            <a class="tablinks " onclick="openCity(event, 'Tugas Kelas')" style="color: white;">Tugas Kelas
+                <span class="badge">3</span></a>
+        </li>
+        <li>
+            <a class="tablinks" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
+        </li>
+        <!-- <li><a class="tablinks" onclick="openCity(event, 'Anggota')">Anggota</a></li> -->
+        {{-- <li><a href="{{ url('tab1') }}" class="{{ request()->is('tab2') ? "activated" : null }}">Nilai</a></li>
+        --}}
         <li class="pull-left">
             <div class="user-block">
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                <span class="username" style="font-size: 21px;">Kecerdasan Bisnis</span>
+                <span class="username" style="font-size: 21px; color: white;">Kecerdasan Bisnis</span>
                 <span class="description" style="color: white;">Eka Mala Sari</span>
             </div>
         </li>
     </ul>
+
+    <!-- /.tab-content -->
     <div class="tab-content">
+        <!-- FORUM -->
         <div class="tab-pane active tabcontent" id="Forum">
-        <div class="box-body">
-        <!-- post text -->
-        <p>Far far away, behind the word mountains, far from the
-        countries Vokalia and Consonantia, there live the blind
-        texts. Separated they live in Bookmarksgrove right at</p>
+            <!-- BOX CLASS DETAILS -->
+            <div class="box box-default collapsed-box">
+                <div class="box-header with-border">
+                    <h1 class="box-title" style="padding-top: 10px"><b>Class Details</b></h1>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-lg" data-widget="collapse" title="Information">
+                            <i class="fa fa-info-circle"></i>
+                        </button>
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table>
+                        <tr>
+                            <td width="90"><b>Class Code</b></td>
+                            <td width="10">:</td>
+                            <td width="170">lehnqvs</td>
+                        </tr>
+                        <tr>
+                            <td><b>Class Name</b></td>
+                            <td>:</td>
+                            <td>TIF-6A</td>
+                        </tr>
+                        <tr>
+                            <td><b>Subject</b></td>
+                            <td>:</td>
+                            <td>Kecerdasan Bisnis</td>
+                        </tr>
+                        <tr>
+                            <td><b>Room</b></td>
+                            <td>:</td>
+                            <td>F304</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <p>
+                                    Far far away, behind the word mountains, far from the
+                                    countries Vokalia and Consonantia, there live the blind
+                                    texts. Separated they live in Bookmarksgrove right at
+                                    the coast of the Semantics, a large language ocean.
+                                    A small river named Duden flows by their place and supplies
+                                    it with the necessary regelialia. It is a paradisematic
+                                    country, in which roasted parts of sentences fly into
+                                    your mouth.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- END BOX CLASS DETAILS -->
 
-        <p>the coast of the Semantics, a large language ocean.
-        A small river named Duden flows by their place and supplies
-        it with the necessary regelialia. It is a paradisematic
-        country, in which roasted parts of sentences fly into
-        your mouth.</p>
-
-        <!-- Attachment -->
-        <div class="attachment-block clearfix">
-        <img class="attachment-img" src="{{asset('lte/dist/img/photo1.png')}}" alt="Attachment Image">
-
-        <div class="attachment-pushed">
-            <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>
-
-            <div class="attachment-text">
-            Description about the attachment can be placed here.
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
+            <!-- POST ANNOUNCEMENT -->
+            <div class="box box-default">
+                <!-- /.box-header -->
+                <div class="box box-default collapsed-box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h5 class="box-title"> </h5>
+                        <div class="box-tools pull-left">
+                            <h5>Announce something to your class</h5>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <textarea class="ckeditor" id="ckedtor"></textarea>
+                        <br>
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-primary">Posting</button>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
             </div>
-            <!-- /.attachment-text -->
-        </div>
-        <!-- /.attachment-pushed -->
-        </div>
-        <!-- /.attachment-block -->
+            <!-- END POST ANNOUNCEMENT -->
 
-        <!-- Social sharing buttons -->
-        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-        <span class="pull-right text-muted">45 likes - 2 comments</span>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer box-comments">
-            <div class="box-comment">
-            <!-- User image -->
-            <img class="img-circle img-sm" src="{{asset('lte/dist/img/user3-128x128.jpg')}}" alt="User Image">
+            <!-- BOX ANNOUNCEMENT -->
+            <div class="box box-solid box-default">
+                <!-- /.box-header -->
+                <div class="box-header">
+                    <h3 class="box-title">Announcement Example</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <!-- users -->
+                    <div class="user-block">
+                        <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                        <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
+                        <span class="description">30 Des 2021</span>
+                    </div>
+                    <br>
+                    <!-- post text -->
+                    <p>Far far away, behind the word mountains, far from the
+                        countries Vokalia and Consonantia, there live the blind
+                        texts. Separated they live in Bookmarksgrove right at
+                        the coast of the Semantics, a large language ocean.
+                        A small river named Duden flows by their place and supplies
+                        it with the necessary regelialia. It is a paradisematic
+                        country, in which roasted parts of sentences fly into
+                        your mouth.</p>
+                    <!-- Attachment -->
+                    <div class="attachment-block clearfix">
+                        <img class="attachment-img" src="{{asset('lte/dist/img/photo1.png')}}" alt="Attachment Image">
+                        <div class="attachment-pushed">
+                            <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text
+                                    generator</a>
+                            </h4>
+                            <div class="attachment-text">
+                                Description about the attachment can be placed here.
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a
+                                    href="#">more</a>
+                            </div>
+                            <!-- /.attachment-text -->
+                        </div>
+                        <!-- /.attachment-pushed -->
+                    </div>
+                    <!-- /.attachment-block -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer box-comments">
+                    <!-- /.box-comment -->
+                    <div class="box-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
+                            alt="User Image">
+                        <div class="comment-text">
+                            <span class="username">
+                                Nora Havisham
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span><!-- /.username -->
+                            The point of using Lorem Ipsum is that it has a more-or-less
+                            normal distribution of letters, as opposed to using
+                            'Content here, content here', making it look like readable English.
+                        </div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.box-comment -->
+                    <!-- /.box-footer -->
+                    <div class="box-footer">
+                        <form action="#" method="post">
+                            <img class="img-responsive img-circle img-sm"
+                                src="{{asset('lte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
+                            <!-- .img-push is used to add margin to elements next to floating images -->
+                            <div class="img-push">
+                                <input type="text" class="form-control input-sm"
+                                    placeholder="Press enter to post comment">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box-comment -->
+            </div>
+            <!-- END BOX ANNOUNCEMENT -->
 
-            <div class="comment-text">
-                    <span class="username">
-                    Maria Gonzales
-                    <span class="text-muted pull-right">8:03 PM Today</span>
-                    </span><!-- /.username -->
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-            </div>
-            <!-- /.comment-text -->
-            </div>
-            <!-- /.box-comment -->
-            <div class="box-comment">
-            <!-- User image -->
-            <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
+            <!-- BOX ASSIGNMENT -->
+            <div class="box box-default box-solid collapsed-box">
+                <!-- /.box-header -->
+                <div class="box-header" data-widget="collapse">
+                    <h3 class="box-title"><i class="fa fa-file-text"></i> Assignment Example</h3>
+                </div><!-- /.box-header -->
+                <!-- /.box-body -->
+                <div class="box-body" style="">
+                  <!-- users -->
+                    <div class="user-block">
+                        <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                        <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
+                        <span class="description">30 Des 2021</span>
+                    </div>
+                    <br>
+                    <!-- post text -->
+                    <p>Far far away, behind the word mountains, far from the
+                        countries Vokalia and Consonantia, there live the blind
+                        texts. Separated they live in Bookmarksgrove right at
+                        the coast of the Semantics, a large language ocean.
+                        A small river named Duden flows by their place and supplies
+                        it with the necessary regelialia. It is a paradisematic
+                        country, in which roasted parts of sentences fly into
+                        your mouth.
+                    </p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- END BOX ASSIGNMENT -->
+        </div>
+        <!-- END FORUM -->
 
-            <div class="comment-text">
-                    <span class="username">
-                    Nora Havisham
-                    <span class="text-muted pull-right">8:03 PM Today</span>
-                    </span><!-- /.username -->
-                The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters, as opposed to using
-                'Content here, content here', making it look like readable English.
-            </div>
-            <!-- /.comment-text -->
-            </div>
-            <!-- /.box-comment -->
-        </div>
-        </div>
-        <!-- /.tab-pane -->
+        <!-- TUGAS KELAS -->
         <div class="tab-pane tabcontent" id="Tugas Kelas">
             <div class="box box-solid">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Tugas 3. Studi kasus EDA</h3>
-                </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <div class="box-group" id="accordion">
-                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                    <div class="panel box box-primary">
-                      <div class="box-header with-border">
-                        <h4 class="box-title">
-                          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                            Tugas 3. Studi kasus EDA
-                          </a>
-                        </h4>
-                      </div>
-                      <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="box-body">
-                            <span class="pull-left">Diposting 6 Apr (Diedit 6 Apr)</span>
-                            <span class="pull-right">Diserahkan</span>
-                            <br><br>
-                            <p>
-                                Studi Kasus: Data Tips Restaurant
+                <div class="box box-default collapsed-box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title"><i class="fa fa-file-text"></i> Expandable</h3>
+                        <div class="box-tools pull-right">
+                            <h5>Tenggat: 29 Apr 07.30</h5>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <span class="pull-left">Diposting 6 Apr (Diedit 6 Apr)</span>
+                        <span class="pull-right">Diserahkan</span>
+                        <br><br>
+                        <p>
+                            Studi Kasus: Data Tips Restaurant
                             Sebuah dataset dari suatu Restaurant memuat variabel-variabel berikut:
                             total_bill: Total bill (cost of the meal), including tax, in US dollars
                             tip: Tip (gratuity) in US dollars
@@ -124,45 +240,45 @@
                             day: 3=Thur, 4=Fri, 5=Sat, 6=Sun
                             time: 0=Day, 1=Night
                             size: Size of the party
-                            Sumber Data:  https://www.kaggle.com/ranjeetjain3/seaborn-tips-dataset 
-                            
-                            
-                            
-                            Latihan:Silahkan Latihan untuk menjawab pertanyaan-pertanyaan berikut:
-                            1. Adakah tipe variabel yang kurang tepat di data tersebut?
-                            2. Apakah data numeriknya cenderung berdistribusi normal?
-                            3. Apakah ada outlier, noise, missing values, dan-atau duplikasi data?
-                            4. Apakah pelanggan pria dan wanita cenderung proporsional (balance)?
-                            5. Dari data yang ada apakah Pria atau wanita ada kecenderungan memberi tips lebih besar?
-                            6. Dari data yang ada apakah ada kecenderungan tips lebih besar di hari-hari tertentu?
-                            7. Dari data yang ada apakah customer perokok cenderung memberi tips lebih besar?
-                            8. Apakah pola di nomer 5 dan 7 dipengaruhi hari?
-                            9. Pola apalagi yang dapat anda temukan? (misal, bisakah anda menyarankan tata letak kursi/meja restaurant dari data ini?)
-                            10. dari hasil EDA anda saran apa saja yang akan anda berikan ke pemilik restaurant?
-                            11. Skills/kompetensi apa yang terasa sangat diperlukan dari latihan ini?
-                            
-                            
-                            Kerjakan dalam kelompok 4 orang
-                            </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.box-body -->
-              </div>
+                            Sumber Data: https://www.kaggle.com/ranjeetjain3/seaborn-tips-dataset
+                        </p>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
         </div>
-        <!-- /.tab-pane -->
+        <!-- END TUGAS KELAS -->
+
+        <!-- ANGGOTA -->
         <div class="tab-pane tabcontent" id="Anggota">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-        It has survived not only five centuries, but also the leap into electronic typesetting,
-        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-        sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-        like Aldus PageMaker including versions of Lorem Ipsum.
+            <h1>Teachers</h1>
+            <hr>
+            <div class="user-block">
+                <img class="img-responsive img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
+                    alt="User Image">
+                <span class="username" style="font-size: 15px; padding-top: 5px;">Eka Mala Sari</span>
+            </div>
+            <br><br>
+            <h1>Classmates</h1>
+            <hr>
+            <div class="user-block">
+                <table>
+                    <tr>
+                        <!-- <td width="50">
+                    <input type=checkbox>
+                  </td> -->
+                        <td width="1250">
+                            <img class="img-responsive img-circle img-sm"
+                                src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
+                            <span class="username" style="font-size: 15px; padding-top: 5px;">Anggi Nor Fauziah</span>
+                        </td>
+                        <td>
+                            <i class="fa fa-ellipsis-v fa fa-lg" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <!-- /.tab-pane -->
+        <!-- END ANGGOTA -->
     </div>
     <!-- /.tab-content -->
 </div>
@@ -173,17 +289,17 @@
 
 <script>
     function openCity(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" activated", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " activated";
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" activated", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " activated";
     }
 </script>
 
