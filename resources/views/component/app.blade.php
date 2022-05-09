@@ -68,13 +68,13 @@
             <!-- ============================================================== -->
             <!-- Content Header (Page header) -->
             <!-- ============================================================== -->
-            <section class="content-header">
+            <!-- <section class="content-header">
               <h1>{{ $data['title'] }}</h1>
               <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li class="active">{{ $data['title'] }}</li>
               </ol>
-            </section>
+            </section> -->
             <!-- ============================================================== -->
             <!-- End Content Header (Page header) -->
             <!-- ============================================================== -->
@@ -150,6 +150,8 @@
     <script src="{{asset('lte/bower_components/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('lte/dist/js/adminlte.min.js')}}"></script>
+    <!-- CKEditor -->
+    <script src="{{asset('lte/dist/js/ckeditor/ckeditor.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{-- <script src="{{asset('lte/dist/js/pages/dashboard.js')}}"></script> --}}
     <!-- AdminLTE for demo purposes -->
