@@ -8,18 +8,16 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right box-header with-border bg-blue">
         <li>
-            <a class="tablinks" onclick="openCity(event, 'Anggota')" style="color: white;">Anggota</a>
+            <a class="tablinks" onclick="openCity(event, 'Anggota')" style="color: white;">People</a>
         </li>
         <li>
-            <a class="tablinks " onclick="openCity(event, 'Tugas Kelas')" style="color: white;">Tugas Kelas
-                <span class="badge">3</span></a>
+            <a class="tablinks " onclick="openCity(event, 'Tugas Kelas')" style="color: white;">Classwork
+                <!-- <span class="badge bg-red">3</span> -->
+            </a>
         </li>
         <li>
             <a class="tablinks" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
         </li>
-        <!-- <li><a class="tablinks" onclick="openCity(event, 'Anggota')">Anggota</a></li> -->
-        {{-- <li><a href="{{ url('tab1') }}" class="{{ request()->is('tab2') ? "activated" : null }}">Nilai</a></li>
-        --}}
         <li class="pull-left">
             <div class="user-block">
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
@@ -97,10 +95,23 @@
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <textarea class="ckeditor" id="ckedtor"></textarea>
-                        <br>
-                        <button type="button" class="btn btn-default">Cancel</button>
-                        <button type="button" class="btn btn-primary">Posting</button>
+                        <form method="post" action="" enctype="multipart/form-data">
+                            <textarea class="ckeditor" id="ckedtor"></textarea>
+                            <br>
+                            <!-- File Input -->
+                            <div>
+                                <label for="file">
+                                    <a class="btn btn-info" rel="nofollow">
+                                        <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
+                                    <span id="span_file">No file selected</span>
+                                </label>
+                                <input id="file" type="file" name="file[]" multiple style="display: none;"><br>
+                                <p id="detail_file"></p>
+                            </div>
+                            <!-- File Input -->
+                            <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
+                            <button type="button" class="btn btn-primary">Posting</button>
+                        </form>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -192,8 +203,9 @@
                 </div><!-- /.box-header -->
                 <!-- /.box-body -->
                 <div class="box-body" style="">
-                  <!-- users -->
+                    <!-- users -->
                     <div class="user-block">
+                        <a href="{{ route('view-assignment') }}" class="btn btn-primary pull-right">View assignment</a>
                         <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
                         <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
                         <span class="description">30 Des 2021</span>
@@ -210,6 +222,39 @@
                         your mouth.
                     </p>
                 </div><!-- /.box-body -->
+                <div class="box-footer box-comments">
+                    <!-- /.box-comment -->
+                    <div class="box-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
+                            alt="User Image">
+                        <div class="comment-text">
+                            <span class="username">
+                                Nora Havisham
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span><!-- /.username -->
+                            The point of using Lorem Ipsum is that it has a more-or-less
+                            normal distribution of letters, as opposed to using
+                            'Content here, content here', making it look like readable English.
+                        </div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.box-comment -->
+                    <!-- /.box-footer -->
+                    <div class="box-footer">
+                        <form action="#" method="post">
+                            <img class="img-responsive img-circle img-sm"
+                                src="{{asset('lte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
+                            <!-- .img-push is used to add margin to elements next to floating images -->
+                            <div class="img-push">
+                                <input type="text" class="form-control input-sm"
+                                    placeholder="Press enter to post comment">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box-comment -->
             </div><!-- /.box -->
             <!-- END BOX ASSIGNMENT -->
         </div>
@@ -218,17 +263,21 @@
         <!-- TUGAS KELAS -->
         <div class="tab-pane tabcontent" id="Tugas Kelas">
             <div class="box box-solid">
+                <a href="{{ route('assignment') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create
+                    assignment</a>
+                <br><br>
                 <!-- /.box-header -->
                 <div class="box box-default collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title"><i class="fa fa-file-text"></i> Expandable</h3>
                         <div class="box-tools pull-right">
-                            <h5>Tenggat: 29 Apr 07.30</h5>
+                            <h5>Due 29 Apr 07.30</h5>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <span class="pull-left">Diposting 6 Apr (Diedit 6 Apr)</span>
-                        <span class="pull-right">Diserahkan</span>
+                        <p class="pull-left">Posted 6 Apr</p>
+                        <!-- Status: Handed in (Dikumpulkan); Assigned (Belum Dikumpulkan) -->
+                        <p class="pull-right">Handed in</p>
                         <br><br>
                         <p>
                             Studi Kasus: Data Tips Restaurant
@@ -243,6 +292,11 @@
                             Sumber Data: https://www.kaggle.com/ranjeetjain3/seaborn-tips-dataset
                         </p>
                     </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="{{ route('view-assignment') }}" style="color: black;">
+                            <h5>View assignment</h5>
+                        </a>
+                    </div>
                 </div><!-- /.box -->
             </div>
         </div>
@@ -263,16 +317,18 @@
             <div class="user-block">
                 <table>
                     <tr>
-                        <!-- <td width="50">
-                    <input type=checkbox>
-                  </td> -->
                         <td width="1250">
                             <img class="img-responsive img-circle img-sm"
                                 src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
                             <span class="username" style="font-size: 15px; padding-top: 5px;">Anggi Nor Fauziah</span>
                         </td>
                         <td>
-                            <i class="fa fa-ellipsis-v fa fa-lg" aria-hidden="true"></i>
+                            <a href="#" style="color: black; padding-left: 130px">
+                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#modal-default">
+                                    <i class="fa fa-trash-o fa fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </a>
                         </td>
                     </tr>
                 </table>
@@ -283,10 +339,36 @@
     <!-- /.tab-content -->
 </div>
 <!-- nav-tabs-custom -->
+
+<!-- DELETE MODALS -->
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete Student?</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to remove this student form class?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- DELETE MODALS -->
+
 @endsection
 
 @section('js')
 
+<!-- TAB PANE -->
 <script>
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
@@ -302,5 +384,56 @@
         evt.currentTarget.className += " activated";
     }
 </script>
+<!-- TAB PANE -->
+
+<!-- MULTIPLE FILE INPUT -->
+<script>
+    $('document').ready(function () {
+        // $('#btn_upload').click(function () {
+        //     var the_file = $('#file').val();
+        //     if (the_file == "") {
+        //         alert('Please select the file');
+        //         return false;
+        //     }
+        // });
+        $('#file').change(function () {
+            FileDetails();
+        });
+        $('#btn_reset').click(function () {
+            $('#file').val("");
+            $('#span_file').css("display", "inline");
+            $('#detail_file').css("display", "none");
+        });
+    });
+</script>
+<script>
+    function FileDetails() {
+        var fi = document.getElementById('file');
+        if (fi.files.length > 0) {
+            document.getElementById('detail_file').innerHTML =
+                'Total Files: <b>' + fi.files.length + '</b></br >';
+            for (var i = 0; i <= fi.files.length - 1; i++) {
+                var no_file = i + 1;
+                var fname = fi.files.item(i).name;
+                var fsize = fi.files.item(i).size;
+                document.getElementById('detail_file').innerHTML =
+                    document.getElementById('detail_file').innerHTML + no_file + ". " +
+                    fname + ' (<b>' + bytesToSize(fsize) + '</b>)<br>';
+            }
+            document.getElementById('detail_file').style.display = "block";
+            document.getElementById('span_file').style.display = "none";
+        } else {
+            alert('Please select a file.')
+        }
+    }
+
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
+</script>
+<!-- MULTIPLE FILE INPUT -->
 
 @endsection

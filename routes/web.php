@@ -15,16 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 // ketika akses url public/ maka langsung diarahkan ke route dashboard
 Route::get('/', function(){return redirect()->route('classes');});
-// Route::get('/', function(){return redirect()->route('dashboard');});
 
-//use App\Http\Controllers\ClassesController;
 Route::group(array('prefix' => 'classes'), function(){
-  //Route::get('/', [ClassesController::class, 'index'])->name('classes');
   Route::get('/', 'ClassesController@index')->name('classes');
 });
 
-//use App\Http\Controllers\ClassController;
 Route::group(array('prefix' => 'class'), function(){
-  //Route::get('/', [ClassController::class, 'index'])->name('class');
   Route::get('/', 'ClassController@index')->name('class');
+});
+
+Route::group(array('prefix' => 'assignment'), function(){
+  Route::get('/', 'AssignmentController@index')->name('assignment');
+});
+
+Route::group(array('prefix' => 'view-assignment'), function(){
+  Route::get('/', 'viewAssignmentController@index')->name('view-assignment');
 });
