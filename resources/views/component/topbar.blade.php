@@ -2,18 +2,15 @@
     <!-- Logo -->
     <a href="{{route('classes')}}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>L</b>MS</span>
+        <span class="logo-mini"><b>LMS</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE</span>
+        <span class="logo-lg"><b>LMS</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
         </a>
 
         <div class="navbar-custom-menu">
@@ -27,10 +24,10 @@
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 <li type=none>
-                                    <a href="#" style="color: black;"><h4>Join class</h4></a>
+                                    <a href="{{ route('join-class') }}" style="color: black;"><h4>Join class</h4></a>
                                 </li>
                                 <li  type=none>
-                                    <a href="#" style="color: black;"><h4>Create class</h4></a>
+                                    <a href="{{ route('create-class') }}" style="color: black;"><h4>Create class</h4></a>
                                 </li>
                             </ul>
                         </li>

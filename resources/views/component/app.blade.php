@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{asset('lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="{{asset('lte/plugins/timepicker/bootstrap-timepicker.min.css')}}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
     
     @yield('css')
 </head>
@@ -126,6 +128,9 @@
     <script src="{{asset('lte/dist/js/ckeditor/ckeditor.js')}}"></script>
     <!-- bootstrap time picker -->
     <script src="{{asset('lte/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+    <!-- DataTables -->
+    <script src="{{asset('lte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script>
     $.ajaxSetup({
       headers: {
