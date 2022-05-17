@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ketika akses url public/ maka langsung diarahkan ke route dashboard
-Route::get('/', function(){return redirect()->route('classes');});
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(array('prefix' => 'classes'), function(){
   Route::get('/', 'ClassesController@index')->name('classes');
