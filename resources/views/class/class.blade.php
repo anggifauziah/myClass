@@ -122,6 +122,19 @@
                 <!-- /.box-header -->
                 <div class="box-header">
                     <h3 class="box-title">Announcement Example</h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <!-- button with a dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bars"></i></button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a href="#">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <!-- users -->
@@ -196,13 +209,26 @@
             <!-- END BOX ANNOUNCEMENT -->
 
             <!-- BOX ASSIGNMENT -->
-            <div class="box box-default box-solid collapsed-box">
+            <div class="box box-solid box-default">
                 <!-- /.box-header -->
-                <div class="box-header" data-widget="collapse">
+                <div class="box-header">
                     <h3 class="box-title"><i class="fa fa-file-text"></i> Assignment Example</h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <!-- button with a dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bars"></i></button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a href="#">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /. tools -->
                 </div><!-- /.box-header -->
                 <!-- /.box-body -->
-                <div class="box-body" style="">
+                <div class="box-body">
                     <!-- users -->
                     <div class="user-block">
                         <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
