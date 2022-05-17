@@ -31,3 +31,15 @@ Route::group(array('prefix' => 'assignment'), function(){
 Route::group(array('prefix' => 'view-assignment'), function(){
   Route::get('/', 'viewAssignmentController@index')->name('view-assignment');
 });
+
+Route::group(array('prefix' => 'join-class'), function(){
+  Route::get('/', 'joinClassController@index')->name('join-class');
+});
+
+Route::group(array('prefix' => 'create-class'), function(){
+  Route::get('/', 'createClassController@index')->name('create-class');
+});
+
+Route::group(array('prefix' => 'view-assignment-teacher'), function(){
+  Route::get('/', 'viewAssignmentTeacherController@index')->name('view-assignment-teacher');
+});

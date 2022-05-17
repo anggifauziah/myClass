@@ -205,6 +205,7 @@
                 <div class="box-body" style="">
                     <!-- users -->
                     <div class="user-block">
+                        <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
                         <a href="{{ route('view-assignment') }}" class="btn btn-primary pull-right">View assignment</a>
                         <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
                         <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
@@ -293,6 +294,7 @@
                         </p>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
+                        <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
                         <a href="{{ route('view-assignment') }}" style="color: black;">
                             <h5>View assignment</h5>
                         </a>
@@ -365,7 +367,6 @@
 <!-- DELETE MODALS -->
 
 @endsection
-
 @section('js')
 
 <!-- TAB PANE -->

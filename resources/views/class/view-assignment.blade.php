@@ -88,37 +88,42 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h2 class="box-title">Your work</h2>
+                                    <!-- Belum submit (Assigned), Submit (Handed in) -->
+                                    <span class="pull-right">Assigned</span>
                                 </div>
                                 <div class="box-body">
-                                    <a class="btn btn-block btn-social btn-default">Nama file upload
-                                    </a>
-                                    <br>
-                                    <!-- File Input -->
-                                    <div>
-                                        <label for="file" style="display: block;">
-                                            <a class="btn btn-block btn-default" rel="nofollow">
-                                                <span class='fa fa-plus'></span> Add file</a>
-                                        </label>
-                                        <input id="file" type="file" name="file[]" multiple style="display: none;">
-                                    </div>
-                                    <a href="#" class="btn btn-block btn-default btn-github">Submit</a>
-                                    <!-- File Input -->
+                                    <div id='filename'></div>
                                 </div>
+                                <br>
+                                <!-- File Input -->
+                                <div>
+                                    <label for="file" style="display: block;">
+                                        <a class="btn btn-block btn-default" rel="nofollow">
+                                            <span class='fa fa-plus'></span> Add file</a>
+                                    </label>
+                                    <input id="file" type="file" name="file[]" multiple style="display: none;">
+                                </div>
+
+                                <a href="#" class="btn btn-block btn-default btn-github">Submit</a>
+                                <!-- File Input -->
                             </div>
-                            <!-- /.box -->
                         </div>
-                        <!-- /.form group -->
-                    </form>
+                        <!-- /.box -->
                 </div>
-                <!-- /.box-body -->
-            </div>
-            <!--/.col (right) -->
+                <!-- /.form group -->
         </form>
     </div>
+    <!-- /.box-body -->
+</div>
+<!--/.col (right) -->
+</form>
+</div>
 </div>
 
 @endsection
 
 @section('js')
+
+
 
 @endsection
