@@ -16,9 +16,10 @@ class ClassesController extends Controller
       $this->data['menuActive'] = $this->menuActive;
       $this->data['submnActive'] = $this->submnActive;
       $this->data['smallTitle'] = "";
-      return view($this->menuActive.'.'.'main')->with('data',$this->data);
 
-  }
+      return view($this->menuActive.'.'.'main')->with('data',$this->data);
+      
+    }
 
     /**
      * Show the form for creating a new resource.

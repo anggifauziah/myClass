@@ -26,9 +26,11 @@
                                 <li type=none>
                                     <a href="{{ route('join-class') }}" style="color: black;"><h4>Join class</h4></a>
                                 </li>
-                                <li  type=none>
-                                    <a href="{{ route('create-class') }}" style="color: black;"><h4>Create class</h4></a>
-                                </li>
+                                @if(Auth::user()->level_user == 2)
+                                    <li type=none>
+                                        <a href="{{ route('create-class') }}" style="color: black;"><h4>Create class</h4></a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
