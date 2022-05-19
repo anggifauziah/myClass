@@ -21,18 +21,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    private $title = "Classes";
-    private $menuActive = "classes";
-    private $submnActive = "";
 
     public function index()
     {
-      $this->data['title'] = $this->title;
-      $this->data['menuActive'] = $this->menuActive;
-      $this->data['submnActive'] = $this->submnActive;
-      $this->data['smallTitle'] = "";
 
-      return view($this->menuActive.'.'.'main')->with('data',$this->data);
+      return redirect()->to('class');
       
     }
 }

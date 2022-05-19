@@ -22,7 +22,7 @@
 
 <!-- CLASSES -->
 <div class="row">
-    @foreach($classes->classes as $class)
+    @foreach($classes as $class)
     <div class="col-md-4">
         <!-- Widget: user widget style 1 -->
         <div class="box box-widget widget-user-2">

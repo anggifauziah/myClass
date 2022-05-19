@@ -35,7 +35,7 @@ class ClassController extends Controller
     //    SeminarProposal::join('master_riset', 'master_riset.id_riset')
     //                             ->select('data_mahasiswa.nama_lengkap as nama_mhs','data_dosen.*','master_riset.*','pendaftaran_sempro.*')
     //                             ->get();
-      return view('classes.main', ['classes' => $guru])->with('data', $this->data);
+      return view('classes.main', ['classes' => $classes])->with('data', $this->data);
 
   }
 
