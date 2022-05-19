@@ -22,6 +22,7 @@
 
 <!-- CLASSES -->
 <div class="row">
+    @foreach($classes->classes as $class)
     <div class="col-md-4">
         <!-- Widget: user widget style 1 -->
         <div class="box box-widget widget-user-2">
@@ -31,9 +32,8 @@
                     <img class="img-circle" src="{{asset('lte/dist/img/user7-128x128.jpg')}}" alt="User Avatar">
                 </div>
                 <!-- /.widget-user-image -->
-                <h3 class="widget-user-username"><a href="{{ route('class') }}" style="color: white;">Kecerdasan
-                        Bisnis</a></h3>
-                <h5 class="widget-user-desc">Eka Mala Sari</h5>
+                <h3 class="widget-user-username"><a href="{{ route('class') }}" style="color: white;">{{$class->class_name}}</a></h3>
+                <h5 class="widget-user-desc">{{$class->id_teacher}}</h5>
             </div>
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
@@ -47,6 +47,7 @@
         </div>
         <!-- /.widget-user -->
     </div>
+    @endforeach
     <!-- CLASSES -->
 </div>
 @endsection

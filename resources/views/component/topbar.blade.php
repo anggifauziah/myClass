@@ -23,12 +23,13 @@
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
-                                <li type=none>
-                                    <a href="{{ route('join-class') }}" style="color: black;"><h4>Join class</h4></a>
-                                </li>
                                 @if(Auth::user()->level_user == 2)
                                     <li type=none>
                                         <a href="{{ route('create-class') }}" style="color: black;"><h4>Create class</h4></a>
+                                    </li>
+                                @elseif(Auth::user()->level_user == 1)
+                                    <li type=none>
+                                        <a href="{{ route('join-class') }}" style="color: black;"><h4>Join class</h4></a>
                                     </li>
                                 @endif
                             </ul>
@@ -58,7 +59,13 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                             </div>
                         </li>
                     </ul>

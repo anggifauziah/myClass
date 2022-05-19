@@ -25,6 +25,8 @@ Route::group(array('prefix' => 'classes'), function(){
 
 Route::group(array('prefix' => 'class'), function(){
   Route::get('/', 'ClassController@index')->name('class');
+  Route::get('/create-class', 'ClassController@create')->name('create-class');
+  Route::post('store-class', 'ClassController@store')->name('store-class');
 });
 
 Route::group(array('prefix' => 'assignment'), function(){
@@ -37,10 +39,6 @@ Route::group(array('prefix' => 'view-assignment'), function(){
 
 Route::group(array('prefix' => 'join-class'), function(){
   Route::get('/', 'joinClassController@index')->name('join-class');
-});
-
-Route::group(array('prefix' => 'create-class'), function(){
-  Route::get('/', 'createClassController@index')->name('create-class');
 });
 
 Route::group(array('prefix' => 'view-assignment-teacher'), function(){

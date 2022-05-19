@@ -18,25 +18,53 @@
         </div>
         <br>
         <!-- FORM CREATE CLASS -->
-        <form>
+        <form method="POST" action="{{ route('store-class') }}">
+            @csrf
             <h4>Create class</h4>
             <div class="form-group">
-                <label>Class name</label>
-                <input type="text" class="form-control input-md" placeholder="Class name">
+                <label>Class Name</label>
+                <input id="class_name" type="text" class="form-control @error('class_name') is-invalid @enderror"
+                    name="class_name" value="{{ old('class_name') }}" required autocomplete="class_name" autofocus
+                    placeholder="{{ __('Class Name') }}">
             </div>
+            @error('class_name')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
             <div class="form-group">
                 <label>Subject</label>
-                <input type="text" class="form-control input-md" placeholder="Subject">
+                <input id="subject" type="text" class="form-control @error('subject') is-invalid @enderror"
+                    name="subject" value="{{ old('subject') }}" required autocomplete="subject" autofocus
+                    placeholder="{{ __('Subject') }}">
             </div>
+            @error('subject')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
             <div class="form-group">
                 <label>Description</label>
-                <input type="text" class="form-control input-md" placeholder="Description">
+                <input id="desc" type="text" class="form-control @error('desc') is-invalid @enderror" name="desc"
+                    value="{{ old('desc') }}" required autocomplete="desc" autofocus
+                    placeholder="{{ __('Description') }}">
             </div>
+            @error('desc')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
             <div class="form-group">
                 <label>Room</label>
-                <input type="text" class="form-control input-md" placeholder="Room">
+                <input id="room" type="text" class="form-control @error('room') is-invalid @enderror" name="room"
+                    value="{{ old('room') }}" required autocomplete="room" autofocus placeholder="{{ __('Room') }}">
             </div>
-            <button type="button" class="btn btn-primary">Create</button>
+            @error('room')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+            <button type="submit" class="btn btn-primary">Create</button>
         </form>
 
         <!-- FORM CREATE CLASS -->

@@ -42,6 +42,7 @@
             <p class="login-box-msg">Register to access all features</p>
             <div class="row">
                 <form method="POST" action="{{ route('register') }}">
+                    @csrf
                     <div class="col-md-6">
                         <div class="form-group has-feedback">
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
@@ -75,14 +76,13 @@
                         <a href="{{ route('login') }}" class="text-center">I already a member</a>
                     </div>
                     <div class="col-md-6">
-                        @csrf
                         <div class="form-group has-feedback">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
+                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
+                                name="username" value="{{ old('username') }}" required autocomplete="username" autofocus
                                 placeholder="{{ __('Username') }}">
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
-                        @error('name')
+                        @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

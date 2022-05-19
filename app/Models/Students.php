@@ -5,23 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class Students extends Model
 {
     use HasFactory;
-    protected $table = 'teachers';
-    protected $primaryKey = 'id_teacher';
+    protected $table = 'students';
+    protected $primaryKey = 'id_student';
 
     protected $fillable = [
         'user_id',
-        'teacher_name',
-        'teacher_gender',
-        'teacher_birthOfdate'
+        'student_name',
+        'student_gender',
+        'student_birthOfdate'
     ];
-
-    public function Classes()
-    {
-        return $this->hasMany('Classes', 'id_class');
-    }
 
     public function User()
     {
