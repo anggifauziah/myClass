@@ -24,4 +24,9 @@ class Classes extends Model
     {
         return $this->belongsTo('Teacher', 'id_teacher');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

@@ -15,7 +15,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <!-- CLASS -->
             <li>
-                <a href="{{ route('classes') }}">
+                <a href="{{ route('class') }}">
                     <i class="fa fa-home"></i> <span>Classes</span>
                 </a>
             </li>
@@ -55,11 +55,7 @@
             </li>
             <!-- END TEACH -->
             <!-- CLASS -->
-            <li>
-                <a href="#">
-                    <i class="fa fa-circle"></i> <span>Kecerdasan Bisnis</span>
-                </a>
-            </li>
+            
             <!-- END CLASS -->
         </ul>
     </section>

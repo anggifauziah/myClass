@@ -19,12 +19,9 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(array('prefix' => 'classes'), function(){
-  Route::get('/', 'ClassesController@index')->name('classes');
-});
-
 Route::group(array('prefix' => 'class'), function(){
   Route::get('/', 'ClassController@index')->name('class');
+  Route::get('{code}', 'ClassController@viewClass')->name('{code}');
   Route::get('/create-class', 'ClassController@create')->name('create-class');
   Route::post('store-class', 'ClassController@store')->name('store-class');
 });

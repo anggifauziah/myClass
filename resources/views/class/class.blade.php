@@ -21,8 +21,8 @@
         <li class="pull-left">
             <div class="user-block">
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                <span class="username" style="font-size: 21px; color: white;">Kecerdasan Bisnis</span>
-                <span class="description" style="color: white;">Eka Mala Sari</span>
+                <span class="username" style="font-size: 21px; color: white;">{{$datas->class_name}}</span>
+                <span class="description" style="color: white;">{{$datas->teacher_name}}</span>
             </div>
         </li>
     </ul>
@@ -46,36 +46,24 @@
                         <tr>
                             <td width="90"><b>Class Code</b></td>
                             <td width="10">:</td>
-                            <td width="170">lehnqvs</td>
-                        </tr>
-                        <tr>
-                            <td><b>Class Name</b></td>
-                            <td>:</td>
-                            <td>TIF-6A</td>
+                            <td width="170">{{$datas->class_code}}</td>
                         </tr>
                         <tr>
                             <td><b>Subject</b></td>
                             <td>:</td>
-                            <td>Kecerdasan Bisnis</td>
+                            <td>{{$datas->class_subject}}</td>
                         </tr>
                         <tr>
                             <td><b>Room</b></td>
                             <td>:</td>
-                            <td>F304</td>
+                            <td>{{$datas->class_room}}</td>
                         </tr>
                     </table>
                     <table>
                         <tr>
                             <td>
                                 <p>
-                                    Far far away, behind the word mountains, far from the
-                                    countries Vokalia and Consonantia, there live the blind
-                                    texts. Separated they live in Bookmarksgrove right at
-                                    the coast of the Semantics, a large language ocean.
-                                    A small river named Duden flows by their place and supplies
-                                    it with the necessary regelialia. It is a paradisematic
-                                    country, in which roasted parts of sentences fly into
-                                    your mouth.
+                                    {{$datas->class_desc}}
                                 </p>
                             </td>
                         </tr>

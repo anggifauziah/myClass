@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="{{route('classes')}}" class="logo">
+    <a href="{{route('class')}}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>LMS</b></span>
         <!-- logo for regular state and mobile devices -->

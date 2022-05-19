@@ -32,8 +32,8 @@
                     <img class="img-circle" src="{{asset('lte/dist/img/user7-128x128.jpg')}}" alt="User Avatar">
                 </div>
                 <!-- /.widget-user-image -->
-                <h3 class="widget-user-username"><a href="{{ route('class') }}" style="color: white;">{{$class->class_name}}</a></h3>
-                <h5 class="widget-user-desc">{{$class->id_teacher}}</h5>
+                <h3 class="widget-user-username"><a href="{{ url('class', $class->class_code) }}" style="color: white;">{{$class->class_name}}</a></h3>
+                <h5 class="widget-user-desc">{{$class->teacher_name}}</h5>
             </div>
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
