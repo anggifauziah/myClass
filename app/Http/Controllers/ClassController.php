@@ -23,12 +23,36 @@ class ClassController extends Controller
       $this->data['submnActive'] = $this->submnActive;
       $this->data['smallTitle'] = "";
 
-      if(Auth::user()->level_user == 2){
-        $guru = Teacher::where('user_id', Auth::user()->id)->first();
-        $classes = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
-                    ->where('classes.teacher_id', $guru->id_teacher)->get();
+      if(Auth::user()){
+        if(Auth::user()->level_user == 2){
+            $guru = Teacher::where('user_id', Auth::user()->id)->first();
+            $classes = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->where('classes.teacher_id', $guru->id_teacher)->get();
+          }
+
+          return view('classes.main', ['classes' => $classes])->with('data', $this->data);
+      
+        }else{
+            return redirect()->to('login');
       }
-      return view('classes.main', ['classes' => $classes])->with('data', $this->data);
+    }
+
+    public function viewClass($code)
+    {
+        $this->data['title'] = $this->title;
+        $this->data['menuActive'] = $this->menuActive;
+        $this->data['submnActive'] = $this->submnActive;
+        $this->data['smallTitle'] = "";
+
+        if(Auth::user()->level_user == 2){
+            $guru = Teacher::where('user_id', Auth::user()->id)->first();
+            $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->where('classes.teacher_id', $guru->id_teacher)
+                        ->where('classes.class_code', $code)
+                        ->first();
+        }
+
+        return view('class.class', ['datas' => $datas])->with('data',$this->data);
     }
 
     /**
@@ -142,23 +166,5 @@ class ClassController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function viewClass($code)
-    {
-        $this->data['title'] = $this->title;
-        $this->data['menuActive'] = $this->menuActive;
-        $this->data['submnActive'] = $this->submnActive;
-        $this->data['smallTitle'] = "";
-
-        if(Auth::user()->level_user == 2){
-            $guru = Teacher::where('user_id', Auth::user()->id)->first();
-            $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
-                        ->where('classes.teacher_id', $guru->id_teacher)
-                        ->where('classes.class_code', $code)
-                        ->first();
-        }
-
-        return view('class.class', ['datas' => $datas])->with('data',$this->data);
     }
 }

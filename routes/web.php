@@ -21,9 +21,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(array('prefix' => 'class'), function(){
   Route::get('/', 'ClassController@index')->name('class');
-  Route::get('{code}', 'ClassController@viewClass')->name('{code}');
-  Route::get('/create-class', 'ClassController@create')->name('create-class');
+  Route::get('create-class', 'ClassController@create')->name('create-class');
   Route::post('store-class', 'ClassController@store')->name('store-class');
+  Route::get('{code}', 'ClassController@viewClass')->name('{code}');
 });
 
 Route::group(array('prefix' => 'assignment'), function(){
