@@ -18,17 +18,31 @@
         </div>
         <br>
         <!-- CLASS CODE -->
-        <form>
+        <form method="POST" action="{{ route('store-class') }}">
+            @csrf
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+            @endif
             <h4>Class code</h4>
             <p>Ask your teacher for the class code, then enter it here.</p>
             <div class=row>
                 <div class="col-md-4">
-                    <input type="text" class="form-control input-lg" placeholder="Class code">
+                    <div class="form-group">
+                        <input id="class_code" type="text"
+                            class="form-control @error('class_code') is-invalid @enderror" name="class_code" required
+                            autocomplete="class_code" autofocus placeholder="{{ __('Class code') }}">
+                    </div>
+                    <!-- @error('class_code')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror -->
                 </div>
             </div>
-
-            <br>
-            <button type="button" class="btn btn-success">Join</button>
+            <button type="submit" class="btn btn-success">Join</button>
         </form>
 
         <!-- CLASS CODE -->
