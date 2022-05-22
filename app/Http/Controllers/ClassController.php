@@ -55,6 +55,7 @@ class ClassController extends Controller
             $murid = Students::where('user_id', Auth::user()->id)->first();
             $datas = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
+                        ->join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
                         ->where('class_of_students.student_id', $murid->id_student)
                         ->where('classes.class_code', $code)
                         ->first();
@@ -80,7 +81,12 @@ class ClassController extends Controller
         $this->data['menuActive'] = "classes";
         $this->data['submnActive'] = "";
         $this->data['smallTitle'] = "";
-        return view('classes.create-class')->with('data',$this->data);
+
+        $guru = Teacher::where('user_id', Auth::user()->id)->first();
+        $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->where('classes.teacher_id', $guru->id_teacher)
+                ->first();
+        return view('classes.create-class', ['datas' => $datas])->with('data',$this->data);
     }
 
     /**
@@ -94,7 +100,12 @@ class ClassController extends Controller
         $this->data['menuActive'] = "classes";
         $this->data['submnActive'] = "";
         $this->data['smallTitle'] = "";
-        return view('classes.join-class')->with('data',$this->data);
+
+        $murid = Students::where('user_id', Auth::user()->id)->first();
+        $datas = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
+                ->where('class_of_students.student_id', $murid->id_student)
+                ->first();
+        return view('classes.join-class', ['datas' => $datas])->with('data',$this->data);
     }
 
     /**

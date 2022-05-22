@@ -1,22 +1,47 @@
 @extends('component.app')
 @section('css')
 
+<style>
+    a:active {
+        background-color: blue;
+        display: inline-block;
+    }
+
+    a:hover {
+        color: : red;
+        /* background-color: : #337ab7; */
+    }
+</style>
+
 @endsection
 @section('content')
+
+<!-- <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs pull-right box-header with-border bg-blue">
+        <li><a href="#" style="color:white;">People</a></li>
+        <li><a href="#" style="color:white;">Classwork</a></li>
+        <li><a href="#" style="color:white;">Forum <span class="sr-only">(current)</span></a>
+        </li>
+        <li>
+            <div class="user-block pull-left" style="padding-right: 1000px;">
+                <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                <span class="username" style="font-size: 21px; color: white; margin-top: -4px">{{$datas->class_name}}</span>
+                <span class="description" style="color: white;">{{$datas->teacher_name}}</span>
+            </div>
+        </li>
+    </ul> -->
 
 <!-- Custom Tabs (Pulled to the right) -->
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right box-header with-border bg-blue">
         <li>
-            <a class="tablinks" onclick="openCity(event, 'Anggota')" style="color: white;">People</a>
+            <a class="tablinks" onclick="openCity(event, 'People')" style="color: white;">People</a>
         </li>
         <li>
-            <a class="tablinks " onclick="openCity(event, 'Tugas Kelas')" style="color: white;">Classwork
-                <!-- <span class="badge bg-red">3</span> -->
-            </a>
+            <a class="tablinks " onclick="openCity(event, 'Classwork')" style="color: white;">Classwork</a>
         </li>
         <li>
-            <a class="tablinks" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
+            <a class="tablinks activated" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
         </li>
         <li class="pull-left">
             <div class="user-block">
@@ -73,36 +98,7 @@
             <!-- END BOX CLASS DETAILS -->
 
             <!-- POST ANNOUNCEMENT -->
-            <div class="box box-default">
-                <!-- /.box-header -->
-                <div class="box box-default collapsed-box">
-                    <div class="box-header with-border" data-widget="collapse">
-                        <h5 class="box-title"> </h5>
-                        <div class="box-tools pull-left">
-                            <h5>Announce something to your class</h5>
-                        </div><!-- /.box-tools -->
-                    </div><!-- /.box-header -->
-                    <div class="box-body">
-                        <form method="post" action="" enctype="multipart/form-data">
-                            <textarea class="ckeditor" id="ckedtor"></textarea>
-                            <br>
-                            <!-- File Input -->
-                            <div>
-                                <label for="file">
-                                    <a class="btn btn-info" rel="nofollow">
-                                        <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                                    <span id="span_file">No file selected</span>
-                                </label>
-                                <input id="file" type="file" name="file[]" multiple style="display: none;"><br>
-                                <p id="detail_file"></p>
-                            </div>
-                            <!-- File Input -->
-                            <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
-                            <button type="button" class="btn btn-primary">Posting</button>
-                        </form>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div>
+            @include('class.announcement')
             <!-- END POST ANNOUNCEMENT -->
 
             <!-- BOX ANNOUNCEMENT -->
@@ -202,6 +198,7 @@
                 <div class="box-header">
                     <h3 class="box-title"><i class="fa fa-file-text"></i> Assignment Example</h3>
                     <!-- tools box -->
+                    @if(Auth::user()->level_user == 2)
                     <div class="pull-right box-tools">
                         <!-- button with a dropdown -->
                         <div class="btn-group">
@@ -213,6 +210,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                     <!-- /. tools -->
                 </div><!-- /.box-header -->
                 <!-- /.box-body -->
@@ -275,12 +273,14 @@
         </div>
         <!-- END FORUM -->
 
-        <!-- TUGAS KELAS -->
-        <div class="tab-pane tabcontent" id="Tugas Kelas">
+        <!-- CLASSWORK -->
+        <div class="tab-pane tabcontent" id="Classwork">
             <div class="box box-solid">
+                @if(Auth::user()->level_user == 2)
                 <a href="{{ route('assignment') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create
                     assignment</a>
                 <br><br>
+                @endif
                 <!-- /.box-header -->
                 <div class="box box-default collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
@@ -316,10 +316,10 @@
                 </div><!-- /.box -->
             </div>
         </div>
-        <!-- END TUGAS KELAS -->
+        <!-- END CLASSWORK -->
 
-        <!-- ANGGOTA -->
-        <div class="tab-pane tabcontent" id="Anggota">
+        <!-- PEOPLE -->
+        <div class="tab-pane tabcontent" id="People">
             <h1>Teachers</h1>
             <hr>
             <div class="user-block">
@@ -350,7 +350,7 @@
                 </table>
             </div>
         </div>
-        <!-- END ANGGOTA -->
+        <!-- END PEOPLE -->
     </div>
     <!-- /.tab-content -->
 </div>

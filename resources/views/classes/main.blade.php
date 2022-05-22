@@ -9,7 +9,7 @@
     <button type="button" class="btn bg-white btn-flat" style="color: #1a73e8"><i
             class="fa fa-check-square-o fa-lg"></i>
         <span style="font-size: 17px; padding-left: 7px;">To do</span></button>
-    <a href="{{ route('class') }}">
+    <a href="{{ url('class') }}">
         <button type="button" class="btn bg-white btn-flat" style="color: #1a73e8; margin-left: 10px;"><i
                 class="fa fa-folder-o fa-lg"></i>
             <span style="font-size: 17px; padding-left: 7px;">To be checked</span></button>

@@ -22,6 +22,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(array('prefix' => 'class'), function(){
   Route::get('/', 'ClassController@index')->name('class');
   Route::get('create-class', 'ClassController@create')->name('create-class');
+  Route::get('join-class', 'ClassController@join')->name('join-class');
   Route::post('store-class', 'ClassController@store')->name('store-class');
   Route::get('{code}', 'ClassController@viewClass')->name('{code}');
 });
@@ -30,12 +31,14 @@ Route::group(array('prefix' => 'assignment'), function(){
   Route::get('/', 'AssignmentController@index')->name('assignment');
 });
 
-Route::group(array('prefix' => 'view-assignment'), function(){
-  Route::get('/', 'viewAssignmentController@index')->name('view-assignment');
+Route::group(array('prefix' => 'announcement'), function(){
+  Route::get('/', 'AnnouncementController@index')->name('announcement');
+  Route::get('announcement', 'AnnouncementController@create')->name('create-announcement');
+  Route::post('store-announcement', 'AnnouncementController@store')->name('store-announcement');
 });
 
-Route::group(array('prefix' => 'join-class'), function(){
-  Route::get('/', 'joinClassController@index')->name('join-class');
+Route::group(array('prefix' => 'view-assignment'), function(){
+  Route::get('/', 'viewAssignmentController@index')->name('view-assignment');
 });
 
 Route::group(array('prefix' => 'view-assignment-teacher'), function(){
