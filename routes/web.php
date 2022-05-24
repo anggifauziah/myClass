@@ -29,16 +29,15 @@ Route::group(array('prefix' => 'class'), function(){
 
 Route::group(array('prefix' => 'assignment'), function(){
   Route::get('/', 'AssignmentController@index')->name('assignment');
+  Route::post('store-assignment', 'AssignmentController@store')->name('store-assignment');
+  Route::get('{code}create-assignment', 'AssignmentController@create')->name('{code}create-assignment');
+  Route::get('{id}-{group_assign_code}', 'AssignmentController@viewAssignment')->name('{id}-{group_assign_code}');
 });
 
 Route::group(array('prefix' => 'announcement'), function(){
   Route::get('/', 'AnnouncementController@index')->name('announcement');
-  Route::get('announcement', 'AnnouncementController@create')->name('create-announcement');
+  Route::get('create-announcement', 'AnnouncementController@create')->name('create-announcement');
   Route::post('store-announcement', 'AnnouncementController@store')->name('store-announcement');
-});
-
-Route::group(array('prefix' => 'view-assignment'), function(){
-  Route::get('/', 'viewAssignmentController@index')->name('view-assignment');
 });
 
 Route::group(array('prefix' => 'view-assignment-teacher'), function(){

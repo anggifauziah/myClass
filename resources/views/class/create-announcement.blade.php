@@ -12,7 +12,7 @@
             <form method="post" action="{{ route('store-announcement') }}" enctype="multipart/form-data">
                 @csrf
                 <textarea id="ckeditor" class="ckeditor @error('ckeditor') is-invalid @enderror" name="ckeditor"
-                    required autofocus></textarea>
+                    required autofocus>{{ old('ckeditor') }}</textarea>
                 <br>
                 <!-- File Input -->
                 <div>
@@ -23,6 +23,10 @@
                     </label>
                     <input id="file" type="file" name="file[]" multiple style="display: none;"><br>
                     <p id="detail_file"></p>
+                    <input type="hidden" name="class_id" value="{{$datas->id_class}}">
+                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                    <input type="hidden" name="creator_name" 
+                        value="{{Auth::user()->level_user == 2 ? $datas->teacher_name : $datas->student_name}}">
                 </div>
                 <!-- File Input -->
                 <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>

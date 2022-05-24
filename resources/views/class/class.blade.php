@@ -1,18 +1,6 @@
 @extends('component.app')
 @section('css')
 
-<style>
-    a:active {
-        background-color: blue;
-        display: inline-block;
-    }
-
-    a:hover {
-        color: : red;
-        /* background-color: : #337ab7; */
-    }
-</style>
-
 @endsection
 @section('content')
 
@@ -98,19 +86,18 @@
             <!-- END BOX CLASS DETAILS -->
 
             <!-- POST ANNOUNCEMENT -->
-            @include('class.announcement')
+            @include('class.create-announcement')
             <!-- END POST ANNOUNCEMENT -->
 
             <!-- BOX ANNOUNCEMENT -->
+            @foreach($announcement->groupBy('announce_content') as $announce)
             <div class="box box-solid box-default">
-                <!-- /.box-header -->
-                <div class="box-header">
-                    <h3 class="box-title">Announcement Example</h3>
                     <!-- tools box -->
+                    @if(Auth::user()->id == $announce[0]['user_id'])
                     <div class="pull-right box-tools">
                         <!-- button with a dropdown -->
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-default btn-flat btn-sm dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bars"></i></button>
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li><a href="#">Edit</a></li>
@@ -118,41 +105,27 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                     <!-- /. tools -->
-                </div><!-- /.box-header -->
                 <div class="box-body">
                     <!-- users -->
                     <div class="user-block">
                         <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                        <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
-                        <span class="description">30 Des 2021</span>
+                        <span class="username" style="font-size: 15px;">{{$announce[0]['creator_name']}}</span>
+                        <span class="description">{!! date('d M Y', strtotime($announce[0]['created_at'])) !!}</span>
                     </div>
                     <br>
                     <!-- post text -->
-                    <p>Far far away, behind the word mountains, far from the
-                        countries Vokalia and Consonantia, there live the blind
-                        texts. Separated they live in Bookmarksgrove right at
-                        the coast of the Semantics, a large language ocean.
-                        A small river named Duden flows by their place and supplies
-                        it with the necessary regelialia. It is a paradisematic
-                        country, in which roasted parts of sentences fly into
-                        your mouth.</p>
+                    {!! html_entity_decode($announce[0]['announce_content']) !!}
                     <!-- Attachment -->
+                    @foreach($announce as $item)
                     <div class="attachment-block clearfix">
-                        <img class="attachment-img" src="{{asset('lte/dist/img/photo1.png')}}" alt="Attachment Image">
-                        <div class="attachment-pushed">
-                            <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text
-                                    generator</a>
-                            </h4>
-                            <div class="attachment-text">
-                                Description about the attachment can be placed here.
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a
-                                    href="#">more</a>
-                            </div>
-                            <!-- /.attachment-text -->
-                        </div>
+                        <h4 class="attachment-heading">
+                            <a href="#">{{$item->announce_file}}</a>
+                        </h4>
                         <!-- /.attachment-pushed -->
                     </div>
+                    @endforeach
                     <!-- /.attachment-block -->
                 </div>
                 <!-- /.box-body -->
@@ -190,15 +163,17 @@
                 </div>
                 <!-- /.box-comment -->
             </div>
+            @endforeach
             <!-- END BOX ANNOUNCEMENT -->
 
             <!-- BOX ASSIGNMENT -->
-            <div class="box box-solid box-default">
+            @foreach($assignment->groupBy('assign_content') as $assign)
+            <div class="box box-solid box-primary">
                 <!-- /.box-header -->
                 <div class="box-header">
-                    <h3 class="box-title"><i class="fa fa-file-text"></i> Assignment Example</h3>
+                    <h3 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h3>
                     <!-- tools box -->
-                    @if(Auth::user()->level_user == 2)
+                    @if(Auth::user()->id == $assign[0]['user_id'])
                     <div class="pull-right box-tools">
                         <!-- button with a dropdown -->
                         <div class="btn-group">
@@ -217,23 +192,25 @@
                 <div class="box-body">
                     <!-- users -->
                     <div class="user-block">
-                        <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
-                        <a href="{{ route('view-assignment') }}" class="btn btn-primary pull-right">View assignment</a>
+                        <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['group_assign_code']) }}" class="btn btn-primary pull-right">View assignment</a>
+                        
                         <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                        <span class="username" style="font-size: 15px;">Eka Mala Sari</span>
-                        <span class="description">30 Des 2021</span>
+                        <span class="username" style="font-size: 15px;">{{$assign[0]['creator_name']}}</span>
+                        <span class="description">{!! date('d M Y', strtotime($assign[0]['created_at'])) !!}</span>
                     </div>
                     <br>
                     <!-- post text -->
-                    <p>Far far away, behind the word mountains, far from the
-                        countries Vokalia and Consonantia, there live the blind
-                        texts. Separated they live in Bookmarksgrove right at
-                        the coast of the Semantics, a large language ocean.
-                        A small river named Duden flows by their place and supplies
-                        it with the necessary regelialia. It is a paradisematic
-                        country, in which roasted parts of sentences fly into
-                        your mouth.
-                    </p>
+                    {!! html_entity_decode($assign[0]['assign_content']) !!}
+                    <!-- Attachment -->
+                    @foreach($assign as $items)
+                    <div class="attachment-block clearfix">
+                        <h4 class="attachment-heading">
+                            <a href="#">{{$items->assign_file}}</a>
+                        </h4>
+                        <!-- /.attachment-pushed -->
+                    </div>
+                    @endforeach
+                    <!-- /.attachment-block -->
                 </div><!-- /.box-body -->
                 <div class="box-footer box-comments">
                     <!-- /.box-comment -->
@@ -269,6 +246,7 @@
                 </div>
                 <!-- /.box-comment -->
             </div><!-- /.box -->
+            @endforeach
             <!-- END BOX ASSIGNMENT -->
         </div>
         <!-- END FORUM -->
@@ -277,43 +255,46 @@
         <div class="tab-pane tabcontent" id="Classwork">
             <div class="box box-solid">
                 @if(Auth::user()->level_user == 2)
-                <a href="{{ route('assignment') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create
+                <a href="{{url('assignment',$code.'create-assignment')}}" class="btn btn-primary"><i class="fa fa-plus"></i>
+                    Create
                     assignment</a>
                 <br><br>
                 @endif
                 <!-- /.box-header -->
+                @foreach($assignment->groupBy('assign_content') as $assign)
                 <div class="box box-default collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title"><i class="fa fa-file-text"></i> Expandable</h3>
+                        <h3 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h3>
                         <div class="box-tools pull-right">
-                            <h5>Due 29 Apr 07.30</h5>
+                            <h5>Due {!! date('d M Y H:i', strtotime($assign[0]['assign_deadline'])) !!}</h5>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <p class="pull-left">Posted 6 Apr</p>
+                        <p class="pull-left" style="font-size:12px;">Posted {!! date('d M Y', strtotime($assign[0]['created_at'])) !!}</p>
                         <!-- Status: Handed in (Dikumpulkan); Assigned (Belum Dikumpulkan) -->
-                        <p class="pull-right">Handed in</p>
+                        <!-- <p class="pull-right">Handed in</p> -->
                         <br><br>
-                        <p>
-                            Studi Kasus: Data Tips Restaurant
-                            Sebuah dataset dari suatu Restaurant memuat variabel-variabel berikut:
-                            total_bill: Total bill (cost of the meal), including tax, in US dollars
-                            tip: Tip (gratuity) in US dollars
-                            sex: Sex of person paying for the meal (0=male, 1=female)
-                            smoker: Smoker in party? (0=No, 1=Yes)
-                            day: 3=Thur, 4=Fri, 5=Sat, 6=Sun
-                            time: 0=Day, 1=Night
-                            size: Size of the party
-                            Sumber Data: https://www.kaggle.com/ranjeetjain3/seaborn-tips-dataset
-                        </p>
+                        <!-- post text -->
+                        {!! html_entity_decode($assign[0]['assign_content']) !!}
+                        <!-- Attachment -->
+                        @foreach($assign as $items)
+                        <div class="attachment-block clearfix">
+                            <h4 class="attachment-heading">
+                                <a href="#">{{$items->assign_file}}</a>
+                            </h4>
+                            <!-- /.attachment-pushed -->
+                        </div>
+                        @endforeach
+                        <!-- /.attachment-block -->
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
-                        <a href="{{ route('view-assignment') }}" style="color: black;">
+                        <a href="{{ url('assignment', $assign[0]['class_code']) }}">
                             <h5>View assignment</h5>
                         </a>
                     </div>
                 </div><!-- /.box -->
+                @endforeach
             </div>
         </div>
         <!-- END CLASSWORK -->
@@ -325,18 +306,23 @@
             <div class="user-block">
                 <img class="img-responsive img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
                     alt="User Image">
-                <span class="username" style="font-size: 15px; padding-top: 5px;">Eka Mala Sari</span>
+                <span class="username" style="font-size: 15px; padding-top: 5px;">{{$datas->teacher_name}}</span>
             </div>
             <br><br>
+            @if(Auth::user()->level_user == 1)
             <h1>Classmates</h1>
+            @elseif(Auth::user()->level_user == 2)
+            <h1>Students</h1>
+            @endif
             <hr>
             <div class="user-block">
                 <table>
+                    @foreach($students_name as $name)
                     <tr>
                         <td width="1250">
                             <img class="img-responsive img-circle img-sm"
                                 src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
-                            <span class="username" style="font-size: 15px; padding-top: 5px;">Anggi Nor Fauziah</span>
+                            <span class="username" style="font-size: 15px; padding-top: 5px;">{{$name->student_name}}</span>
                         </td>
                         <td>
                             <a href="#" style="color: black; padding-left: 130px">
@@ -347,6 +333,7 @@
                             </a>
                         </td>
                     </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

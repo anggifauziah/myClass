@@ -30,6 +30,7 @@
             </li> -->
             <!-- END CALENDAR -->
             <!-- TEACH -->
+            @if(Auth::user()->level_user == 2)
             <li class="header">Teach</li>
             <li>
                 <a href="#">
@@ -38,14 +39,16 @@
                 </a>
             </li>
             <!-- END TEACH -->
-            <!-- CLASS -->
+            <!-- TEACHER CLASS -->
             <li>
                 <a href="#">
-                    <i class="fa fa-circle"></i> <span>Kecerdasan Bisnis</span>
+                    <i class="fa fa-users"></i> <span></span>
                 </a>
             </li>
-            <!-- END CLASS -->
+            <!-- END TEACHER CLASS -->
+
             <!-- ENROLLED -->
+            @elseif(Auth::user()->level_user == 1)
             <li class="header">Enrolled</li>
             <li>
                 <a href="#">
@@ -54,9 +57,14 @@
                 </a>
             </li>
             <!-- END TEACH -->
-            <!-- CLASS -->
-            
-            <!-- END CLASS -->
+            <!-- STUDENT CLASS -->
+            <li>
+                <a href="#">
+                    <i class="fa fa-users"></i> <span></span>
+                </a>
+            </li>
+            @endif
+            <!-- END STUDENT CLASS -->
         </ul>
     </section>
     <!-- /.sidebar -->

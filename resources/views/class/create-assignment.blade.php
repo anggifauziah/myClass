@@ -10,18 +10,27 @@
     </div>
     <!-- /.box-header -->
     <div class="row">
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" action="{{ route('store-assignment') }}" enctype="multipart/form-data">
+            @csrf
             <!-- left column -->
             <div class="col-md-8">
                 <!-- form start -->
                 <div class="box-body">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Title" autofocus>
+                        <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
+                            name="title" value="{{ old('title') }}" required autocomplete="title" autofocus
+                            placeholder="{{ __('Title') }}">
+                        @error('title')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="ckeditor" id="ckedtor" placeholder="Description"></textarea>
+                        <textarea id="ckeditor" class="ckeditor @error('ckeditor') is-invalid @enderror" name="ckeditor"
+                            required autofocus>{{ old('ckeditor') }}</textarea>
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -39,7 +48,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="datetime-local" class="form-control pull-right" id="datetime">
+                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -54,6 +63,9 @@
                         </label>
                         <input id="file" type="file" name="file[]" multiple style="display: none;"><br>
                         <p id="detail_file"></p>
+                        <input type="hidden" name="class_id" value="{{$datas->id_class}}">
+                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" name="creator_name" value="{{$datas->teacher_name}}">
                     </div>
                     <!-- File Input -->
 
@@ -61,7 +73,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer pull-right">
                     <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
-                    <button type="button" class="btn btn-primary">Posting</button>
+                    <button type="submit" class="btn btn-primary">Posting</button>
                 </div>
             </div>
             <!--/.col (right) -->

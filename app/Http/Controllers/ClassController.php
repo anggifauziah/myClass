@@ -7,6 +7,9 @@ use App\Models\Classes;
 use App\Models\Teacher;
 use App\Models\Students;
 use App\Models\ClassOfStudents;
+use App\Models\Announcement;
+use App\Models\Assignment;
+use App\Models\PostType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +39,12 @@ class ClassController extends Controller
         elseif(Auth::user()->level_user == 2){
             $guru = Teacher::where('user_id', Auth::user()->id)->first();
             $classes = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->where('classes.teacher_id', $guru->id_teacher)->get();
         }
-            return view('classes.main', ['classes' => $classes])->with('data', $this->data);
+
+            return view('classes.main', [
+                'classes' => $classes])->with('data', $this->data);
         }else{
             return redirect()->to('login');
       }
@@ -60,14 +66,32 @@ class ClassController extends Controller
                         ->where('classes.class_code', $code)
                         ->first();
         }
-        elseif(Auth::user()->level_user == 2){
+        else if(Auth::user()->level_user == 2){
             $guru = Teacher::where('user_id', Auth::user()->id)->first();
             $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->where('classes.teacher_id', $guru->id_teacher)
                         ->where('classes.class_code', $code)
                         ->first();
         }
-        return view('class.class', ['datas' => $datas])->with('data',$this->data);
+
+        $announcements = Announcement::where('class_id', $datas->id_class)->orderBy('created_at', 'DESC')->get();
+        $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
+                        ->where('classes.id_class', $datas->id_class)
+                        ->orderBy('assignment.created_at', 'DESC')->get();
+        $students_name = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
+                        ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
+                        ->where('classes.class_code', $code)
+                        ->get();
+        // return $assignments;
+        // dd($content);
+        return view('class.class', [
+            'datas' => $datas,
+            'announcement' => $announcements,
+            'assignment' => $assignments,
+            'students_name' => $students_name,
+            'code' => $code
+            ])->with('data',$this->data);
     }
 
     /**
@@ -85,7 +109,7 @@ class ClassController extends Controller
         $guru = Teacher::where('user_id', Auth::user()->id)->first();
         $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
                         ->where('classes.teacher_id', $guru->id_teacher)
-                ->first();
+                        ->first();
         return view('classes.create-class', ['datas' => $datas])->with('data',$this->data);
     }
 
@@ -137,22 +161,25 @@ class ClassController extends Controller
             }
 
             $code = Classes::where('class_code', '=', $request->input('class_code'))->first();
-            $idclass = ClassOfStudents::join('classes', 'classes.id_class', '=', 'class_of_students.class_id')->first();
+            $murid = Students::where('user_id', Auth::user()->id)->first();
+            
             if ($code === null) { // do what ever you need to do
                 return redirect()->route('join-class')->with('error', 'Class code is incorrect.');
+            }else{
+                $class_id = ClassOfStudents::where('class_id', $code->id_class)
+                                            ->where('student_id', $murid->id_student)->first();
+
+                if ($class_id !== null) {
+                    return redirect()->route('join-class')->with('error', 'Class is already exist.');
+                } else { // match found
+                    $class = new ClassOfStudents;
+                    $class->class_id = $code->id_class;
+                    $class->student_id = $murid->id_student;
+                    $class->save();
+                    return redirect()->route('class');
+                }
             }
-            elseif ($idclass === null) {
-                $murid = Students::where('user_id', Auth::user()->id)->first();
-                $class = new ClassOfStudents;
-                // $class->class_code = $request->class_code;
-                $class->student_id = $murid->id_student;
-                $class->class_id = $code->id_class;
-                $class->save();
-                return redirect()->route('class');
-            }
-            else { // match found
-                return redirect()->route('join-class')->with('error', 'Class is already exist.');
-            }
+            
         }
         elseif(Auth::user()->level_user == 2){
             $rules = [

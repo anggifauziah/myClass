@@ -5,40 +5,41 @@
 @section('content')
 
 <div class="box box-primary">
+    @foreach($datas->groupBy('assign_content') as $assign)
     <div class="box-header with-border">
-        <h1 class="box-title"><i class="fa fa-file-text"></i> Assignment Example</h1>
+        <h1 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h1>
     </div>
     <!-- /.box-header -->
     <div class="row">
-        <form method="post" action="" enctype="multipart/form-data">
+        <form>
             <!-- left column -->
             <div class="col-md-8">
                 <!-- form start -->
                 <div class="box-body">
                     <!--  -->
                     <div class="user-block">
-                        <span style="font-size: 15px;"><b>Eka Mala Sari • </b></span>
-                        <span>30 Des 2021</span>
+                        <span style="font-size: 15px;"><b>{{$assign[0]['creator_name']}} • </b></span>
+                        <span>{!! date('d M Y', strtotime($assign[0]['created_at'])) !!}</span>
                         <span>
-                            <h5 class="pull-right" style="margin-top: 35px"><b>Due 29 Apr 07.30</b></h5>
+                            <h5 class="pull-right" style="margin-top: 35px"><b>Due {!! date('d M Y H:i',
+                                    strtotime($assign[0]['assign_deadline'])) !!}</b></h5>
                         </span>
                         <span><b>
                                 <h5><b>100 poin</b></h5>
                             </b></span>
                         <hr>
                     </div>
-                    <p>
-                        Studi Kasus: Data Tips Restaurant
-                        Sebuah dataset dari suatu Restaurant memuat variabel-variabel berikut:
-                        total_bill: Total bill (cost of the meal), including tax, in US dollars
-                        tip: Tip (gratuity) in US dollars
-                        sex: Sex of person paying for the meal (0=male, 1=female)
-                        smoker: Smoker in party? (0=No, 1=Yes)
-                        day: 3=Thur, 4=Fri, 5=Sat, 6=Sun
-                        time: 0=Day, 1=Night
-                        size: Size of the party
-                        Sumber Data: https://www.kaggle.com/ranjeetjain3/seaborn-tips-dataset
-                    </p>
+                    {!! html_entity_decode($assign[0]['assign_content']) !!}
+                    <!-- Attachment -->
+                    @foreach($assign as $items)
+                    <div class="attachment-block clearfix">
+                        <h4 class="attachment-heading">
+                            <a href="#">{{$items->assign_file}}</a>
+                        </h4>
+                        <!-- /.attachment-pushed -->
+                    </div>
+                    @endforeach
+                    <!-- /.attachment-block -->
                     <div class="box-footer box-comments">
                         <!-- /.box-comment -->
                         <div class="box-comment">
@@ -75,6 +76,7 @@
                 </div>
                 <!-- /.box-body -->
             </div>
+    @endforeach
             <!--/.col (left) -->
 
             <!-- right column -->
@@ -102,8 +104,8 @@
                                             <span class='fa fa-plus'></span> Add file</a>
                                     </label>
                                     <input id="file" type="file" name="file[]" multiple style="display: none;">
+                                    <p id="detail_file"></p>
                                 </div>
-
                                 <a href="#" class="btn btn-block btn-default btn-github">Submit</a>
                                 <!-- File Input -->
                             </div>
@@ -124,6 +126,56 @@
 
 @section('js')
 
+<!-- MULTIPLE FILE INPUT -->
+<script>
+    $('document').ready(function () {
+        // $('#btn_upload').click(function () {
+        //     var the_file = $('#file').val();
+        //     if (the_file == "") {
+        //         alert('Please select the file');
+        //         return false;
+        //     }
+        // });
+        $('#file').change(function () {
+            FileDetails();
+        });
+        $('#btn_reset').click(function () {
+            $('#title').val("");
+            $('#datetime').val("");
+            $('#file').val("");
+            $('#span_file').css("display", "inline");
+            $('#detail_file').css("display", "none");
+        });
+    });
+</script>
+<script>
+    function FileDetails() {
+        var fi = document.getElementById('file');
+        if (fi.files.length > 0) {
+            document.getElementById('detail_file').innerHTML =
+                'Total Files: <b>' + fi.files.length + '</b></br >';
+            for (var i = 0; i <= fi.files.length - 1; i++) {
+                var no_file = i + 1;
+                var fname = fi.files.item(i).name;
+                var fsize = fi.files.item(i).size;
+                document.getElementById('detail_file').innerHTML =
+                    document.getElementById('detail_file').innerHTML + no_file + ". " +
+                    fname + ' (<b>' + bytesToSize(fsize) + '</b>)<br>';
+            }
+            document.getElementById('detail_file').style.display = "block";
+            document.getElementById('span_file').style.display = "none";
+        } else {
+            alert('Please select a file.')
+        }
+    }
 
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
+</script>
+<!-- MULTIPLE FILE INPUT -->
 
 @endsection

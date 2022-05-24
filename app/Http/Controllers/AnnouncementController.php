@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Classes;
 use App\Models\Announcement;
@@ -15,11 +14,7 @@ class AnnouncementController extends Controller
 
     public function index()
     {
-      $this->data['title'] = $this->title;
-      $this->data['menuActive'] = $this->menuActive;
-      $this->data['submnActive'] = $this->submnActive;
-      $this->data['smallTitle'] = "";
-      return view($this->menuActive.'.'.'class')->with('data',$this->data);
+        
     }
 
     /**
@@ -33,7 +28,8 @@ class AnnouncementController extends Controller
         $this->data['menuActive'] = "class";
         $this->data['submnActive'] = "";
         $this->data['smallTitle'] = "";
-        return view('class.announcement')->with('data',$this->data);
+        
+        return view('class.create-announcement')->with('data',$this->data);
     }
 
     /**
@@ -66,22 +62,23 @@ class AnnouncementController extends Controller
 
         if($request->hasfile('file'))
         {
-            foreach($request->file('file') as $file)
+            foreach($request->file as $file)
             {
                 $name=$file->getClientOriginalName();
-                $file->move(public_path().'/files/', $name);  
-                $data[] = $name;  
+                $file->move(public_path().'/files/announcement', $name);  
+                $data = $name;
+                $post_type = 1;
+                $announce= new Announcement;
+                $announce->post_type_id = $post_type;
+                $announce->class_id = $request->class_id;
+                $announce->user_id = $request->user_id;
+                $announce->creator_name = $request->creator_name;
+                $announce->announce_content = $request->ckeditor;
+                $announce->announce_file=$data;
+                $announce->save();
             }
         }
-
-        // $idclass = Classes::join('classes', 'classes.id_class', '=', 'class_of_students.class_id')->first();
-        $post_type = 1;
-        $announce= new Announcement;
-        $announce->post_type_id = $post_type;
-        $announce->announce_content = $request->ckeditor;
-        $announce->announce_file=json_encode($data);
-        $announce->save();
-        return redirect()->route('class');
+        return redirect()->back();
     }
 
     /**
