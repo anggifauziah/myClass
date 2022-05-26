@@ -16,6 +16,7 @@ class Announcement extends Model
         'class_id',
         'user_id',
         'creator_name',
+        'group_announce_code',
         'announce_content',
         'announce_file'
     ];

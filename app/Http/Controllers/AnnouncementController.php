@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Classes;
 use App\Models\Announcement;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AnnouncementController extends Controller
 {
@@ -47,7 +48,7 @@ class AnnouncementController extends Controller
         
         $rules = [
             'ckeditor' => 'required',
-            'file.*' => 'mimes:doc,docx,PDF,pdf,jpg,jpeg,png|max:5000'
+            'file.*' => 'mimes:doc,docx,DOCX,pdf,PDF,pptx,PPTX,xlsx,XLSX,csv,CSV|max:5000'
         ];
     
         $messages = [
@@ -59,6 +60,13 @@ class AnnouncementController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
+
+        do
+        {
+            $code = Str::random(8);
+            $user_code = Announcement::where('group_announce_code', $code)->first();
+        }
+        while(!empty($user_code));
 
         if($request->hasfile('file'))
         {
@@ -73,6 +81,7 @@ class AnnouncementController extends Controller
                 $announce->class_id = $request->class_id;
                 $announce->user_id = $request->user_id;
                 $announce->creator_name = $request->creator_name;
+                $announce->group_announce_code = $code;
                 $announce->announce_content = $request->ckeditor;
                 $announce->announce_file=$data;
                 $announce->save();
@@ -98,9 +107,17 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($code, $group_announce_code)
     {
-        //
+        $edit_announce = Announcement::join('classes', 'classes.id_class', '=', 'anouncement.class_id')
+                    ->where('classes.class_code', $code)
+                    ->where('anouncement.group_announce_code', $group_announce_code)->get();
+        //return $edit_announce;
+
+        return view('class.edit-announcement', [
+            'datas' => $edit_announce,
+            'code' => $code,
+            'group_assign_code' => $group_announce_code])->with('data',$this->data);
     }
 
     /**

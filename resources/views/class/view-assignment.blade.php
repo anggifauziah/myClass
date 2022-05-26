@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="box box-primary">
-    @foreach($datas->groupBy('assign_content') as $assign)
+    @if(Auth::user()->level_user == 1)
     <div class="box-header with-border">
         <h1 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h1>
     </div>
@@ -25,7 +25,7 @@
                                     strtotime($assign[0]['assign_deadline'])) !!}</b></h5>
                         </span>
                         <span><b>
-                                <h5><b>100 poin</b></h5>
+                                <h5><b>{{$assign[0]['student_assign_score']}} poin</b></h5>
                             </b></span>
                         <hr>
                     </div>
@@ -76,7 +76,6 @@
                 </div>
                 <!-- /.box-body -->
             </div>
-    @endforeach
             <!--/.col (left) -->
 
             <!-- right column -->
@@ -84,98 +83,124 @@
                 <!-- form start -->
                 <div class="box-body">
                     <!-- Date -->
-                    <form method="post" action="" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('submit-assignment') }}" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
                             <!-- social buttons -->
                             <div class="box">
                                 <div class="box-header">
                                     <h2 class="box-title">Your work</h2>
                                     <!-- Belum submit (Assigned), Submit (Handed in) -->
-                                    <span class="pull-right">Assigned</span>
+                                    <!-- <span class="pull-right">Assigned</span> -->
                                 </div>
                                 <div class="box-body">
-                                    <div id='filename'></div>
+                                    @foreach($student_assign->groupBy('group_assign_code') as $assign)
+                                    @foreach($assign as $items)
+                                    <div class="attachment-block clearfix">
+                                        <h4 class="attachment-heading">
+                                            <a href="#">{{$items->student_assign_file}}</a>
+                                        </h4>
+                                        <!-- /.attachment-pushed -->
+                                    </div>
+                                    @endforeach
+                                    @endforeach
+                                    <p id="files-area">
+                                        <span id="filesList">
+                                            <span id="files-names"></span>
+                                        </span>
+                                    </p>
                                 </div>
                                 <br>
                                 <!-- File Input -->
                                 <div>
-                                    <label for="file" style="display: block;">
-                                        <a class="btn btn-block btn-default" rel="nofollow">
+                                    @if($expired->count() > 0)
+                                    <label for="attachment" style="display: block;">
+                                        <a class="btn btn-block btn-default" role="button" aria-disabled="false">
                                             <span class='fa fa-plus'></span> Add file</a>
                                     </label>
-                                    <input id="file" type="file" name="file[]" multiple style="display: none;">
-                                    <p id="detail_file"></p>
+                                    <button type="submit" class="btn btn-block btn-default btn-github">Submit</button>
+                                    <input type="file" name="file[]" id="attachment" style="visibility: hidden;"
+                                        multiple>
+                                    @endif
                                 </div>
-                                <a href="#" class="btn btn-block btn-default btn-github">Submit</a>
                                 <!-- File Input -->
+                                <input type="hidden" name="group_assign_code"
+                                    value="{{$assign[0]['group_assign_code']}}">
                             </div>
                         </div>
                         <!-- /.box -->
+                    </form>
+                    <!-- /.form group -->
                 </div>
-                <!-- /.form group -->
+            </div>
         </form>
+
+        @elseif(Auth::user()->level_user == 2)
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">{{$assign[0]['assign_title']}}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Students Name</th>
+                            <th>Files</th>
+                            <th>Score</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($student_assign->groupBy('group_assign_code') as $assign)
+                        <tr>
+                            <td>{{$assign[0]['student_name']}}</td>
+                            <td>@foreach($assign as $items){{$items->student_assign_file}}<br>@endforeach</td>
+                            <td>{{$assign[0]['student_assign_score']}}</td>
+                            <td>
+                                <a href="">
+                                    <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i>
+                                        Edit</button>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Students Name</th>
+                            <th>Files</th>
+                            <th>Score</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+        @endif
+        <!-- /.box-body -->
     </div>
-    <!-- /.box-body -->
-</div>
-<!--/.col (right) -->
-</form>
+    <!--/.col (right) -->
 </div>
 </div>
 
 @endsection
-
 @section('js')
 
-<!-- MULTIPLE FILE INPUT -->
 <script>
-    $('document').ready(function () {
-        // $('#btn_upload').click(function () {
-        //     var the_file = $('#file').val();
-        //     if (the_file == "") {
-        //         alert('Please select the file');
-        //         return false;
-        //     }
-        // });
-        $('#file').change(function () {
-            FileDetails();
-        });
-        $('#btn_reset').click(function () {
-            $('#title').val("");
-            $('#datetime').val("");
-            $('#file').val("");
-            $('#span_file').css("display", "inline");
-            $('#detail_file').css("display", "none");
-        });
-    });
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    })
 </script>
-<script>
-    function FileDetails() {
-        var fi = document.getElementById('file');
-        if (fi.files.length > 0) {
-            document.getElementById('detail_file').innerHTML =
-                'Total Files: <b>' + fi.files.length + '</b></br >';
-            for (var i = 0; i <= fi.files.length - 1; i++) {
-                var no_file = i + 1;
-                var fname = fi.files.item(i).name;
-                var fsize = fi.files.item(i).size;
-                document.getElementById('detail_file').innerHTML =
-                    document.getElementById('detail_file').innerHTML + no_file + ". " +
-                    fname + ' (<b>' + bytesToSize(fsize) + '</b>)<br>';
-            }
-            document.getElementById('detail_file').style.display = "block";
-            document.getElementById('span_file').style.display = "none";
-        } else {
-            alert('Please select a file.')
-        }
-    }
-
-    function bytesToSize(bytes) {
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-        if (bytes == 0) return '0 Byte';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    }
-</script>
-<!-- MULTIPLE FILE INPUT -->
 
 @endsection

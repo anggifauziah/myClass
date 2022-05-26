@@ -56,19 +56,21 @@
 
                     <!-- File Input -->
                     <div>
-                        <label for="file">
-                            <a class="btn btn-info" rel="nofollow">
+                        <label for="attachment">
+                            <a class="btn btn-info" role="button" aria-disabled="false">
                                 <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                            <span id="span_file">No file selected</span>
                         </label>
-                        <input id="file" type="file" name="file[]" multiple style="display: none;"><br>
-                        <p id="detail_file"></p>
+                        <input type="file" name="file[]" id="attachment" style="visibility: hidden;" multiple>
+                        <p id="files-area">
+                            <span id="filesList">
+                                <span id="files-names"></span>
+                            </span>
+                        </p>
                         <input type="hidden" name="class_id" value="{{$datas->id_class}}">
                         <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         <input type="hidden" name="creator_name" value="{{$datas->teacher_name}}">
                     </div>
                     <!-- File Input -->
-
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer pull-right">
@@ -82,59 +84,6 @@
 </div>
 
 @endsection
-
 @section('js')
-
-<!-- MULTIPLE FILE INPUT -->
-<script>
-    $('document').ready(function () {
-        // $('#btn_upload').click(function () {
-        //     var the_file = $('#file').val();
-        //     if (the_file == "") {
-        //         alert('Please select the file');
-        //         return false;
-        //     }
-        // });
-        $('#file').change(function () {
-            FileDetails();
-        });
-        $('#btn_reset').click(function () {
-            $('#title').val("");
-            $('#datetime').val("");
-            $('#file').val("");
-            $('#span_file').css("display", "inline");
-            $('#detail_file').css("display", "none");
-        });
-    });
-</script>
-<script>
-    function FileDetails() {
-        var fi = document.getElementById('file');
-        if (fi.files.length > 0) {
-            document.getElementById('detail_file').innerHTML =
-                'Total Files: <b>' + fi.files.length + '</b></br >';
-            for (var i = 0; i <= fi.files.length - 1; i++) {
-                var no_file = i + 1;
-                var fname = fi.files.item(i).name;
-                var fsize = fi.files.item(i).size;
-                document.getElementById('detail_file').innerHTML =
-                    document.getElementById('detail_file').innerHTML + no_file + ". " +
-                    fname + ' (<b>' + bytesToSize(fsize) + '</b>)<br>';
-            }
-            document.getElementById('detail_file').style.display = "block";
-            document.getElementById('span_file').style.display = "none";
-        } else {
-            alert('Please select a file.')
-        }
-    }
-
-    function bytesToSize(bytes) {
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-        if (bytes == 0) return '0 Byte';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    }
-</script>
-<!-- MULTIPLE FILE INPUT -->
 
 @endsection

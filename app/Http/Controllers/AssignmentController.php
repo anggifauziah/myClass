@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Classes;
 use App\Models\Teacher;
+use App\Models\Students;
 use App\Models\Assignment;
+use App\Models\StudentsAssignment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AssignmentController extends Controller
 {
@@ -25,22 +28,57 @@ class AssignmentController extends Controller
       return view($this->menuActive.'.'.'assignment')->with('data',$this->data);
     }
 
-    public function viewAssignment($id, $group_assign_code)
+    public function viewAssignment($code, $group_assign_code)
     {
         $this->data['title'] = $this->title;
         $this->data['menuActive'] = $this->menuActive;
         $this->data['submnActive'] = $this->submnActive;
         $this->data['smallTitle'] = "";
+        $date = today()->format('Y-m-d H:i:s');
 
-        $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
-                    ->where('classes.class_code', $id)
+        if(Auth::user()->level_user == 1){
+            $student = Students::where('user_id', Auth::user()->id)->first();
+            $student_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->leftJoin('assignment', 'assignment.group_assign_code', '=', 'students_assignment.group_assign_code')
+                    ->where('assignment.group_assign_code', $group_assign_code)
+                    ->where('students.id_student', $student->id_student)
+                    ->orderBy('assignment.created_at', 'DESC')->get();
+            if($student_assign->count() < 1){
+                 $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
+                    ->where('classes.class_code', $code)
                     ->where('assignment.group_assign_code', $group_assign_code)
                     ->orderBy('assignment.created_at', 'DESC')->get();
-        //return $view_assign;
+            }else{
+                $view_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->leftJoin('assignment', 'assignment.group_assign_code', '=', 'students_assignment.group_assign_code')
+                    ->where('assignment.group_assign_code', $group_assign_code)
+                    ->where('students.id_student', $student->id_student)
+                    ->orderBy('assignment.created_at', 'DESC')->get();
+                $student_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->where('students_assignment.group_assign_code', $group_assign_code)
+                    ->where('students_assignment.student_id', $student->id_student)
+                    ->get();
+            }
+        }else if(Auth::user()->level_user == 2){
+            $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
+                    ->where('classes.class_code', $code)
+                    ->where('assignment.group_assign_code', $group_assign_code)
+                    ->orderBy('assignment.created_at', 'DESC')->get();
+            $student_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->where('students_assignment.group_assign_code', $group_assign_code)->get();
+        }
+
+        $expired = Assignment::where('group_assign_code', $group_assign_code)
+                            ->where('assign_deadline', '>=', $date)->get();
+
+        // return $expired;
         // dd($content);
         return view('class.view-assignment', [
-            'datas' => $view_assign, 'id' => $id
-            ])->with('data',$this->data);
+            'assign' => $view_assign,
+            'student_assign' => $student_assign,
+            'code' => $code,
+            'expired' => $expired,
+            'group_assign_code' => $group_assign_code])->with('data',$this->data);
     }
 
     /**
@@ -80,7 +118,7 @@ class AssignmentController extends Controller
         $rules = [
             'title' => 'required',
             'ckeditor' => 'required',
-            'file.*' => 'mimes:doc,docx,DOCX,PDF,pdf,jpg,jpeg,png,pptx,PPTX|max:5000',
+            'file.*' => 'mimes:doc,docx,DOCX,pdf,PDF,pptx,PPTX,xlsx,XLSX,csv,CSV|max:5000',
             'datetime' => 'required'
         ];
     
@@ -124,10 +162,51 @@ class AssignmentController extends Controller
                 $assign->save();
             }
         }
-
-        // $idclass = Classes::join('classes', 'classes.id_class', '=', 'class_of_students.class_id')->first();
-        
         return redirect()->route('class');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function submitAssignment(Request $request)
+    {
+        $this->data['title'] = $this->title;
+        $this->data['menuActive'] = $this->menuActive;
+        $this->data['submnActive'] = $this->submnActive;
+        $this->data['smallTitle'] = "";
+        
+        $rules = [
+            'file.*' => 'mimes:doc,docx,DOCX,PDF,pdf,jpg,jpeg,png,pptx,PPTX|max:5000',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all);
+        }
+
+        $murid = Students::where('user_id', Auth::user()->id)->first();
+
+        //return $view_assign;
+
+        if($request->hasfile('file'))
+        {
+            foreach($request->file as $file)
+            {
+                $name=$file->getClientOriginalName();
+                $file->move(public_path().'/files/students_assignment', $name);  
+                $data = $name;
+                $student_assign = new StudentsAssignment;
+                $student_assign->student_id = $murid->id_student;
+                $student_assign->group_assign_code = $request->group_assign_code;
+                $student_assign->student_assign_file = $data;
+                $student_assign->save();
+            }
+        }
+        return redirect()->back();
     }
 
     /**
@@ -147,9 +226,22 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($code, $group_assign_code)
     {
-        //
+        $this->data['title'] = $this->title;
+        $this->data['menuActive'] = $this->menuActive;
+        $this->data['submnActive'] = $this->submnActive;
+        $this->data['smallTitle'] = "";
+        
+        $edit_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
+                    ->where('classes.class_code', $code)
+                    ->where('assignment.group_assign_code', $group_assign_code)->get();
+        //return $edit_assign;
+
+        return view('class.edit-assignment', [
+            'datas' => $edit_assign,
+            'code' => $code,
+            'group_assign_code' => $group_assign_code])->with('data',$this->data);
     }
 
     /**

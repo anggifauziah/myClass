@@ -10,6 +10,7 @@ use App\Models\ClassOfStudents;
 use App\Models\Announcement;
 use App\Models\Assignment;
 use App\Models\PostType;
+use App\Models\Comments;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,7 @@ class ClassController extends Controller
             $classes = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
+                        ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->where('class_of_students.student_id', $murid->id_student)->get();
         }
         elseif(Auth::user()->level_user == 2){
@@ -42,9 +44,7 @@ class ClassController extends Controller
                         ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->where('classes.teacher_id', $guru->id_teacher)->get();
         }
-
-            return view('classes.main', [
-                'classes' => $classes])->with('data', $this->data);
+            return view('classes.main', ['classes' => $classes])->with('data', $this->data);
         }else{
             return redirect()->to('login');
       }
@@ -83,8 +83,8 @@ class ClassController extends Controller
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->where('classes.class_code', $code)
                         ->get();
+
         // return $assignments;
-        // dd($content);
         return view('class.class', [
             'datas' => $datas,
             'announcement' => $announcements,

@@ -23,12 +23,52 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('lte/dist/css/skins/_all-skins.min.css')}}">
     <!-- Date Picker -->
-    <link rel="stylesheet" href="{{asset('lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+    <link rel="stylesheet"
+        href="{{asset('lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="{{asset('lte/plugins/timepicker/bootstrap-timepicker.min.css')}}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-    
+
+    <!-- CSS MULTIPLE FILE -->
+    <style>
+        #files-area {
+            margin: 0 auto;
+        }
+
+        .file-block {
+            border-radius: 10px;
+            background-color: rgba(144, 163, 203, 0.2);
+            margin: 5px;
+            color: initial;
+            display: inline-flex;
+
+            &>span.name {
+                padding-right: 10px;
+                width: max-content;
+                display: inline-flex;
+                justify-content: center;
+            }
+        }
+
+        .file-delete {
+            display: flex;
+            width: 24px;
+            color: initial;
+            background-color: #6eb4ff00;
+            font-size: large;
+            justify-content: center;
+            margin-right: 3px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(144, 163, 203, 0.2);
+                border-radius: 10px;
+            }
+        }
+    </style>
+    <!-- CSS MULTIPLE FILE -->
+
     @yield('css')
 </head>
 
@@ -89,11 +129,11 @@
         <!-- Footer -->
         <!-- ============================================================== -->
         <footer class="main-footer">
-          <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.18
-          </div>
-          <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-          reserved.
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.18
+            </div>
+            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
+            reserved.
         </footer>
         <!-- ============================================================== -->
         <!-- End Footer -->
@@ -111,7 +151,7 @@
     <script src="{{asset('lte/bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-      $.widget.bridge('uibutton', $.ui.button);
+        $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('lte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
@@ -132,13 +172,67 @@
     <script src="{{asset('lte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script>
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.widget.bridge('uibutton', $.ui.button);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.widget.bridge('uibutton', $.ui.button);
     </script>
+
+    <!-- MULTIPLE FILE INPUT -->
+    <script>
+        $('document').ready(function () {
+            $('#btn_reset').click(function () {
+                $('#title').val("");
+                $('#datetime').val("");
+                $('#span_file').css("display", "inline");
+                $('#files-area').css("display", "none");
+            });
+        });
+
+        const dt = new DataTransfer(); // Permet de manipuler les fichiers de l'input file
+
+        $("#attachment").on('change', function (e) {
+            for (var i = 0; i < this.files.length; i++) {
+                let fileBloc = $('<span/>', {
+                        class: 'file-block'
+                    }),
+                    fileName = $('<span/>', {
+                        class: 'name',
+                        text: this.files.item(i).name
+                    });
+                fileBloc.append('<span class="file-delete"><span><i class="fa fa-times-circle"</span></span>')
+                    .append(fileName);
+                $("#filesList > #files-names").append(fileBloc);
+            };
+            // Ajout des fichiers dans l'objet DataTransfer
+            for (let file of this.files) {
+                dt.items.add(file);
+            }
+            // Mise à jour des fichiers de l'input file après ajout
+            this.files = dt.files;
+
+            // EventListener pour le bouton de suppression créé
+            $('span.file-delete').click(function () {
+                let name = $(this).next('span.name').text();
+                // Supprimer l'affichage du nom de fichier
+                $(this).parent().remove();
+                for (let i = 0; i < dt.items.length; i++) {
+                    // Correspondance du fichier et du nom
+                    if (name === dt.items[i].getAsFile().name) {
+                        // Suppression du fichier dans l'objet DataTransfer
+                        dt.items.remove(i);
+                        continue;
+                    }
+                }
+                // Mise à jour des fichiers de l'input file après suppression
+                document.getElementById('attachment').files = dt.files;
+            });
+        });
+    </script>
+    <!-- MULTIPLE FILE INPUT -->
+
     @yield('js')
 </body>
 
