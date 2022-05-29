@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Classes;
 use App\Models\Announcement;
+use App\Models\FileAnnouncement;
+use App\Models\CommentAnnouncement;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -61,32 +63,62 @@ class AnnouncementController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
-        do
-        {
-            $code = Str::random(8);
-            $user_code = Announcement::where('group_announce_code', $code)->first();
-        }
-        while(!empty($user_code));
-
         if($request->hasfile('file'))
         {
+            $announce= new Announcement;
+            $announce->class_id = $request->class_id;
+            $announce->user_id = $request->user_id;
+            $announce->creator_name = $request->creator_name;
+            $announce->announce_content = $request->ckeditor;
+            $announce->save();
+
             foreach($request->file as $file)
             {
-                $name=$file->getClientOriginalName();
-                $file->move(public_path().'/files/announcement', $name);  
-                $data = $name;
-                $post_type = 1;
-                $announce= new Announcement;
-                $announce->post_type_id = $post_type;
-                $announce->class_id = $request->class_id;
-                $announce->user_id = $request->user_id;
-                $announce->creator_name = $request->creator_name;
-                $announce->group_announce_code = $code;
-                $announce->announce_content = $request->ckeditor;
-                $announce->announce_file=$data;
-                $announce->save();
+                $file_announce = new FileAnnouncement;
+                $name = $file->getClientOriginalName();
+                $file->move(public_path().'/files/announcement', $name);
+                $file_announce->announce_id = $announce->id_announce;
+                $file_announce->filename = $name;
+                $file_announce->save();
             }
         }
+        return redirect()->back();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function comment(Request $request)
+    {
+        $this->data['title'] = $this->title;
+        $this->data['menuActive'] = $this->menuActive;
+        $this->data['submnActive'] = $this->submnActive;
+        $this->data['smallTitle'] = "";
+        
+        $rules = [
+            'comment' => 'required'
+        ];
+    
+        $messages = [
+            'comment.required' => 'Comment is required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all);
+        }
+
+        $comment= new CommentAnnouncement;
+        $comment->announce_id = $request->announce_id;
+        $comment->user_id = $request->user_id;
+        $comment->creator_comment_announce = $request->creator_name;
+        $comment->comment_announce = $request->comment;
+        $comment->save();
+        
         return redirect()->back();
     }
 
@@ -107,17 +139,20 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($code, $group_announce_code)
+    public function edit($id_announce)
     {
-        $edit_announce = Announcement::join('classes', 'classes.id_class', '=', 'anouncement.class_id')
-                    ->where('classes.class_code', $code)
-                    ->where('anouncement.group_announce_code', $group_announce_code)->get();
+        $this->data['title'] = $this->title;
+        $this->data['menuActive'] = $this->menuActive;
+        $this->data['submnActive'] = $this->submnActive;
+        $this->data['smallTitle'] = "";
+        
+        $edit_announce = Announcement::join('classes', 'classes.id_class', '=', 'announcement.class_id')
+                    ->where('announcement.id_announce', $id_announce)->get();
         //return $edit_announce;
 
         return view('class.edit-announcement', [
-            'datas' => $edit_announce,
-            'code' => $code,
-            'group_assign_code' => $group_announce_code])->with('data',$this->data);
+                    'edit_announce' => $edit_announce,
+                    'id_announce' => $id_announce])->with('data',$this->data);
     }
 
     /**

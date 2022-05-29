@@ -8,12 +8,13 @@ use App\Models\Teacher;
 use App\Models\Students;
 use App\Models\ClassOfStudents;
 use App\Models\Announcement;
+use App\Models\CommentAnnouncement;
 use App\Models\Assignment;
-use App\Models\PostType;
-use App\Models\Comments;
+use App\Models\CommentAssignment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 
 class ClassController extends Controller
@@ -28,6 +29,7 @@ class ClassController extends Controller
       $this->data['menuActive'] = $this->menuActive;
       $this->data['submnActive'] = $this->submnActive;
       $this->data['smallTitle'] = "";
+      $date = today()->format('Y-m-d H:i:s');
 
       if(Auth::user()){
         if(Auth::user()->level_user == 1){
@@ -36,7 +38,8 @@ class ClassController extends Controller
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
                         ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
-                        ->where('class_of_students.student_id', $murid->id_student)->get();
+                        ->where('class_of_students.student_id', $murid->id_student)
+                        ->get();
         }
         elseif(Auth::user()->level_user == 2){
             $guru = Teacher::where('user_id', Auth::user()->id)->first();
@@ -44,7 +47,8 @@ class ClassController extends Controller
                         ->leftJoin('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->where('classes.teacher_id', $guru->id_teacher)->get();
         }
-            return view('classes.main', ['classes' => $classes])->with('data', $this->data);
+
+        return view('classes.main', ['classes' => $classes])->with('data', $this->data);
         }else{
             return redirect()->to('login');
       }
@@ -75,23 +79,37 @@ class ClassController extends Controller
                         ->first();
         }
 
-        $announcements = Announcement::where('class_id', $datas->id_class)->orderBy('created_at', 'DESC')->get();
+        $announcements = Classes::join('announcement', 'announcement.class_id', '=', 'classes.id_class')
+                        ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->where('class_id', $datas->id_class)
+                        ->orderBy('announcement.created_at', 'DESC')->get();
         $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
+                        ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                         ->where('classes.id_class', $datas->id_class)
                         ->orderBy('assignment.created_at', 'DESC')->get();
         $students_name = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->where('classes.class_code', $code)
                         ->get();
+        $comment_announce = CommentAnnouncement::join('announcement', 'announcement.id_announce', '=', 'comment_announcement.announce_id')
+                                            ->join('classes', 'classes.id_class', '=', 'announcement.class_id')
+                                            ->select('comment_announcement.created_at as created_comment_announce', 'classes.*', 'comment_announcement.*', 'announcement.*')
+                                            ->get();
+        $comment_assign = CommentAssignment::join('assignment', 'assignment.id_assign', '=', 'comment_assignment.assign_id')
+                                            ->join('classes', 'classes.id_class', '=', 'assignment.class_id')
+                                            ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*', 'assignment.*')
+                                            ->get();
 
-        // return $assignments;
+        // return $comment_assign;
         return view('class.class', [
-            'datas' => $datas,
-            'announcement' => $announcements,
-            'assignment' => $assignments,
-            'students_name' => $students_name,
-            'code' => $code
-            ])->with('data',$this->data);
+                    'datas' => $datas,
+                    'announcement' => $announcements,
+                    'assignment' => $assignments,
+                    'students_name' => $students_name,
+                    'code' => $code,
+                    'comment_announce' => $comment_announce,
+                    'comment_assign' => $comment_assign
+                    ])->with('data',$this->data);
     }
 
     /**

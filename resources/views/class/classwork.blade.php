@@ -7,7 +7,7 @@
         <br><br>
         @endif
         <!-- /.box-header -->
-        @foreach($assignment->groupBy('assign_content') as $assign)
+        @foreach($assignment->groupBy('id_assign') as $assign)
         <div class="box box-default collapsed-box">
             <div class="box-header with-border" data-widget="collapse">
                 <h3 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h3>
@@ -27,7 +27,7 @@
                 @foreach($assign as $items)
                 <div class="attachment-block clearfix">
                     <h4 class="attachment-heading">
-                        <a href="#">{{$items->assign_file}}</a>
+                        <a href="#">{{$items->filename}}</a>
                     </h4>
                     <!-- /.attachment-pushed -->
                 </div>
@@ -36,7 +36,7 @@
             </div><!-- /.box-body -->
             <div class="box-footer">
                 <!-- view-assignment-teacher (assignment guru) - view-assignment (assignment murid)- -->
-                <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['group_assign_code']) }}">
+                <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['id_assign']) }}">
                     <h5>View assignment</h5>
                 </a>
             </div>

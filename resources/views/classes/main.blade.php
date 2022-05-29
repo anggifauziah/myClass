@@ -42,16 +42,18 @@
             <div class="box-footer no-padding">
                 @foreach($class->groupBy('assign_title') as $assign)
                 @if($assign[0]['assign_title'] != null)
+                @if($assign[0]['assign_deadline'] >= Carbon\Carbon::now())
                 <ul class="nav nav-stacked">
                     <li>
-                        <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['group_assign_code']) }}">
+                        <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['id_assign']) }}">
                             <p style="color:grey; font-size:13px;">
-                            Due {!! date('d M Y', strtotime($assign[0]['assign_deadline'])) !!}</p>
+                                Due {!! date('d M Y', strtotime($assign[0]['assign_deadline'])) !!}</p>
                             {!! date('H:i', strtotime($assign[0]['assign_deadline'])) !!} -
                             {{$assign[0]['assign_title']}}
                         </a>
                     </li>
                 </ul>
+                @endif
                 @else
                 <ul class="nav nav-stacked">
                     <li>

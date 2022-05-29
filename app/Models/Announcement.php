@@ -8,17 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model
 {
     use HasFactory;
-    protected $table = 'anouncement';
+    protected $table = 'announcement';
     protected $primaryKey = 'id_announce';
 
     protected $fillable = [
-        'post_type_id',
         'class_id',
         'user_id',
         'creator_name',
-        'group_announce_code',
         'announce_content',
-        'announce_file'
     ];
 
     public function Classes()
@@ -26,8 +23,8 @@ class Announcement extends Model
         return $this->hasMany('Classes', 'id_class');
     }
 
-    public function PostType()
+    public function getRouteKeyName()
     {
-        return $this->belongsTo('PostType', 'id_post_type');
+        return 'slug';
     }
 }

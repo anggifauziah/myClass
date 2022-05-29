@@ -59,7 +59,9 @@
                         data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="{{url('announcement', $announce[0]['class_code'].'-'.$announce[0]['group_announce_code'].'-'.'edit-announcement')}}">Edit</a></li>
+                        <li><a
+                                href="{{ url('announcement', $announce[0]['id_announce'] . '-editAnnouncement')}}">Edit</a>
+                        </li>
                         <li><a href="#" data-toggle="modal" data-target="#modal-default">Delete</a></li>
                     </ul>
                 </div>
@@ -82,7 +84,7 @@
             @foreach($announce as $item)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$item->announce_file}}</a>
+                    <a href="#">{{$item->filename}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
@@ -92,29 +94,42 @@
         <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
+            @foreach($comment_announce->groupBy('announce_id') as $comment)
             <div class="box-comment">
                 <!-- User image -->
-                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
+                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        Nora Havisham
-                        <span class="text-muted pull-right">8:03 PM Today</span>
+                        {{$comment[0]['creator_comment_announce']}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_announce'])) !!}</span>
                     </span><!-- /.username -->
-                    The point of using Lorem Ipsum is that it has a more-or-less
-                    normal distribution of letters, as opposed to using
-                    'Content here, content here', making it look like readable English.
+                    {{$comment[0]['comment_announce']}}
                 </div>
                 <!-- /.comment-text -->
             </div>
+            @endforeach
             <!-- /.box-comment -->
             <!-- /.box-footer -->
             <div class="box-footer">
-                <form action="#" method="post">
+                <form action="{{ route('comment-announcement') }}" method="post">
+                    @csrf
                     <img class="img-responsive img-circle img-sm" src="{{asset('lte/dist/img/user4-128x128.jpg')}}"
                         alt="Alt Text">
                     <!-- .img-push is used to add margin to elements next to floating images -->
-                    <div class="img-push">
-                        <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                    <div class="img-push input-group margin">
+                        <input id="comment" type="text"
+                            class="form-control input-sm  @error('comment') is-invalid @enderror" name="comment"
+                            value="{{ old('comment') }}" required autocomplete="comment"
+                            placeholder="{{ __('Press enter to post comment') }}">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-flat btn-sm">
+                                <i class="fa fa-send"></i> Send
+                            </button>
+                        </span>
+                        <input type="hidden" name="announce_id" value="{{$announce[0]['id_announce']}}">
+                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" name="creator_name"
+                            value="{{Auth::user()->level_user == 2 ? $datas->teacher_name : $datas->student_name}}">
                     </div>
                 </form>
             </div>
@@ -139,7 +154,9 @@
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="{{url('assignment', $assign[0]['class_code'].'-'.$assign[0]['group_assign_code'].'-'.'edit-assignment')}}">Edit</a></li>
+                        <li><a
+                                href="{{ url('assignment', $assign[0]['id_assign'] . '-editAssignment')}}">Edit</a>
+                        </li>
                         <li><a href="#" data-toggle="modal" data-target="#modal-default">Delete</a></li>
                     </ul>
                 </div>
@@ -151,7 +168,7 @@
         <div class="box-body">
             <!-- users -->
             <div class="user-block">
-                <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['group_assign_code']) }}"
+                <a href="{{ url('assignment', $assign[0]['class_code'].'-'.$assign[0]['id_assign']) }}"
                     class="btn btn-primary pull-right">View assignment</a>
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
                 <span class="username" style="font-size: 15px;">{{$assign[0]['creator_name']}}</span>
@@ -164,38 +181,52 @@
             @foreach($assign as $items)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$items->assign_file}}</a>
+                    <a href="#">{{$items->filename}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
             @endforeach
             <!-- /.attachment-block -->
-        </div><!-- /.box-body -->
+        </div>
+        <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
+            @foreach($comment_assign->groupBy('assign_id') as $comment)
             <div class="box-comment">
                 <!-- User image -->
-                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image">
+                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        Nora Havisham
-                        <span class="text-muted pull-right">8:03 PM Today</span>
+                        {{$comment[0]['creator_comment_assign']}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_assign'])) !!}</span>
                     </span><!-- /.username -->
-                    The point of using Lorem Ipsum is that it has a more-or-less
-                    normal distribution of letters, as opposed to using
-                    'Content here, content here', making it look like readable English.
+                    {{$comment[0]['comment_assign']}}
                 </div>
                 <!-- /.comment-text -->
             </div>
+            @endforeach
             <!-- /.box-comment -->
             <!-- /.box-footer -->
             <div class="box-footer">
-                <form action="#" method="post">
+                <form action="{{ route('comment-assignment') }}" method="post">
+                    @csrf
                     <img class="img-responsive img-circle img-sm" src="{{asset('lte/dist/img/user4-128x128.jpg')}}"
                         alt="Alt Text">
                     <!-- .img-push is used to add margin to elements next to floating images -->
-                    <div class="img-push">
-                        <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                    <div class="img-push input-group margin">
+                        <input id="comment" type="text"
+                            class="form-control input-sm  @error('comment') is-invalid @enderror" name="comment"
+                            value="{{ old('comment') }}" required autocomplete="comment"
+                            placeholder="{{ __('Press enter to post comment') }}">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-flat btn-sm">
+                                <i class="fa fa-send"></i> Send
+                            </button>
+                        </span>
+                        <input type="hidden" name="assign_id" value="{{$assign[0]['id_assign']}}">
+                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" name="creator_name"
+                            value="{{Auth::user()->level_user == 2 ? $datas->teacher_name : $datas->student_name}}">
                     </div>
                 </form>
             </div>
@@ -221,8 +252,10 @@
                 <h4>Are you sure want to remove this from class?</h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <form method="post" action="">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
         <!-- /.modal-content -->

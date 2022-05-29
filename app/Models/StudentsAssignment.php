@@ -12,7 +12,7 @@ class StudentsAssignment extends Model
     protected $primaryKey = 'id_student_assign';
 
     protected $fillable = [
-        'group_assign_code',
+        'assign_id',
         'student_id',
         'student_assign_file',
         'student_assign_score'

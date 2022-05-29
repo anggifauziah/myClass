@@ -6,7 +6,7 @@
 
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">Edit Assignment</h3>
+        <h3 class="box-title">Edit assignment</h3>
     </div>
     <!-- /.box-header -->
     <div class="row">
@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                            name="title" value="{{$assign[0]['assign_title']}}" required autocomplete="title" autofocus
+                            name="title" value="" required autocomplete="title" autofocus
                             placeholder="{{ __('Title') }}">
                         @error('title')
                         <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime" value="{{$assign[0]['assign_deadline']}}">
+                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime" value="">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -65,9 +65,6 @@
                                 <span id="files-names"></span>
                             </span>
                         </p>
-                        <input type="hidden" name="class_id" value="{{$datas->id_class}}">
-                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                        <input type="hidden" name="creator_name" value="{{$datas->teacher_name}}">
                     </div>
                     <!-- File Input -->
 

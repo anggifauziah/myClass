@@ -19,7 +19,7 @@
                     <!--  -->
                     <div class="user-block">
                         <span style="font-size: 15px;"><b>{{$assign[0]['creator_name']}} • </b></span>
-                        <span>{!! date('d M Y', strtotime($assign[0]['created_at'])) !!}</span>
+                        <span>{!! date('d M Y', strtotime($assign[0]['created_date'])) !!}</span>
                         <span>
                             <h5 class="pull-right" style="margin-top: 35px"><b>Due {!! date('d M Y H:i',
                                     strtotime($assign[0]['assign_deadline'])) !!}</b></h5>
@@ -34,39 +34,53 @@
                     @foreach($assign as $items)
                     <div class="attachment-block clearfix">
                         <h4 class="attachment-heading">
-                            <a href="#">{{$items->assign_file}}</a>
+                            <a href="#">{{$items->filename}}</a>
                         </h4>
                         <!-- /.attachment-pushed -->
                     </div>
                     @endforeach
                     <!-- /.attachment-block -->
+                    <!-- /.box-body -->
                     <div class="box-footer box-comments">
                         <!-- /.box-comment -->
+                        @foreach($comment_assign as $comment)
                         <div class="box-comment">
                             <!-- User image -->
                             <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
-                                alt="User Image">
+                                alt="User Image" style="margin-top: 4px;">
                             <div class="comment-text">
                                 <span class="username">
-                                    Nora Havisham
-                                    <span class="text-muted pull-right">8:03 PM Today</span>
+                                    {{$comment->creator_comment_assign}}
+                                    <span class="text-muted pull-right">{!! date('d M Y',
+                                        strtotime($comment->created_comment_assign)) !!}</span>
                                 </span><!-- /.username -->
-                                The point of using Lorem Ipsum is that it has a more-or-less
-                                normal distribution of letters, as opposed to using
-                                'Content here, content here', making it look like readable English.
+                                {{$comment->comment_assign}}
                             </div>
                             <!-- /.comment-text -->
                         </div>
+                        @endforeach
                         <!-- /.box-comment -->
                         <!-- /.box-footer -->
                         <div class="box-footer">
-                            <form action="#" method="post">
+                            <form action="{{ route('comment-assignment') }}" method="post">
+                                @csrf
                                 <img class="img-responsive img-circle img-sm"
                                     src="{{asset('lte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
                                 <!-- .img-push is used to add margin to elements next to floating images -->
-                                <div class="img-push">
-                                    <input type="text" class="form-control input-sm"
-                                        placeholder="Press enter to post comment">
+                                <div class="img-push input-group margin">
+                                    <input id="comment" type="text"
+                                        class="form-control input-sm  @error('comment') is-invalid @enderror"
+                                        name="comment" value="{{ old('comment') }}" required autocomplete="comment"
+                                        placeholder="{{ __('Press enter to post comment') }}">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-info btn-flat btn-sm">
+                                            <i class="fa fa-send"></i> Send
+                                        </button>
+                                    </span>
+                                    <input type="hidden" name="assign_id" value="{{$assign[0]['id_assign']}}">
+                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                    <input type="hidden" name="creator_name"
+                                        value="{{Auth::user()->level_user == 2 ? $datas->teacher_name : $datas->student_name}}">
                                 </div>
                             </form>
                         </div>
@@ -94,7 +108,10 @@
                                     <!-- <span class="pull-right">Assigned</span> -->
                                 </div>
                                 <div class="box-body">
-                                    @foreach($student_assign->groupBy('group_assign_code') as $assign)
+                                    {{$assign[0]['assign_deadline']}}
+                                    {{Carbon\Carbon::now()}}
+
+                                    @foreach($student_assign->groupBy('assign_id') as $assign)
                                     @foreach($assign as $items)
                                     <div class="attachment-block clearfix">
                                         <h4 class="attachment-heading">
@@ -113,7 +130,7 @@
                                 <br>
                                 <!-- File Input -->
                                 <div>
-                                    @if($expired->count() > 0)
+                                    @if($assign[0]['assign_deadline'] >= Carbon\Carbon::now())
                                     <label for="attachment" style="display: block;">
                                         <a class="btn btn-block btn-default" role="button" aria-disabled="false">
                                             <span class='fa fa-plus'></span> Add file</a>
@@ -124,8 +141,7 @@
                                     @endif
                                 </div>
                                 <!-- File Input -->
-                                <input type="hidden" name="group_assign_code"
-                                    value="{{$assign[0]['group_assign_code']}}">
+                                <input type="hidden" name="id_assign" value="{{$assign[0]['id_assign']}}">
                             </div>
                         </div>
                         <!-- /.box -->
@@ -152,7 +168,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($student_assign->groupBy('group_assign_code') as $assign)
+                        @foreach($student_assign->groupBy('assign_id') as $assign)
                         <tr>
                             <td>{{$assign[0]['student_name']}}</td>
                             <td>@foreach($assign as $items){{$items->student_assign_file}}<br>@endforeach</td>

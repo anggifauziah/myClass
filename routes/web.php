@@ -31,14 +31,16 @@ Route::group(array('prefix' => 'assignment'), function(){
   Route::get('/', 'AssignmentController@index')->name('assignment');
   Route::post('store-assignment', 'AssignmentController@store')->name('store-assignment');
   Route::get('{code}-create-assignment', 'AssignmentController@create')->name('{code}-create-assignment');
-  Route::get('{code}-{group_assign_code}', 'AssignmentController@viewAssignment')->name('{code}-{group_assign_code}');
   Route::post('submit-assignment', 'AssignmentController@submitAssignment')->name('submit-assignment');
-  Route::post('{code}-{group_assign_code}-edit-assignment', 'AssignmentController@edit')->name('{code}-{group_assign_code}-edit-assignment');
+  Route::get('{id_assign}-editAssignment', 'AssignmentController@edit')->name('{id_assign}-editAssignment');
+  Route::post('comment-assignment', 'AssignmentController@comment')->name('comment-assignment');
+  Route::get('{code}-{id_assign}', 'AssignmentController@viewAssignment')->name('{code}-{id_assign}');
 });
 
 Route::group(array('prefix' => 'announcement'), function(){
   Route::get('/', 'AnnouncementController@index')->name('announcement');
   Route::get('create-announcement', 'AnnouncementController@create')->name('create-announcement');
   Route::post('store-announcement', 'AnnouncementController@store')->name('store-announcement');
-  Route::post('{code}-{group_assign_code}-edit-announcement', 'AssignmentController@edit')->name('{code}-{group_assign_code}-edit-announcement');
+  Route::post('comment-announcement', 'AnnouncementController@comment')->name('comment-announcement');
+  Route::get('{id_announce}-editAnnouncement', 'AnnouncementController@edit')->name('{id_announce}-editAnnouncement');
 });
