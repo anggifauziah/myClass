@@ -147,7 +147,8 @@ class AnnouncementController extends Controller
         $this->data['smallTitle'] = "";
         
         $edit_announce = Announcement::join('classes', 'classes.id_class', '=', 'announcement.class_id')
-                    ->where('announcement.id_announce', $id_announce)->get();
+                        ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->where('announcement.id_announce', $id_announce)->get();
         //return $edit_announce;
 
         return view('class.edit-announcement', [

@@ -62,7 +62,7 @@
                         <li><a
                                 href="{{ url('announcement', $announce[0]['id_announce'] . '-editAnnouncement')}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-default">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#modal-announce">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -94,16 +94,16 @@
         <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
-            @foreach($comment_announce->groupBy('announce_id') as $comment)
+            @foreach($comment_announce as $comment)
             <div class="box-comment">
                 <!-- User image -->
                 <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        {{$comment[0]['creator_comment_announce']}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_announce'])) !!}</span>
+                        {{$comment->creator_comment_announce}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment->created_comment_announce)) !!}</span>
                     </span><!-- /.username -->
-                    {{$comment[0]['comment_announce']}}
+                    {{$comment->comment_announce}}
                 </div>
                 <!-- /.comment-text -->
             </div>
@@ -157,7 +157,7 @@
                         <li><a
                                 href="{{ url('assignment', $assign[0]['id_assign'] . '-editAssignment')}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-default">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#modal-assign">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -191,16 +191,16 @@
         <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
-            @foreach($comment_assign->groupBy('assign_id') as $comment)
+            @foreach($comment_assign as $comment)
             <div class="box-comment">
                 <!-- User image -->
                 <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        {{$comment[0]['creator_comment_assign']}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_assign'])) !!}</span>
+                        {{$comment->creator_comment_assign}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment->created_comment_assign)) !!}</span>
                     </span><!-- /.username -->
-                    {{$comment[0]['comment_assign']}}
+                    {{$comment->comment_assign}}
                 </div>
                 <!-- /.comment-text -->
             </div>
@@ -239,17 +239,17 @@
 </div>
 <!-- END FORUM -->
 
-<!-- DELETE MODALS -->
-<div class="modal fade" id="modal-default">
+<!-- DELETE ANNOUNCEMENT MODALS -->
+<div class="modal fade" id="modal-announce">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete?</h4>
+                <h4 class="modal-title">Delete announcement?</h4>
             </div>
             <div class="modal-body">
-                <h4>Are you sure want to remove this from class?</h4>
+                <h4>Are you sure want to remove this announcement from class?</h4>
             </div>
             <div class="modal-footer">
                 <form method="post" action="">
@@ -263,4 +263,31 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<!-- DELETE MODALS -->
+<!-- DELETE ANNOUNCEMENT MODALS -->
+
+
+<!-- DELETE ASSIGNMENT MODALS -->
+<div class="modal fade" id="modal-assign">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete assignment?</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to remove this assignment from class?</h4>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- DELETE ASSIGNMENT MODALS -->

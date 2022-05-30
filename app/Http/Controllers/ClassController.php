@@ -91,6 +91,7 @@ class ClassController extends Controller
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->where('classes.class_code', $code)
                         ->get();
+        
         $comment_announce = CommentAnnouncement::join('announcement', 'announcement.id_announce', '=', 'comment_announcement.announce_id')
                                             ->join('classes', 'classes.id_class', '=', 'announcement.class_id')
                                             ->select('comment_announcement.created_at as created_comment_announce', 'classes.*', 'comment_announcement.*', 'announcement.*')
@@ -100,7 +101,7 @@ class ClassController extends Controller
                                             ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*', 'assignment.*')
                                             ->get();
 
-        // return $comment_assign;
+        // return $announce;
         return view('class.class', [
                     'datas' => $datas,
                     'announcement' => $announcements,
