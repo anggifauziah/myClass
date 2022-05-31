@@ -46,7 +46,7 @@
     <!-- END POST ANNOUNCEMENT -->
 
     <!-- BOX ANNOUNCEMENT -->
-    @foreach($announcement->groupBy('announce_content') as $announce)
+    @foreach($announcement->groupBy('id_announce') as $announce)
     <div class="box box-solid box-default">
         <div class="box-header">
             <h3 class="box-title">Announcement</h3>
@@ -81,10 +81,10 @@
             <!-- post text -->
             {!! html_entity_decode($announce[0]['announce_content']) !!}
             <!-- Attachment -->
-            @foreach($announce as $item)
+            @foreach($announce->groupBy('id_file_announce') as $item)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$item->filename}}</a>
+                    <a href="#">{{$item[0]['filename']}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
@@ -94,19 +94,21 @@
         <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
-            @foreach($comment_announce as $comment)
+            @foreach($announce->groupBy('id_comment_announce') as $comment)
+            @if($comment[0]['id_comment_announce'] != null)
             <div class="box-comment">
                 <!-- User image -->
                 <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        {{$comment->creator_comment_announce}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment->created_comment_announce)) !!}</span>
+                        {{$comment[0]['creator_comment_announce']}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_announce'])) !!}</span>
                     </span><!-- /.username -->
-                    {{$comment->comment_announce}}
+                    {{$comment[0]['comment_announce']}}
                 </div>
                 <!-- /.comment-text -->
             </div>
+            @endif
             @endforeach
             <!-- /.box-comment -->
             <!-- /.box-footer -->
@@ -178,10 +180,10 @@
             <!-- post text -->
             {!! html_entity_decode($assign[0]['assign_content']) !!}
             <!-- Attachment -->
-            @foreach($assign as $items)
+            @foreach($assign->groupBy('id_file_assign') as $items)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$items->filename}}</a>
+                    <a href="#">{{$items[0]['filename']}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
@@ -191,19 +193,21 @@
         <!-- /.box-body -->
         <div class="box-footer box-comments">
             <!-- /.box-comment -->
-            @foreach($comment_assign as $comment)
+            @foreach($assign->groupBy('id_comment_assign') as $comment)
+            @if($comment[0]['id_comment_assign'] != null)
             <div class="box-comment">
                 <!-- User image -->
                 <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
-                        {{$comment->creator_comment_assign}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment->created_comment_assign)) !!}</span>
+                        {{$comment[0]['creator_comment_assign']}}
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_assign'])) !!}</span>
                     </span><!-- /.username -->
-                    {{$comment->comment_assign}}
+                    {{$comment[0]['comment_assign']}}
                 </div>
                 <!-- /.comment-text -->
             </div>
+            @endif
             @endforeach
             <!-- /.box-comment -->
             <!-- /.box-footer -->

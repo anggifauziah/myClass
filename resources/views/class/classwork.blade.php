@@ -24,10 +24,10 @@
                 <!-- post text -->
                 {!! html_entity_decode($assign[0]['assign_content']) !!}
                 <!-- Attachment -->
-                @foreach($assign as $items)
+                @foreach($assign->groupBy('id_file_assign') as $items)
                 <div class="attachment-block clearfix">
                     <h4 class="attachment-heading">
-                        <a href="#">{{$items->filename}}</a>
+                        <a href="#">{{$items[0]['filename']}}</a>
                     </h4>
                     <!-- /.attachment-pushed -->
                 </div>

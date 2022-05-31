@@ -81,34 +81,26 @@ class ClassController extends Controller
 
         $announcements = Classes::join('announcement', 'announcement.class_id', '=', 'classes.id_class')
                         ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->leftJoin('comment_announcement', 'comment_announcement.announce_id', '=', 'announcement.id_announce')
                         ->where('class_id', $datas->id_class)
                         ->orderBy('announcement.created_at', 'DESC')->get();
         $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
+                        ->leftJoin('comment_assignment', 'comment_assignment.assign_id', '=', 'assignment.id_assign')
                         ->where('classes.id_class', $datas->id_class)
                         ->orderBy('assignment.created_at', 'DESC')->get();
         $students_name = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->where('classes.class_code', $code)
                         ->get();
-        $comment_announce = CommentAnnouncement::join('announcement', 'announcement.id_announce', '=', 'comment_announcement.announce_id')
-                                            ->join('classes', 'classes.id_class', '=', 'announcement.class_id')
-                                            ->select('comment_announcement.created_at as created_comment_announce', 'classes.*', 'comment_announcement.*', 'announcement.*')
-                                            ->get();
-        $comment_assign = CommentAssignment::join('assignment', 'assignment.id_assign', '=', 'comment_assignment.assign_id')
-                                            ->join('classes', 'classes.id_class', '=', 'assignment.class_id')
-                                            ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*', 'assignment.*')
-                                            ->get();
 
-        //return $announce;
+        // return $announcements;
         return view('class.class', [
                     'datas' => $datas,
                     'announcement' => $announcements,
                     'assignment' => $assignments,
                     'students_name' => $students_name,
-                    'code' => $code,
-                    'comment_announce' => $comment_announce,
-                    'comment_assign' => $comment_assign
+                    'code' => $code
                     ])->with('data',$this->data);
     }
 
