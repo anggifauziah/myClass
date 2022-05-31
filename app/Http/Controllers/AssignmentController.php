@@ -82,6 +82,7 @@ class AssignmentController extends Controller
         $comment_assign = CommentAssignment::join('assignment', 'assignment.id_assign', '=', 'comment_assignment.assign_id')
                                             ->join('classes', 'classes.id_class', '=', 'assignment.class_id')
                                             ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*', 'assignment.*')
+                                            ->where('assign_id', $id_assign)
                                             ->get();
 
         // return $date;

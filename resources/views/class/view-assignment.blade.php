@@ -108,9 +108,6 @@
                                     <!-- <span class="pull-right">Assigned</span> -->
                                 </div>
                                 <div class="box-body">
-                                    {{$assign[0]['assign_deadline']}}
-                                    {{Carbon\Carbon::now()}}
-
                                     @foreach($student_assign->groupBy('assign_id') as $assign)
                                     @foreach($assign as $items)
                                     <div class="attachment-block clearfix">

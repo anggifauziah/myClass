@@ -252,7 +252,7 @@
                 <h4>Are you sure want to remove this announcement from class?</h4>
             </div>
             <div class="modal-footer">
-                <form method="post" action="">
+                <form method="get" action="{{ route('deleteAnnouncement') }}">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
