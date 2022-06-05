@@ -50,7 +50,8 @@ class ClassController extends Controller
         }
 
         return view('classes.main', ['classes' => $classes])->with('data', $this->data);
-        }else{
+
+      }else{
             return redirect()->to('login');
       }
     }
@@ -61,6 +62,7 @@ class ClassController extends Controller
         $this->data['menuActive'] = $this->menuActive;
         $this->data['submnActive'] = $this->submnActive;
         $this->data['smallTitle'] = "";
+        $this->data['tabs'] = "";
 
         if(Auth::user()->level_user == 1){
             $murid = Students::where('user_id', Auth::user()->id)->first();
@@ -108,7 +110,7 @@ class ClassController extends Controller
                     'assignment' => $assignments,
                     'students_name' => $students_name,
                     'code' => $code
-                    ])->with('data',$this->data);
+                    ])->with('data', $this->data);
     }
 
     /**
@@ -146,7 +148,7 @@ class ClassController extends Controller
         $datas = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                 ->where('class_of_students.student_id', $student->id_student)
                 ->first();
-        return view('classes.join-class', ['student' => $student, 'datas' => $datas])->with('data',$this->data);
+        return view('classes.join-class', ['student' => $student, 'datas' => $datas])->with('data', $this->data);
     }
 
     /**
@@ -279,11 +281,11 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_classOfStudents)
+    public function destroy(Request $request)
     {
-        return 'p';
-        DB::table("class_of_students")->where("id_classOfStudents", $id_classOfStudents)->delete();
+        $this->data['tabs'] = "people";
+        DB::table("class_of_students")->where("id_classOfStudents", $request->id_classOfStudents)->delete();
 
-        return redirect()->back()->with('success', 'Berhasil delete');
+        return redirect()->back()->with('tabs', 'people');
     }
 }

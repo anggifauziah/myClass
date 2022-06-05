@@ -11,7 +11,8 @@
     <!-- /.box-header -->
     @foreach($edit_assign->groupBy('id_assign') as $assign)
     <div class="row">
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" action="{{route('updateAssignment')}}" enctype="multipart/form-data">
+            @csrf
             <!-- left column -->
             <div class="col-md-8">
                 <!-- form start -->

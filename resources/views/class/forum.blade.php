@@ -1,5 +1,5 @@
 <!-- FORUM -->
-<div class="tab-pane active tabcontent" id="Forum">
+<div class="tab-pane {{ session('tabs') == null ? 'active' : '' }} tabcontent" id="Forum">
     <!-- BOX CLASS DETAILS -->
     <div class="box box-default collapsed-box">
         <div class="box-header with-border">
@@ -62,7 +62,7 @@
                         <li><a
                                 href="{{ url('announcement', $announce[0]['id_announce'] . '-editAnnouncement')}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-announce">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#modal-announce-{{$announce[0]['id_announce']}}">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -137,6 +137,36 @@
                     </div>
                 </form>
             </div>
+
+            <!-- DELETE ANNOUNCEMENT MODALS -->
+            <div class="modal fade" id="modal-announce-{{$announce[0]['id_announce']}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Delete announcement?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Are you sure want to remove this announcement from class?</h4>
+                        </div>
+                        @if($announcement->count() > 0)
+                        <div class="modal-footer">
+                            <form method="post" action="{{ route('deleteAnnouncement') }}">
+                                @csrf
+                                <input type="hidden" name="id_announce" value="{{$announce[0]['id_announce']}}">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        @endif
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- DELETE ANNOUNCEMENT MODALS -->
             <!-- /.box-footer -->
         </div>
         <!-- /.box-comment -->
@@ -158,9 +188,9 @@
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a href="{{ url('assignment', $assign[0]['id_assign'] . 'editScoreAssignmnet')}}">Edit</a>
+                        <li><a href="{{ url('assignment/'.'editAssignment-'.$assign[0]['id_assign'])}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-assign">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#modal-assign-{{$assign[0]['id_assign']}}">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -238,6 +268,36 @@
                 </form>
             </div>
             <!-- /.box-footer -->
+
+            <!-- DELETE ASSIGNMENT MODALS -->
+            <div class="modal fade" id="modal-assign-{{$assign[0]['id_assign']}}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Delete assignment?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Are you sure want to remove this assignment from class?</h4>
+                        </div>
+                        @if($assignment->count() > 0)
+                        <div class="modal-footer">
+                            <form method="post" action="{{ route('deleteAssignment') }}">
+                                @csrf
+                                <input type="hidden" name="assign_id" value="{{$assign[0]['id_assign']}}">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        @endif
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- DELETE ASSIGNMENT MODALS -->
         </div>
         <!-- /.box-comment -->
     </div><!-- /.box -->
@@ -245,59 +305,3 @@
     <!-- END BOX ASSIGNMENT -->
 </div>
 <!-- END FORUM -->
-
-<!-- DELETE ANNOUNCEMENT MODALS -->
-<div class="modal fade" id="modal-announce">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete announcement?</h4>
-            </div>
-            <div class="modal-body">
-                <h4>Are you sure want to remove this announcement from class?</h4>
-            </div>
-            @if($announcement->count() > 0)
-            <div class="modal-footer">
-                <form method="get" action="{{ url('announcement', $announce[0]['id_announce'] . '-deleteAnnouncement') }}">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-            @endif
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-<!-- DELETE ANNOUNCEMENT MODALS -->
-
-<!-- DELETE ASSIGNMENT MODALS -->
-<div class="modal fade" id="modal-assign">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete assignment?</h4>
-            </div>
-            <div class="modal-body">
-                <h4>Are you sure want to remove this assignment from class?</h4>
-            </div>
-            @if($assignment->count() > 0)
-            <div class="modal-footer">
-                <form method="post" action="{{ url('assignment', $assign[0]['id_assign'] . '-deleteAssignment') }}">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-            @endif
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-<!-- DELETE ASSIGNMENT MODALS -->

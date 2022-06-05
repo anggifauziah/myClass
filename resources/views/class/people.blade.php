@@ -1,5 +1,5 @@
 <!-- PEOPLE -->
-<div class="tab-pane tabcontent" id="People">
+<div class="tab-pane {{ session('tabs') == 'people' ? 'active' : '' }} tabcontent" id="People">
     <h1>Teachers</h1>
     <hr>
     <div class="user-block">
@@ -38,14 +38,14 @@
                 </td>
                 <td>
                     <a href="#" style="color: black; padding-left: 130px">
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default-{{$name->id_classOfStudents}}">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                     </a>
                 </td>
 
                 <!-- DELETE MODALS -->
-                <div class="modal fade" id="modal-default">
+                <div class="modal fade" id="modal-default-{{$name->id_classOfStudents}}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -58,8 +58,10 @@
                             </div>
                             @if($students_name->count() > 0)
                             <div class="modal-footer">
-                                <form method="get"
-                                    action="{{ url('class', $students_name[0]['id_classOfStudents'] . '-deleteStudents') }}">
+                                <form method="post"
+                                    action="{{ route('deleteStudents') }}">
+                                    @csrf
+                                    <input type="hidden" name="id_classOfStudents" value="{{$name->id_classOfStudents}}">
                                     <button type="button" class="btn btn-default pull-left"
                                         data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -73,8 +75,6 @@
                 </div>
                 <!-- /.modal -->
                 <!-- DELETE MODALS -->
-
-            </tr>
             @endforeach
         </table>
     </div>

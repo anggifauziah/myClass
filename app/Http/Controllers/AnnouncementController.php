@@ -175,12 +175,11 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_announce)
+    public function destroy(Request $request)
     {
-        // return 'aku malesno';
-        DB::table("announcement")->where("id_announce", $id_announce)->delete();
-        DB::table("file_announcement")->where("announce_id", $id_announce)->delete();
-        DB::table("comment_announcement")->where("announce_id", $id_announce)->delete();
+        DB::table("announcement")->where("id_announce", $request->id_announce)->delete();
+        DB::table("file_announcement")->where("announce_id", $request->id_announce)->delete();
+        DB::table("comment_announcement")->where("announce_id", $request->id_announce)->delete();
 
         return redirect()->back()->with('success', 'Berhasil delete');
     }

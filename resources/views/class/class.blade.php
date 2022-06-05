@@ -8,13 +8,13 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs pull-right box-header with-border bg-blue">
         <li>
-            <a class="tablinks" onclick="openCity(event, 'People')" style="color: white;">People</a>
+            <a class="tablinks {{ session('tabs') == 'people' ? 'activated' : '' }}" onclick="openCity(event, 'People')" style="color: white;">People</a>
         </li>
         <li>
             <a class="tablinks " onclick="openCity(event, 'Classwork')" style="color: white;">Classwork</a>
         </li>
         <li>
-            <a class="tablinks activated" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
+            <a class="tablinks {{ session('tabs') == null ? 'activated' : '' }}" onclick="openCity(event, 'Forum')" style="color: white;">Forum</a>
         </li>
         <li class="pull-left">
             <div class="user-block">

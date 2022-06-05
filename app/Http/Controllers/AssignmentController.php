@@ -285,12 +285,18 @@ class AssignmentController extends Controller
         $this->data['smallTitle'] = "";
         
         $edit_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
+                    ->leftJoin('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                     ->where('assignment.id_assign', $id_assign)->get();
         //return $edit_assign;
 
         return view('class.edit-assignment', [
                     'edit_assign' => $edit_assign,
                     'id_assign' => $id_assign])->with('data',$this->data);
+    }
+
+    public function update(Request $request)
+    {
+        return 'anggi, sorry ya, ayo jgn badmood mulu kurang titik kok :( iki karek nyambungno inputan e tok nggi, kyk updatescore nisor iki :)';
     }
 
     /**
@@ -317,9 +323,9 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_assign)
+    public function destroy(Request $request)
     {
-        // return 'p';
+        $id_assign = $request->assign_id;
         DB::table("assignment")->where("id_assign", $id_assign)->delete();
         DB::table("file_assignment")->where("assign_id", $id_assign)->delete();
         DB::table("comment_assignment")->where("assign_id", $id_assign)->delete();
