@@ -17,7 +17,7 @@
             </div><!-- /.box-header -->
             <div class="box-body">
                 <p class="pull-left" style="font-size:12px;">Posted {!! date('d M Y',
-                    strtotime($assign[0]['created_at'])) !!}</p>
+                    strtotime($assign[0]['created_assign'])) !!}</p>
                 <!-- Status: Handed in (Dikumpulkan); Assigned (Belum Dikumpulkan) -->
                 <!-- <p class="pull-right">Handed in</p> -->
                 <br><br>

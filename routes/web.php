@@ -24,6 +24,7 @@ Route::group(array('prefix' => 'class'), function(){
   Route::get('create-class', 'ClassController@create')->name('create-class');
   Route::get('join-class', 'ClassController@join')->name('join-class');
   Route::post('store-class', 'ClassController@store')->name('store-class');
+  Route::get('{id_classOfStudents}-deleteStudents', 'ClassController@destroy')->name('{id_classOfStudents}-deleteStudents');
   Route::get('{code}', 'ClassController@viewClass')->name('{code}');
 });
 
@@ -33,7 +34,9 @@ Route::group(array('prefix' => 'assignment'), function(){
   Route::get('{code}-create-assignment', 'AssignmentController@create')->name('{code}-create-assignment');
   Route::post('submit-assignment', 'AssignmentController@submitAssignment')->name('submit-assignment');
   Route::get('{id_assign}-editAssignment', 'AssignmentController@edit')->name('{id_assign}-editAssignment');
+  Route::post('editScoreAssignment', 'AssignmentController@updateScore')->name('editScoreAssignment');
   Route::post('comment-assignment', 'AssignmentController@comment')->name('comment-assignment');
+  Route::post('deleteAssignment', 'AssignmentController@destroy')->name('deleteAssignment');
   Route::get('{code}-{id_assign}', 'AssignmentController@viewAssignment')->name('{code}-{id_assign}');
 });
 
@@ -43,5 +46,5 @@ Route::group(array('prefix' => 'announcement'), function(){
   Route::post('store-announcement', 'AnnouncementController@store')->name('store-announcement');
   Route::post('comment-announcement', 'AnnouncementController@comment')->name('comment-announcement');
   Route::get('{id_announce}-editAnnouncement', 'AnnouncementController@edit')->name('{id_announce}-editAnnouncement');
-  Route::get('deleteAnnouncement', 'AnnouncementController@destroy')->name('deleteAnnouncement');
+  Route::get('{id_announce}-deleteAnnouncement', 'AnnouncementController@destroy')->name('{id_announce}-deleteAnnouncement');
 });

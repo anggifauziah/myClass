@@ -51,7 +51,7 @@
         <div class="box-header">
             <h3 class="box-title">Announcement</h3>
             <!-- tools box -->
-            @if(Auth::user()->id == $announce[0]['user_id'])
+            @if(Auth::user()->id == $announce[0]['announce_user_id'])
             <div class="pull-right box-tools">
                 <!-- button with a dropdown -->
                 <div class="btn-group">
@@ -75,7 +75,7 @@
             <div class="user-block">
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
                 <span class="username" style="font-size: 15px;">{{$announce[0]['creator_name']}}</span>
-                <span class="description">{!! date('d M Y', strtotime($announce[0]['created_at'])) !!}</span>
+                <span class="description">{!! date('d M Y', strtotime($announce[0]['created_announce'])) !!}</span>
             </div>
             <br>
             <!-- post text -->
@@ -98,11 +98,13 @@
             @if($comment[0]['id_comment_announce'] != null)
             <div class="box-comment">
                 <!-- User image -->
-                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
+                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image"
+                    style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
                         {{$comment[0]['creator_comment_announce']}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_announce'])) !!}</span>
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment']))
+                            !!}</span>
                     </span><!-- /.username -->
                     {{$comment[0]['comment_announce']}}
                 </div>
@@ -149,15 +151,14 @@
         <div class="box-header">
             <h3 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h3>
             <!-- tools box -->
-            @if(Auth::user()->id == $assign[0]['user_id'])
+            @if(Auth::user()->id == $assign[0]['assign_user_id'])
             <div class="pull-right box-tools">
                 <!-- button with a dropdown -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bars"></i></button>
                     <ul class="dropdown-menu pull-right" role="menu">
-                        <li><a
-                                href="{{ url('assignment', $assign[0]['id_assign'] . '-editAssignment')}}">Edit</a>
+                        <li><a href="{{ url('assignment', $assign[0]['id_assign'] . 'editScoreAssignmnet')}}">Edit</a>
                         </li>
                         <li><a href="#" data-toggle="modal" data-target="#modal-assign">Delete</a></li>
                     </ul>
@@ -174,7 +175,7 @@
                     class="btn btn-primary pull-right">View assignment</a>
                 <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
                 <span class="username" style="font-size: 15px;">{{$assign[0]['creator_name']}}</span>
-                <span class="description">{!! date('d M Y', strtotime($assign[0]['created_at'])) !!}</span>
+                <span class="description">{!! date('d M Y', strtotime($assign[0]['created_assign'])) !!}</span>
             </div>
             <br>
             <!-- post text -->
@@ -197,11 +198,13 @@
             @if($comment[0]['id_comment_assign'] != null)
             <div class="box-comment">
                 <!-- User image -->
-                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image" style="margin-top: 4px;">
+                <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}" alt="User Image"
+                    style="margin-top: 4px;">
                 <div class="comment-text">
                     <span class="username">
                         {{$comment[0]['creator_comment_assign']}}
-                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment_assign'])) !!}</span>
+                        <span class="text-muted pull-right">{!! date('d M Y', strtotime($comment[0]['created_comment']))
+                            !!}</span>
                     </span><!-- /.username -->
                     {{$comment[0]['comment_assign']}}
                 </div>
@@ -255,12 +258,14 @@
             <div class="modal-body">
                 <h4>Are you sure want to remove this announcement from class?</h4>
             </div>
+            @if($announcement->count() > 0)
             <div class="modal-footer">
-                <form method="get" action="{{ route('deleteAnnouncement') }}">
+                <form method="get" action="{{ url('announcement', $announce[0]['id_announce'] . '-deleteAnnouncement') }}">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
+            @endif
         </div>
         <!-- /.modal-content -->
     </div>
@@ -268,7 +273,6 @@
 </div>
 <!-- /.modal -->
 <!-- DELETE ANNOUNCEMENT MODALS -->
-
 
 <!-- DELETE ASSIGNMENT MODALS -->
 <div class="modal fade" id="modal-assign">
@@ -282,12 +286,14 @@
             <div class="modal-body">
                 <h4>Are you sure want to remove this assignment from class?</h4>
             </div>
+            @if($assignment->count() > 0)
             <div class="modal-footer">
-                <form method="post" action="">
+                <form method="post" action="{{ url('assignment', $assign[0]['id_assign'] . '-deleteAssignment') }}">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
+            @endif
         </div>
         <!-- /.modal-content -->
     </div>

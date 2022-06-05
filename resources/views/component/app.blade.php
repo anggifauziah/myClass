@@ -191,43 +191,43 @@
             });
         });
 
-        const dt = new DataTransfer(); // Permet de manipuler les fichiers de l'input file
+        const dt = new DataTransfer(); // Digunakan untuk menangani file dari file input
 
-        $("#attachment").on('change', function (e) {
+        $("#file-input").on('change', function (e) {
             for (var i = 0; i < this.files.length; i++) {
-                let fileBloc = $('<span/>', {
+                let file_block = $('<span/>', {
                         class: 'file-block'
                     }),
-                    fileName = $('<span/>', {
+                    file_name = $('<span/>', {
                         class: 'name',
                         text: this.files.item(i).name
                     });
-                fileBloc.append('<span class="file-delete"><span><i class="fa fa-times-circle"</span></span>')
-                    .append(fileName);
-                $("#filesList > #files-names").append(fileBloc);
+                file_block.append('<span class="file-delete"><span><i class="fa fa-times-circle"</span></span>')
+                    .append(file_name);
+                $("#files-list > #files-names").append(file_block);
             };
-            // Ajout des fichiers dans l'objet DataTransfer
+            // Tambahkan file ke objek DataTransfer
             for (let file of this.files) {
                 dt.items.add(file);
             }
-            // Mise à jour des fichiers de l'input file après ajout
+            // Perbarui file dari file input setelah penambahan
             this.files = dt.files;
 
-            // EventListener pour le bouton de suppression créé
+            // EventListener untuk tombol hapus yang dibuat
             $('span.file-delete').click(function () {
                 let name = $(this).next('span.name').text();
-                // Supprimer l'affichage du nom de fichier
+                //  Tampilan nama file
                 $(this).parent().remove();
                 for (let i = 0; i < dt.items.length; i++) {
-                    // Correspondance du fichier et du nom
+                    // Cocokkan file dan nama
                     if (name === dt.items[i].getAsFile().name) {
-                        // Suppression du fichier dans l'objet DataTransfer
+                        // Hapus file di objek DataTransfer
                         dt.items.remove(i);
                         continue;
                     }
                 }
-                // Mise à jour des fichiers de l'input file après suppression
-                document.getElementById('attachment').files = dt.files;
+                // Perbarui file dari file input setelah penghapusan
+                document.getElementById('file-input').files = dt.files;
             });
         });
     </script>

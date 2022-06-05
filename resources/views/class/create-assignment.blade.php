@@ -56,13 +56,13 @@
 
                     <!-- File Input -->
                     <div>
-                        <label for="attachment">
+                        <label for="file-input">
                             <a class="btn btn-info" role="button" aria-disabled="false">
                                 <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
                         </label>
-                        <input type="file" name="file[]" id="attachment" style="visibility: hidden;" multiple>
+                        <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
                         <p id="files-area">
-                            <span id="filesList">
+                            <span id="files-list">
                                 <span id="files-names"></span>
                             </span>
                         </p>

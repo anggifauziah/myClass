@@ -65,6 +65,7 @@
                         <div class="form-group has-feedback">
                             <input id="date" type="date" class="form-control" name="date" required autocomplete="date"
                                 placeholder="{{ __('Date') }}">
+                            <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <select class="form-control" name="level" required>

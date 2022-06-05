@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use DB;
 
 
 class ClassController extends Controller
@@ -82,19 +83,25 @@ class ClassController extends Controller
         $announcements = Classes::join('announcement', 'announcement.class_id', '=', 'classes.id_class')
                         ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
                         ->leftJoin('comment_announcement', 'comment_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->select('announcement.created_at as created_announce', 'comment_announcement.created_at as created_comment',
+                                 'announcement.*', 'classes.*', 'file_announcement.*', 'comment_announcement.*',
+                                 'announcement.user_id as announce_user_id')
                         ->where('class_id', $datas->id_class)
                         ->orderBy('announcement.created_at', 'DESC')->get();
         $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                         ->leftJoin('comment_assignment', 'comment_assignment.assign_id', '=', 'assignment.id_assign')
+                        ->select('assignment.created_at as created_assign', 'comment_assignment.created_at as created_comment',
+                                 'assignment.*', 'classes.*', 'file_assignment.*', 
+                                 'comment_assignment.*', 'assignment.user_id as assign_user_id')
                         ->where('classes.id_class', $datas->id_class)
                         ->orderBy('assignment.created_at', 'DESC')->get();
         $students_name = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
-                        ->where('classes.class_code', $code)
+                        ->where('classes.id_class', $datas->id_class)
                         ->get();
 
-        // return $announcements;
+        // return $assignments;
         return view('class.class', [
                     'datas' => $datas,
                     'announcement' => $announcements,
@@ -116,11 +123,11 @@ class ClassController extends Controller
         $this->data['submnActive'] = "";
         $this->data['smallTitle'] = "";
 
-        $guru = Teacher::where('user_id', Auth::user()->id)->first();
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
         $datas = Classes::join('teachers', 'teachers.id_teacher', '=', 'classes.teacher_id')
-                        ->where('classes.teacher_id', $guru->id_teacher)
+                        ->where('classes.teacher_id', $teacher->id_teacher)
                         ->first();
-        return view('classes.create-class', ['datas' => $datas])->with('data',$this->data);
+        return view('classes.create-class', ['teacher' => $teacher, 'datas' => $datas])->with('data',$this->data);
     }
 
     /**
@@ -135,11 +142,11 @@ class ClassController extends Controller
         $this->data['submnActive'] = "";
         $this->data['smallTitle'] = "";
 
-        $murid = Students::where('user_id', Auth::user()->id)->first();
+        $student = Students::where('user_id', Auth::user()->id)->first();
         $datas = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
-                ->where('class_of_students.student_id', $murid->id_student)
+                ->where('class_of_students.student_id', $student->id_student)
                 ->first();
-        return view('classes.join-class', ['datas' => $datas])->with('data',$this->data);
+        return view('classes.join-class', ['student' => $student, 'datas' => $datas])->with('data',$this->data);
     }
 
     /**
@@ -189,7 +196,6 @@ class ClassController extends Controller
                     return redirect()->route('class');
                 }
             }
-            
         }
         elseif(Auth::user()->level_user == 2){
             $rules = [
@@ -273,8 +279,11 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_classOfStudents)
     {
-        //
+        return 'p';
+        DB::table("class_of_students")->where("id_classOfStudents", $id_classOfStudents)->delete();
+
+        return redirect()->back()->with('success', 'Berhasil delete');
     }
 }

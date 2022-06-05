@@ -8,6 +8,7 @@ use App\Models\FileAnnouncement;
 use App\Models\CommentAnnouncement;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use DB;
 
 class AnnouncementController extends Controller
 {
@@ -176,14 +177,11 @@ class AnnouncementController extends Controller
      */
     public function destroy($id_announce)
     {
-        $del_announce = Classes::join('announcement', 'announcement.class_id', '=', 'classes.id_class')
-                        ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
-                        ->join('comment_announcement', 'comment_announcement.announce_id', '=', 'announcement.id_announce')
-                        ->where('class_id', $datas->id_class)
-                        ->where('announcement.id_announce', $id_announce)
-                        ->where('announce_id', $id_announce)
-                        ->delete();
-        $del_announce->delete();
-        return redirect()->back();
+        // return 'aku malesno';
+        DB::table("announcement")->where("id_announce", $id_announce)->delete();
+        DB::table("file_announcement")->where("announce_id", $id_announce)->delete();
+        DB::table("comment_announcement")->where("announce_id", $id_announce)->delete();
+
+        return redirect()->back()->with('success', 'Berhasil delete');
     }
 }

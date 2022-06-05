@@ -9,6 +9,7 @@
         <h3 class="box-title">Edit assignment</h3>
     </div>
     <!-- /.box-header -->
+    @foreach($edit_assign->groupBy('id_assign') as $assign)
     <div class="row">
         <form method="post" action="" enctype="multipart/form-data">
             <!-- left column -->
@@ -18,7 +19,7 @@
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                            name="title" value="" required autocomplete="title" autofocus
+                            name="title" value="{{$assign[0]['assign_title']}}" required autocomplete="title" autofocus
                             placeholder="{{ __('Title') }}">
                         @error('title')
                         <span class="invalid-feedback" role="alert">
@@ -29,7 +30,7 @@
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="ckeditor" class="ckeditor @error('ckeditor') is-invalid @enderror" name="ckeditor"
-                            required autofocus></textarea>
+                            required autofocus>{{$assign[0]['assign_content']}}</textarea>
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -47,27 +48,28 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime" value="">
+                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime" value="{{$assign[0]['assign_deadline']}}">
                         </div>
                         <!-- /.input group -->
                     </div>
                     <!-- /.form group -->
 
                     <!-- File Input -->
-                    <div>
-                        <label for="attachment">
-                            <a class="btn btn-info" role="button" aria-disabled="false">
-                                <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                        </label>
-                        <input type="file" name="file[]" id="attachment" style="visibility: hidden;" multiple>
-                        <p id="files-area">
-                            <span id="filesList">
-                                <span id="files-names"></span>
-                            </span>
-                        </p>
-                    </div>
-                    <!-- File Input -->
-
+                <div>
+                    <label for="file-input">
+                        <a class="btn btn-info" role="button" aria-disabled="false">
+                            <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
+                    </label>
+                    <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
+                    @foreach($assign as $item)
+                    <p id="files-area">
+                        <span id="files-list">
+                            <span id="files-names">{{$item->filename}}</span>
+                        </span>
+                    </p>
+                    @endforeach
+                </div>
+                <!-- File Input -->
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer pull-right">
@@ -78,6 +80,7 @@
             <!--/.col (right) -->
         </form>
     </div>
+    @endforeach
 </div>
 
 @endsection

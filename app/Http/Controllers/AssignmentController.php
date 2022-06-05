@@ -11,10 +11,12 @@ use App\Models\Assignment;
 use App\Models\FileAssignment;
 use App\Models\StudentsAssignment;
 use App\Models\CommentAssignment;
+use App\Models\FileStudentsAssignment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use DB;
 
 class AssignmentController extends Controller
 {
@@ -54,14 +56,14 @@ class AssignmentController extends Controller
                     ->select('assignment.created_at as created_date', 'classes.*', 'file_assignment.*', 'assignment.*')
                     ->orderBy('assignment.created_at', 'DESC')->get();
             }else{
-                $view_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
-                    ->leftJoin('assignment', 'assignment.id_assign', '=', 'students_assignment.assign_id')
+                $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
                     ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
+                    ->where('classes.class_code', $code)
                     ->where('assignment.id_assign', $id_assign)
-                    ->where('students.id_student', $student->id_student)
-                    ->select('assignment.created_at as created_date', 'file_assignment.*', 'assignment.*')
+                    ->select('assignment.created_at as created_date', 'classes.*', 'file_assignment.*', 'assignment.*')
                     ->orderBy('assignment.created_at', 'DESC')->get();
                 $student_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->join('file_students_assignment', 'file_students_assignment.student_assign_id', '=', 'students_assignment.id_student_assign')
                     ->where('students_assignment.assign_id', $id_assign)
                     ->where('students_assignment.student_id', $student->id_student)
                     ->get();
@@ -72,6 +74,7 @@ class AssignmentController extends Controller
                     ->where('assignment.id_assign', $id_assign)
                     ->orderBy('assignment.created_at', 'DESC')->get();
             $student_assign = StudentsAssignment::join('students', 'students.id_student', '=', 'students_assignment.student_id')
+                    ->join('file_students_assignment', 'file_students_assignment.student_assign_id', '=', 'students_assignment.id_student_assign')
                     ->where('students_assignment.assign_id', $id_assign)->get();
         }
 
@@ -202,15 +205,19 @@ class AssignmentController extends Controller
 
         if($request->hasfile('file'))
         {
+            $student_assign = new StudentsAssignment;
+            $student_assign->assign_id = $request->id_assign;
+            $student_assign->student_id = $murid->id_student;
+            $student_assign->save();
+
             foreach($request->file as $file)
             {
-                $name=$file->getClientOriginalName();
+                $file_student_assign = new FileStudentsAssignment;
+                $name = $file->getClientOriginalName();
                 $file->move(public_path().'/files/students_assignment', $name);
-                $student_assign = new StudentsAssignment;
-                $student_assign->assign_id = $request->id_assign;
-                $student_assign->student_id = $murid->id_student;
-                $student_assign->student_assign_file = $name;
-                $student_assign->save();
+                $file_student_assign->student_assign_id = $student_assign->id_student_assign;
+                $file_student_assign->filename_student_assign = $name;
+                $file_student_assign->save();
             }
         }
         return redirect()->back();
@@ -293,9 +300,15 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateScore(Request $request)
     {
-        //
+        // return "p";
+        $edit_score = StudentsAssignment::where('assign_id', $request->assign_id)
+                                        ->where('student_id', $request->student_id)->first();
+        $edit_score->student_assign_score= $request->score;
+        $edit_score->save();
+        
+        return redirect()->back();
     }
 
     /**
@@ -304,8 +317,14 @@ class AssignmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_assign)
     {
-        return 'anggi malesin';
+        // return 'p';
+        DB::table("assignment")->where("id_assign", $id_assign)->delete();
+        DB::table("file_assignment")->where("assign_id", $id_assign)->delete();
+        DB::table("comment_assignment")->where("assign_id", $id_assign)->delete();
+        DB::table("students_assignment")->where("assign_id", $id_assign)->delete();
+
+        return redirect()->back()->with('success', 'Berhasil delete');
     }
 }

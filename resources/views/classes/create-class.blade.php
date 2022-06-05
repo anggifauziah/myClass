@@ -14,7 +14,7 @@
         <!-- users -->
         <div class="user-block">
             <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-            <span class="username" style="font-size: 15px; padding-top: 12px;">{{$datas->teacher_name}}</span>
+            <span class="username" style="font-size: 15px; padding-top: 12px;">{{$teacher->teacher_name}}</span>
         </div>
         <br>
         <!-- FORM CREATE CLASS -->
