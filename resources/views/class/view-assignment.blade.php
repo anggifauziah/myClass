@@ -25,7 +25,7 @@
                                     strtotime($assign[0]['assign_deadline'])) !!}</b></h5>
                         </span>
                         <span><b>
-                                <h5><b>{{$student_assign[0]['student_assign_score']}} poin</b></h5>
+                                <h5><b>{{$student_assign->count() == 0 ? '0' : student_assign[0]['student_assign_score']}} poin</b></h5>
                             </b></span>
                         <hr>
                     </div>
@@ -110,8 +110,8 @@
                                     <!-- <span class="pull-right">Assigned</span> -->
                                 </div>
                                 <div class="box-body">
-                                    @foreach($student_assign->groupBy('assign_id') as $assign)
-                                    @foreach($assign as $items)
+                                    @foreach($student_assign->groupBy('assign_id') as $assigns)
+                                    @foreach($assigns as $items)
                                     <div class="attachment-block clearfix">
                                         <h4 class="attachment-heading">
                                             <a href="#">{{$items->filename_student_assign}}</a>
@@ -168,11 +168,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($student_assign->groupBy('student_assign_id') as $assign)
+                        @foreach($student_assign->groupBy('student_assign_id') as $assigns)
                         <tr>
-                            <td>{{$assign[0]['student_name']}}</td>
+                            <td>{{$assigns[0]['student_name']}}</td>
                             <td>
-                                @foreach($assign as $items)
+                                @foreach($assigns as $items)
                                 <div class="attachment-block clearfix">
                                     <h5 class="attachment-heading">
                                         <a href="#">{{$items->filename_student_assign}}<br></a>
@@ -180,7 +180,7 @@
                                 </div>
                                 @endforeach
                             </td>
-                            <td>{{$assign[0]['student_assign_score']}}</td>
+                            <td>{{$assigns[0]['student_assign_score']}}</td>
                             <td>
                                 <a href="#" data-toggle="modal" data-target="#modal-score" name="score"
                                     class="btn btn-warning">
@@ -215,9 +215,9 @@
                                                     @enderror
                                                 </div>
                                                 <input type="hidden" name="assign_id"
-                                                    value="{{$assign[0]['assign_id']}}">
+                                                    value="{{$assigns[0]['assign_id']}}">
                                                 <input type="hidden" name="student_id"
-                                                    value="{{$assign[0]['student_id']}}">
+                                                    value="{{$assigns[0]['student_id']}}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default pull-left"
