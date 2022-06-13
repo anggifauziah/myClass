@@ -75,36 +75,28 @@ class RegisterController extends Controller
             'level_user' => $data['level'],
         ]);
 
+        if($request->hasfile('photo')){
+            $photo = $request->file('photo');
+            $name = $photo->getClientOriginalName();
+            $photo->move(public_path().'/files/user_photo', $name);
+        }
+
         if($data['level'] == 1){
             Students::create([
                 'user_id' => $user->id,
                 'student_name' => $data['name'],
                 'student_gender' => $data['gender'],
                 'student_birthOfdate' => $data['date'],
+                'student_photo' => $name,
             ]);
-            if($request->hasfile('photo')){
-                $studentPhoto = new Students;
-                $photo = $request->file('photo');
-                $name = $photo->getClientOriginalName();
-                $photo->move(public_path().'/files/user_photo', $name);
-                $studentPhoto->student_photo = $name;
-                $studentPhoto->save();
-            }
         }else{
             Teacher::create([
                 'user_id' => $user->id,
                 'teacher_name' => $data['name'],
                 'teacher_gender' => $data['gender'],
                 'teacher_birthOfdate' => $data['date'],
+                'teacher_photo' => $name,
             ]);
-            if($request->hasfile('photo')){
-                $teacherPhoto = new Teacher;
-                $photo = $request->file('photo');
-                $name = $photo->getClientOriginalName();
-                $photo->move(public_path().'/files/user_photo', $name);
-                $teacherPhoto->teacher_photo = $name;
-                $teacherPhoto->save();
-            }
         }
         return $user;
     }

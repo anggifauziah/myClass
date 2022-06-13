@@ -41,7 +41,7 @@
  transform: translate(-50%, -50%);">
             <p class="login-box-msg">Register to access all features</p>
             <div class="row">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-6">
                         <div class="form-group has-feedback">
