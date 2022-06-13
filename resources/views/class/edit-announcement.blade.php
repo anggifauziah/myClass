@@ -20,19 +20,20 @@
                     <a class="btn btn-info" role="button" aria-disabled="false">
                         <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
                 </label>
-                @foreach($announce as $item)
                 <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
+                @foreach($announce as $item)
                 <p id="files-area">
                     <span id="files-list">
                         <span id="files-names">{{$item->filename}}</span>
                     </span>
                 </p>
                 @endforeach
-            </div>
+            </div><br>
             <!-- File Input -->
-            <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
-            <button type="submit" class="btn btn-primary">Posting</button>
-
+            <div class="box-footer pull-left">
+                <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary">Posting</button>
+            </div>
         </form>
     </div><!-- /.box-body -->
     @endforeach

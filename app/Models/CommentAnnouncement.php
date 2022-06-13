@@ -15,7 +15,6 @@ class CommentAnnouncement extends Model
         'announce_id',
         'user_id',
         'creator_comment_announce',
-        'parent_id',
         'comment_announce'
     ];
 

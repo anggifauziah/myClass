@@ -49,28 +49,29 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime" value="{{$assign[0]['assign_deadline']}}">
+                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime"
+                                value="{{$assign[0]['assign_deadline']}}">
                         </div>
                         <!-- /.input group -->
                     </div>
                     <!-- /.form group -->
 
                     <!-- File Input -->
-                <div>
-                    <label for="file-input">
-                        <a class="btn btn-info" role="button" aria-disabled="false">
-                            <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                    </label>
-                    <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
-                    @foreach($assign as $item)
-                    <p id="files-area">
-                        <span id="files-list">
-                            <span id="files-names">{{$item->filename}}</span>
-                        </span>
-                    </p>
-                    @endforeach
-                </div>
-                <!-- File Input -->
+                    <div>
+                        <label for="file-input">
+                            <a class="btn btn-info" role="button" aria-disabled="false">
+                                <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
+                        </label>
+                        <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
+                        @foreach($assign as $item)
+                        <p id="files-area">
+                            <span id="files-list">
+                                <span id="files-names">{{$item->filename}}</span>
+                            </span>
+                        </p>
+                        @endforeach
+                    </div>
+                    <!-- File Input -->
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer pull-right">

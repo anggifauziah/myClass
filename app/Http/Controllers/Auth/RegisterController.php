@@ -66,6 +66,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $request = request();
+
         $user = User::create([
             'username' => $data['username'],
             'email' => $data['email'],
@@ -80,6 +82,14 @@ class RegisterController extends Controller
                 'student_gender' => $data['gender'],
                 'student_birthOfdate' => $data['date'],
             ]);
+            if($request->hasfile('photo')){
+                $studentPhoto = new Students;
+                $photo = $request->file('photo');
+                $name = $photo->getClientOriginalName();
+                $photo->move(public_path().'/files/user_photo', $name);
+                $studentPhoto->student_photo = $name;
+                $studentPhoto->save();
+            }
         }else{
             Teacher::create([
                 'user_id' => $user->id,
@@ -87,8 +97,15 @@ class RegisterController extends Controller
                 'teacher_gender' => $data['gender'],
                 'teacher_birthOfdate' => $data['date'],
             ]);
+            if($request->hasfile('photo')){
+                $teacherPhoto = new Teacher;
+                $photo = $request->file('photo');
+                $name = $photo->getClientOriginalName();
+                $photo->move(public_path().'/files/user_photo', $name);
+                $teacherPhoto->teacher_photo = $name;
+                $teacherPhoto->save();
+            }
         }
-        
         return $user;
     }
 }

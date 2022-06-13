@@ -42,21 +42,24 @@
                     <!-- /.box-body -->
                     <div class="box-footer box-comments">
                         <!-- /.box-comment -->
-                        @foreach($comment_assign as $comment)
+                        @foreach($assign->groupBy('id_comment_assign') as $comment)
+                        @if($comment[0]['id_comment_assign'] != null)
                         <div class="box-comment">
                             <!-- User image -->
                             <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
                                 alt="User Image" style="margin-top: 4px;">
                             <div class="comment-text">
                                 <span class="username">
-                                    {{$comment->creator_comment_assign}}
+                                    {{$comment[0]['creator_comment_assign']}}
                                     <span class="text-muted pull-right">{!! date('d M Y',
-                                        strtotime($comment->created_comment_assign)) !!}</span>
+                                        strtotime($comment[0]['created_comment']))
+                                        !!}</span>
                                 </span><!-- /.username -->
-                                {{$comment->comment_assign}}
+                                {{$comment[0]['comment_assign']}}
                             </div>
                             <!-- /.comment-text -->
                         </div>
+                        @endif
                         @endforeach
                         <!-- /.box-comment -->
                         <!-- /.box-footer -->
@@ -68,9 +71,9 @@
                                 <!-- .img-push is used to add margin to elements next to floating images -->
                                 <div class="img-push input-group margin">
                                     <input id="comment" type="text"
-                                        class="form-control input-sm  @error('comment') is-invalid @enderror"
+                                        class="form-control input-sm @error('comment') is-invalid @enderror"
                                         name="comment" value="{{ old('comment') }}" required autocomplete="comment"
-                                        placeholder="{{ __('Press enter to post comment') }}">
+                                        placeholder="{{ __('Click send to post comment') }}">
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-info btn-flat btn-sm">
                                             <i class="fa fa-send"></i> Send
@@ -151,7 +154,7 @@
         @elseif(Auth::user()->level_user == 2)
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">{{$assign[0]['assign_title']}}</h3>
+                <h3 class="box-title"><i class="fa fa-file-text"></i> {{$assign[0]['assign_title']}}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -188,7 +191,8 @@
                             <!-- EDIT SCORE MODALS -->
                             <div class="modal fade" id="modal-score">
                                 <div class="modal-dialog">
-                                    <form method="post" action="{{ route('editScoreAssignment') }}" enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('editScoreAssignment') }}"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -210,8 +214,10 @@
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                <input type="hidden" name="assign_id" value="{{$assign[0]['assign_id']}}">
-                                                <input type="hidden" name="student_id" value="{{$assign[0]['student_id']}}">
+                                                <input type="hidden" name="assign_id"
+                                                    value="{{$assign[0]['assign_id']}}">
+                                                <input type="hidden" name="student_id"
+                                                    value="{{$assign[0]['student_id']}}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default pull-left"

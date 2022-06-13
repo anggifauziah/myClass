@@ -15,7 +15,8 @@ class Students extends Model
         'user_id',
         'student_name',
         'student_gender',
-        'student_birthOfdate'
+        'student_birthOfdate',
+        'student_photo'
     ];
 
     public function User()

@@ -15,7 +15,6 @@ class CommentAssignment extends Model
         'assign_id',
         'user_id',
         'creator_comment_assign',
-        'parent_id',
         'comment_assign'
     ];
 

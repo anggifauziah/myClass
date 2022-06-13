@@ -19,6 +19,7 @@
                     <label for="file-input">
                         <a class="btn btn-info" role="button" aria-disabled="false">
                             <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
+                        <span id="span_file">File size max. 5 MB</span>
                     </label>
                     <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
                     <p id="files-area">

@@ -124,7 +124,7 @@
                         <input id="comment" type="text"
                             class="form-control input-sm  @error('comment') is-invalid @enderror" name="comment"
                             value="{{ old('comment') }}" required autocomplete="comment"
-                            placeholder="{{ __('Press enter to post comment') }}">
+                            placeholder="{{ __('Click send to post comment') }}">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-info btn-flat btn-sm">
                                 <i class="fa fa-send"></i> Send
@@ -252,9 +252,9 @@
                     <!-- .img-push is used to add margin to elements next to floating images -->
                     <div class="img-push input-group margin">
                         <input id="comment" type="text"
-                            class="form-control input-sm  @error('comment') is-invalid @enderror" name="comment"
+                            class="form-control input-sm @error('comment') is-invalid @enderror" name="comment"
                             value="{{ old('comment') }}" required autocomplete="comment"
-                            placeholder="{{ __('Press enter to post comment') }}">
+                            placeholder="{{ __('Click send to post comment') }}">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-info btn-flat btn-sm">
                                 <i class="fa fa-send"></i> Send

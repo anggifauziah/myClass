@@ -20,7 +20,6 @@
         <!-- FORM CREATE CLASS -->
         <form method="POST" action="{{ route('store-class') }}">
             @csrf
-            <h4>Create class</h4>
             <div class="form-group">
                 <label>Class Name</label>
                 <input id="class_name" type="text" class="form-control @error('class_name') is-invalid @enderror"
