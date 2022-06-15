@@ -82,6 +82,13 @@ class AnnouncementController extends Controller
                 $file_announce->filename = $name;
                 $file_announce->save();
             }
+        } else {
+            $announce= new Announcement;
+            $announce->class_id = $request->class_id;
+            $announce->user_id = $request->user_id;
+            $announce->creator_name = $request->creator_name;
+            $announce->announce_content = $request->ckeditor;
+            $announce->save();
         }
         return redirect()->back();
     }
@@ -148,7 +155,7 @@ class AnnouncementController extends Controller
         $this->data['smallTitle'] = "";
         
         $edit_announce = Announcement::join('classes', 'classes.id_class', '=', 'announcement.class_id')
-                        ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->leftJoin('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
                         ->where('announcement.id_announce', $id_announce)->get();
         //return $edit_announce;
 

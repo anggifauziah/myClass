@@ -1,5 +1,5 @@
 <!-- CLASSWORK -->
-<div class="tab-pane tabcontent" id="Classwork">
+<div class="tab-pane {{ session('tabs') == 'classwork' ? 'active' : '' }} tabcontent" id="Classwork">
     <div class="box box-solid">
         @if(Auth::user()->level_user == 2)
         <a href="{{url('assignment',$code.'-'.'create-assignment')}}" class="btn btn-primary"><i class="fa fa-plus"></i>

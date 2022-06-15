@@ -25,24 +25,28 @@
                                     strtotime($assign[0]['assign_deadline'])) !!}</b></h5>
                         </span>
                         <span><b>
-                                <h5><b>{{$student_assign->count() == 0 ? '0' : student_assign[0]['student_assign_score']}} poin</b></h5>
+                                <h5><b>{{$student_assign->count() == 0 ? '0' : $student_assign[0]['student_assign_score']}}
+                                        poin</b></h5>
                             </b></span>
                         <hr>
                     </div>
                     {!! html_entity_decode($assign[0]['assign_content']) !!}
                     <!-- Attachment -->
-                    @foreach($assign as $items)
+                    @foreach($assign->groupBy('id_file_assign') as $items)
+                    @if($items[0]['filename'] != null)
                     <div class="attachment-block clearfix">
                         <h4 class="attachment-heading">
-                            <a href="#">{{$items->filename}}</a>
+                            <a href="{{ url('/files/assignment/'.$items[0]['filename']) }}">{{$items[0]['filename']}}</a>
                         </h4>
+                        <!-- /.attachment-pushed -->
                     </div>
+                    @endif
                     @endforeach
                     <!-- /.attachment-block -->
                     <!-- /.box-body -->
                     <div class="box-footer box-comments">
                         <!-- /.box-comment -->
-                        @foreach($assign->groupBy('id_comment_assign') as $comment)
+                        @foreach($comment_assign->groupBy('id_comment_assign') as $comment)
                         @if($comment[0]['id_comment_assign'] != null)
                         <div class="box-comment">
                             <!-- User image -->
@@ -52,7 +56,7 @@
                                 <span class="username">
                                     {{$comment[0]['creator_comment_assign']}}
                                     <span class="text-muted pull-right">{!! date('d M Y',
-                                        strtotime($comment[0]['created_comment']))
+                                        strtotime($comment[0]['created_comment_assign']))
                                         !!}</span>
                                 </span><!-- /.username -->
                                 {{$comment[0]['comment_assign']}}
@@ -114,7 +118,7 @@
                                     @foreach($assigns as $items)
                                     <div class="attachment-block clearfix">
                                         <h4 class="attachment-heading">
-                                            <a href="#">{{$items->filename_student_assign}}</a>
+                                            <a href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}</a>
                                         </h4>
                                     </div>
                                     @endforeach
@@ -175,7 +179,7 @@
                                 @foreach($assigns as $items)
                                 <div class="attachment-block clearfix">
                                     <h5 class="attachment-heading">
-                                        <a href="#">{{$items->filename_student_assign}}<br></a>
+                                        <a href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}<br></a>
                                     </h5>
                                 </div>
                                 @endforeach

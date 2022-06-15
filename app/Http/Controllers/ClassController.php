@@ -83,7 +83,7 @@ class ClassController extends Controller
         }
 
         $announcements = Classes::join('announcement', 'announcement.class_id', '=', 'classes.id_class')
-                        ->join('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->leftjoin('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
                         ->leftJoin('comment_announcement', 'comment_announcement.announce_id', '=', 'announcement.id_announce')
                         ->select('announcement.created_at as created_announce', 'comment_announcement.created_at as created_comment',
                                  'announcement.*', 'classes.*', 'file_announcement.*', 'comment_announcement.*',
@@ -91,24 +91,24 @@ class ClassController extends Controller
                         ->where('class_id', $datas->id_class)
                         ->orderBy('announcement.created_at', 'DESC')->get();
         $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
-                        ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
+                        ->leftjoin('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                         ->leftJoin('comment_assignment', 'comment_assignment.assign_id', '=', 'assignment.id_assign')
                         ->select('assignment.created_at as created_assign', 'comment_assignment.created_at as created_comment',
                                  'assignment.*', 'classes.*', 'file_assignment.*', 
                                  'comment_assignment.*', 'assignment.user_id as assign_user_id')
                         ->where('classes.id_class', $datas->id_class)
                         ->orderBy('assignment.created_at', 'DESC')->get();
-        $students_name = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
+        $students = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
                         ->join('classes', 'classes.id_class', '=', 'class_of_students.class_id')
                         ->where('classes.id_class', $datas->id_class)
                         ->get();
 
-        // return $assignments;
+        // return $students;
         return view('class.class', [
                     'datas' => $datas,
                     'announcement' => $announcements,
                     'assignment' => $assignments,
-                    'students_name' => $students_name,
+                    'students' => $students,
                     'code' => $code
                     ])->with('data', $this->data);
     }

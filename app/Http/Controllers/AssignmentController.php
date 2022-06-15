@@ -50,14 +50,14 @@ class AssignmentController extends Controller
                     ->orderBy('assignment.created_at', 'DESC')->get();
             if($student_assign->count() < 1){
                  $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
-                    ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
+                    ->leftJoin('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                     ->where('classes.class_code', $code)
                     ->where('assignment.id_assign', $id_assign)
                     ->select('assignment.created_at as created_date', 'classes.*', 'file_assignment.*', 'assignment.*')
                     ->orderBy('assignment.created_at', 'DESC')->get();
             }else{
                 $view_assign = Assignment::join('classes', 'classes.id_class', '=', 'assignment.class_id')
-                    ->join('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
+                    ->leftJoin('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                     ->where('classes.class_code', $code)
                     ->where('assignment.id_assign', $id_assign)
                     ->select('assignment.created_at as created_date', 'classes.*', 'file_assignment.*', 'assignment.*')
@@ -132,6 +132,7 @@ class AssignmentController extends Controller
         $this->data['menuActive'] = $this->menuActive;
         $this->data['submnActive'] = $this->submnActive;
         $this->data['smallTitle'] = "";
+        $this->data['tabs'] = "classwork";
         
         $rules = [
             'title' => 'required',
@@ -172,8 +173,17 @@ class AssignmentController extends Controller
                 $file_assign->filename = $name;
                 $file_assign->save();
             }
+        } else {
+            $assign = new Assignment;
+            $assign->class_id = $request->class_id;
+            $assign->user_id = $request->user_id;
+            $assign->creator_name = $request->creator_name;
+            $assign->assign_title = $request->title;
+            $assign->assign_content = $request->ckeditor;
+            $assign->assign_deadline = $request->datetime;
+            $assign->save();
         }
-        return redirect()->route('class');
+        return redirect()->back()->with('tabs', 'classwork');
     }
 
     /**
@@ -190,7 +200,7 @@ class AssignmentController extends Controller
         $this->data['smallTitle'] = "";
         
         $rules = [
-            'file.*' => 'mimes:doc,docx,DOCX,PDF,pdf,jpg,jpeg,png,pptx,PPTX|max:5000',
+            'file.*' => 'mimes:doc,docx,DOCX,pdf,PDF,pptx,PPTX,xlsx,XLSX,csv,CSV|max:5000',
         ];
 
         $validator = Validator::make($request->all(), $rules);

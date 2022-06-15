@@ -62,7 +62,8 @@
                         <li><a
                                 href="{{ url('announcement', $announce[0]['id_announce'] . '-editAnnouncement')}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-announce-{{$announce[0]['id_announce']}}">Delete</a></li>
+                        <li><a href="#" data-toggle="modal"
+                                data-target="#modal-announce-{{$announce[0]['id_announce']}}">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -82,12 +83,14 @@
             {!! html_entity_decode($announce[0]['announce_content']) !!}
             <!-- Attachment -->
             @foreach($announce->groupBy('id_file_announce') as $item)
+            @if($item[0]['filename'] != null)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$item[0]['filename']}}</a>
+                    <a href="{{ url('/files/announcement/'.$item[0]['filename']) }}">{{$item[0]['filename']}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
+            @endif
             @endforeach
             <!-- /.attachment-block -->
         </div>
@@ -155,7 +158,8 @@
                             <form method="post" action="{{ route('deleteAnnouncement') }}">
                                 @csrf
                                 <input type="hidden" name="id_announce" value="{{$announce[0]['id_announce']}}">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default pull-left"
+                                    data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
@@ -190,7 +194,8 @@
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li><a href="{{ url('assignment/'.'editAssignment-'.$assign[0]['id_assign'])}}">Edit</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#modal-assign-{{$assign[0]['id_assign']}}">Delete</a></li>
+                        <li><a href="#" data-toggle="modal"
+                                data-target="#modal-assign-{{$assign[0]['id_assign']}}">Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -212,12 +217,14 @@
             {!! html_entity_decode($assign[0]['assign_content']) !!}
             <!-- Attachment -->
             @foreach($assign->groupBy('id_file_assign') as $items)
+            @if($items[0]['filename'] != null)
             <div class="attachment-block clearfix">
                 <h4 class="attachment-heading">
-                    <a href="#">{{$items[0]['filename']}}</a>
+                    <a href="{{ url('/files/assignment/'.$items[0]['filename']) }}">{{$items[0]['filename']}}</a>
                 </h4>
                 <!-- /.attachment-pushed -->
             </div>
+            @endif
             @endforeach
             <!-- /.attachment-block -->
         </div>
@@ -286,7 +293,8 @@
                             <form method="post" action="{{ route('deleteAssignment') }}">
                                 @csrf
                                 <input type="hidden" name="assign_id" value="{{$assign[0]['id_assign']}}">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default pull-left"
+                                    data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
