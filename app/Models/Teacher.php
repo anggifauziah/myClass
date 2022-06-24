@@ -15,8 +15,7 @@ class Teacher extends Model
         'user_id',
         'teacher_name',
         'teacher_gender',
-        'teacher_birthOfdate',
-        'teacher_photo'
+        'teacher_birthOfdate'
     ];
 
     public function Classes()

@@ -3,7 +3,7 @@
     <h1>Teachers</h1>
     <hr>
     <div class="user-block">
-        <img class="img-responsive img-circle img-sm" src="{{ url('/files/user_photo/'.$datas->teacher_photo) }}"
+        <img class="img-responsive img-circle img-sm" src="{{ url('public/files/user_photo/'.$datas->user_photo) }}"
             alt="User Image">
         <span class="username" style="font-size: 15px; padding-top: 5px;">{{$datas->teacher_name}}</span>
     </div>
@@ -16,7 +16,7 @@
             @foreach($students as $student)
             <tr>
                 <td width="1250">
-                    <img class="img-responsive img-circle img-sm" src="{{ url('/files/user_photo/'.$student->student_photo) }}"
+                    <img class="img-responsive img-circle img-sm" src="{{ url('public/files/user_photo/'.$student->user_photo) }}"
                         alt="User Image">
                     <span class="username" style="font-size: 15px; padding-top: 5px;">{{$student->student_name}}</span>
                 </td>
@@ -32,7 +32,7 @@
             @foreach($students as $student)
             <tr>
                 <td width="1250">
-                    <img class="img-responsive img-circle img-sm" src="{{ url('/files/user_photo/'.$student->student_photo) }}"
+                    <img class="img-responsive img-circle img-sm" src="{{ url('public/files/user_photo/'.$student->user_photo) }}"
                         alt="User Image">
                     <span class="username" style="font-size: 15px; padding-top: 5px;">{{$student->student_name}}</span>
                 </td>

@@ -40,24 +40,21 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{asset('lte/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
+                        <img src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" class="user-image" alt="User Image">
                         <span class="hidden-xs">{{ Auth::user()->username }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{asset('lte/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                            <img src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" class="img-circle" alt="User Image">
 
                             <p>
                                 {{ Auth::user()->username }}
-                                <small>Member since {{Auth::user()->created_at}}</small>
+                                <small>Member since {!! date('d M Y', strtotime(Auth::user()->created_at)) !!}</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
                             <div class="pull-right">
                                 <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

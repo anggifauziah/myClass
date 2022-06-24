@@ -50,7 +50,7 @@
                         @if($comment[0]['id_comment_assign'] != null)
                         <div class="box-comment">
                             <!-- User image -->
-                            <img class="img-circle img-sm" src="{{asset('lte/dist/img/user5-128x128.jpg')}}"
+                            <img class="img-circle img-sm" src="{{ url('public/files/user_photo/'.$comment[0]['user_photo']) }}"
                                 alt="User Image" style="margin-top: 4px;">
                             <div class="comment-text">
                                 <span class="username">
@@ -71,7 +71,7 @@
                             <form action="{{ route('comment-assignment') }}" method="post">
                                 @csrf
                                 <img class="img-responsive img-circle img-sm"
-                                    src="{{asset('lte/dist/img/user4-128x128.jpg')}}" alt="Alt Text">
+                                    src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" alt="Alt Text">
                                 <!-- .img-push is used to add margin to elements next to floating images -->
                                 <div class="img-push input-group margin">
                                     <input id="comment" type="text"

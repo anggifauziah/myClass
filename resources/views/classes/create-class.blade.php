@@ -13,7 +13,7 @@
     <div class="box-body">
         <!-- users -->
         <div class="user-block">
-            <img class="img-circle" src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Image">
+            <img class="img-circle" src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" alt="User Image">
             <span class="username" style="font-size: 15px; padding-top: 12px;">{{$teacher->teacher_name}}</span>
         </div>
         <br>
@@ -63,6 +63,7 @@
                 <strong>{{ $message }}</strong>
             </span>
             @enderror
+            <a href="{{ url()->previous() }}" type="button" id="btn_reset" class="btn btn-default">Cancel</a>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
 

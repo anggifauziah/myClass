@@ -18,7 +18,7 @@
         </li>
         <li class="pull-left">
             <div class="user-block">
-                <img class="img-circle" style="width:40px; height:40px; margin-top:4px;" src="{{ url('/files/user_photo/'.$datas->teacher_photo) }}" alt="User Image">
+                <img class="img-circle" style="width:40px; height:40px; margin-top:4px;" src="{{ url('public/files/user_photo/'.$datas->user_photo) }}" alt="User Image">
                 <span class="username" style="font-size: 21px; color: white;">{{$datas->class_name}}</span>
                 <span class="description" style="color: white;">{{$datas->teacher_name}}</span>
             </div>

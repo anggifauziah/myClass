@@ -31,7 +31,7 @@
             </div><br>
             <!-- File Input -->
             <div class="box-footer pull-left">
-                <button type="button" id="btn_reset" class="btn btn-default">Cancel</button>
+                <a href="{{ url()->previous() }}" type="button" id="btn_reset" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn-primary">Posting</button>
             </div>
         </form>

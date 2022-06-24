@@ -4,25 +4,6 @@
 @endsection
 @section('content')
 
-<!-- MENU -->
-<div class="row" style="padding-left: 7px;">
-    @if(Auth::user()->level_user == 1)
-    <button type="button" class="btn bg-white btn-flat" style="color: #1a73e8">
-        <i class="fa fa-check-square-o fa-lg"></i>
-        <span style="font-size: 17px; padding-left: 7px;">To do</span></button>
-    @elseif(Auth::user()->level_user == 2)
-    <a href="{{ url('class') }}">
-        <button type="button" class="btn bg-white btn-flat" style="color: #1a73e8; margin-left: 10px;">
-            <i class="fa fa-folder-o fa-lg"></i>
-            <span style="font-size: 17px; padding-left: 7px;">To be checked</span></button>
-    </a>
-    <!-- <button type="button" class="btn bg-white btn-flat" style="color: #1a73e8; margin-left: 10px;"><i
-            class="fa fa-calendar fa-lg"></i>
-        <span style="font-size: 17px; padding-left: 7px;">Calendar</span></button> -->
-    @endif
-</div><br>
-<!-- MENU -->
-
 <!-- CLASSES -->
 <div class="row">
     @foreach($classes->groupBy('id_class') as $class)
@@ -32,7 +13,7 @@
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-blue">
                 <div class="widget-user-image">
-                    <img class="img-circle" style="width:60px; height:60px;" src="{{ url('/files/user_photo/'.$class[0]['teacher_photo']) }}" alt="User Avatar">
+                    <img class="img-circle" style="width:60px; height:60px;" src="{{ url('public/files/user_photo/'.$class[0]['user_photo']) }}" alt="User Avatar">
                 </div>
                 <!-- /.widget-user-image -->
                 <h3 class="widget-user-username"><a href="{{ url('class', $class[0]['class_code']) }}"

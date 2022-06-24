@@ -84,11 +84,13 @@ class AssignmentController extends Controller
                                 ->first();
         $comment_assign = CommentAssignment::join('assignment', 'assignment.id_assign', '=', 'comment_assignment.assign_id')
                                             ->join('classes', 'classes.id_class', '=', 'assignment.class_id')
-                                            ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*', 'assignment.*')
+                                            ->join('users', 'users.id','=','comment_assignment.user_id')
+                                            ->select('comment_assignment.created_at as created_comment_assign', 'classes.*', 'comment_assignment.*',
+                                            'assignment.*', 'users.*')
                                             ->where('assign_id', $id_assign)
                                             ->get();
 
-        // return $date;
+        //return $comment_assign;
         // dd($content);
         return view('class.view-assignment', [
             'assign' => $view_assign,

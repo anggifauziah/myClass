@@ -68,34 +68,33 @@ class RegisterController extends Controller
     {
         $request = request();
 
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'level_user' => $data['level'],
-        ]);
-
         if($request->hasfile('photo')){
             $photo = $request->file('photo');
             $name = $photo->getClientOriginalName();
             $photo->move(public_path().'/files/user_photo', $name);
         }
 
+        $user = User::create([
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'user_photo' => $name,
+            'level_user' => $data['level'],
+        ]);
+
         if($data['level'] == 1){
             Students::create([
                 'user_id' => $user->id,
                 'student_name' => $data['name'],
                 'student_gender' => $data['gender'],
-                'student_birthOfdate' => $data['date'],
-                'student_photo' => $name,
+                'student_birthOfdate' => $data['date']
             ]);
         }else{
             Teacher::create([
                 'user_id' => $user->id,
                 'teacher_name' => $data['name'],
                 'teacher_gender' => $data['gender'],
-                'teacher_birthOfdate' => $data['date'],
-                'teacher_photo' => $name,
+                'teacher_birthOfdate' => $data['date']
             ]);
         }
         return $user;

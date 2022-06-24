@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostTypeTable extends Migration
+class CreateCommentAssignmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePostTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_type', function (Blueprint $table) {
-            $table->increments('id_post_type');
-            $table->integer('post_type');
+        Schema::create('comment_assignment', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ class CreatePostTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_type');
+        Schema::dropIfExists('comment_assignment');
     }
 }

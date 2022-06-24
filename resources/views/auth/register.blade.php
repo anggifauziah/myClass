@@ -8,15 +8,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{asset('lte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/lte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('lte/bower_components/font-awesome/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/lte/bower_components/font-awesome/css/font-awesome.min.css')}}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{asset('lte/bower_components/Ionicons/css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/lte/bower_components/Ionicons/css/ionicons.min.css')}}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('lte/dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/lte/dist/css/AdminLTE.min.css')}}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('lte/plugins/iCheck/square/blue.css')}}">
+    <link rel="stylesheet" href="{{asset('public/lte/plugins/iCheck/square/blue.css')}}">
 
     <!-- HTML5 Shim and Respond.js')}} IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js')}} doesn't work if you view the page via file:// -->
@@ -77,9 +77,9 @@
                             <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
-                            <label for="level" class="col-md-4 col-form-label text-md-end">{{ __('User') }}</label>
+                            <label for="level" class="col-md-4 col-form-label text-md-end">{{ __('Roles') }}</label>
                             <select class="form-control" name="level" id="level" required>
-                                <option selected disabled>User</option>
+                                <option selected disabled>Roles</option>
                                 <option value="1">Student</option>
                                 <option value="2">Teacher</option>
                             </select>
@@ -161,11 +161,11 @@
     <!-- /.register-box -->
 
     <!-- jQuery 3 -->
-    <script src="{{asset('lte/bower_components/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('public/lte/bower_components/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap 3.3.7 -->
-    <script src="{{asset('lte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('public/lte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- iCheck -->
-    <script src="{{asset('lte/plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{asset('public/lte/plugins/iCheck/icheck.min.js')}}"></script>
     <script>
         $(function () {
             $('input').iCheck({
