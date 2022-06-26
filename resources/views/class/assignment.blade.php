@@ -56,7 +56,7 @@
         @if($comment[0]['id_comment_assign'] != null)
         <div class="box-comment">
             <!-- User image -->
-            <img class="img-circle img-sm" src="{{ url('public/files/user_photo/'.$comment[0]['user_photo']) }}"
+            <img class="img-circle img-sm" src="{{ url('public/files/user_photo/'.$comment[0]['user_photo_comment']) }}"
                 alt="User Image" style="margin-top: 4px;">
             <div class="comment-text">
                 <span class="username">

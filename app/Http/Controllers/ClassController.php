@@ -90,18 +90,20 @@ class ClassController extends Controller
                         ->join('users','users.id','=','announcement.user_id')
                         ->leftjoin('file_announcement', 'file_announcement.announce_id', '=', 'announcement.id_announce')
                         ->leftJoin('comment_announcement', 'comment_announcement.announce_id', '=', 'announcement.id_announce')
+                        ->leftJoin('users as userphotoonly', 'userphotoonly.id', '=', 'comment_announcement.user_id')
                         ->select('announcement.created_at as created_announce', 'comment_announcement.created_at as created_comment',
                                  'announcement.*', 'classes.*', 'file_announcement.*', 'comment_announcement.*',
-                                 'users.*', 'announcement.user_id as announce_user_id')
+                                 'users.*', 'announcement.user_id as announce_user_id', 'userphotoonly.user_photo as user_photo_comment')
                         ->where('class_id', $datas->id_class)
                         ->orderBy('announcement.created_at', 'DESC')->get();
         $assignments = Classes::join('assignment', 'assignment.class_id', '=', 'classes.id_class')
                         ->join('users','users.id','=','assignment.user_id')
                         ->leftjoin('file_assignment', 'file_assignment.assign_id', '=', 'assignment.id_assign')
                         ->leftJoin('comment_assignment', 'comment_assignment.assign_id', '=', 'assignment.id_assign')
+                        ->leftJoin('users as userphotoonly', 'userphotoonly.id', '=', 'comment_assignment.user_id')
                         ->select('assignment.created_at as created_assign', 'comment_assignment.created_at as created_comment',
                                  'assignment.*', 'classes.*', 'file_assignment.*', 'comment_assignment.*',
-                                  'users.*', 'assignment.user_id as assign_user_id')
+                                  'users.*', 'assignment.user_id as assign_user_id', 'userphotoonly.user_photo as user_photo_comment')
                         ->where('classes.id_class', $datas->id_class)
                         ->orderBy('assignment.created_at', 'DESC')->get();
         $students = ClassOfStudents::join('students', 'students.id_student', '=', 'class_of_students.student_id')
@@ -110,7 +112,7 @@ class ClassController extends Controller
                         ->where('classes.id_class', $datas->id_class)
                         ->get();
 
-        //return $assignments;
+        // return $announcements;
         return view('class.class', [
                     'datas' => $datas,
                     'announcement' => $announcements,
