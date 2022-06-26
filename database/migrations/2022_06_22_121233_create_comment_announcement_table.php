@@ -14,7 +14,11 @@ class CreateCommentAnnouncementTable extends Migration
     public function up()
     {
         Schema::create('comment_announcement', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_comment_announce');
+            $table->integer('announce_id');
+            $table->integer('user_id');
+            $table->string('creator_comment_announce');
+            $table->text('comment_announce');
             $table->timestamps();
         });
     }

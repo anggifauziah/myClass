@@ -10,6 +10,7 @@ class Teacher extends Model
     use HasFactory;
     protected $table = 'teachers';
     protected $primaryKey = 'id_teacher';
+    public $timestamps = false;
 
     protected $fillable = [
         'user_id',

@@ -19,7 +19,6 @@ class CreateStudentsTable extends Migration
             $table->string('student_name');
             $table->string('student_gender');
             $table->date('student_birthOfdate');
-            $table->timestamps();
         });
     }
 

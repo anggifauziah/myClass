@@ -14,8 +14,9 @@ class CreateFileStudentsAssignmentTable extends Migration
     public function up()
     {
         Schema::create('file_students_assignment', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->increments('id_file_student_assign');
+            $table->integer('student_assign_id');
+            $table->string('filename_student_assign');
         });
     }
 

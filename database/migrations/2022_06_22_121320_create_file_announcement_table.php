@@ -14,8 +14,9 @@ class CreateFileAnnouncementTable extends Migration
     public function up()
     {
         Schema::create('file_announcement', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->increments('id_file_assign');
+            $table->integer('announce_id');
+            $table->string('filename');
         });
     }
 

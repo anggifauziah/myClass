@@ -14,7 +14,11 @@ class CreateCommentAssignmentTable extends Migration
     public function up()
     {
         Schema::create('comment_assignment', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_comment_assign');
+            $table->integer('assign_id');
+            $table->integer('user_id');
+            $table->string('creator_comment_assign');
+            $table->text('comment_assign');
             $table->timestamps();
         });
     }

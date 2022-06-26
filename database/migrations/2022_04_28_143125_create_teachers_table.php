@@ -19,7 +19,6 @@ class CreateTeachersTable extends Migration
             $table->string('teacher_name');
             $table->string('teacher_gender');
             $table->date('teacher_birthOfdate');
-            $table->timestamps();
         });
     }
 
