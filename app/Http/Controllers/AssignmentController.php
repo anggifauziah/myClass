@@ -134,7 +134,6 @@ class AssignmentController extends Controller
         $this->data['menuActive'] = $this->menuActive;
         $this->data['submnActive'] = $this->submnActive;
         $this->data['smallTitle'] = "";
-        $this->data['tabs'] = "classwork";
         
         $rules = [
             'title' => 'required',
@@ -185,7 +184,7 @@ class AssignmentController extends Controller
             $assign->assign_deadline = $request->datetime;
             $assign->save();
         }
-        return redirect()->back()->with('tabs', 'classwork');
+        return redirect('class');
     }
 
     /**
@@ -308,7 +307,20 @@ class AssignmentController extends Controller
 
     public function update(Request $request)
     {
-        return 'anggi, sorry ya, ayo jgn badmood mulu kurang titik kok :( iki karek nyambungno inputan e tok nggi, kyk updatescore nisor iki :)';
+        if($request->filled('datetime')) {
+            $edit_assign = Assignment::where('id_assign', $request->id_assign)->first();
+            $edit_assign->assign_title= $request->title;
+            $edit_assign->assign_content= $request->ckeditor;
+            $edit_assign->assign_deadline = $request->datetime;
+            $edit_assign->save();
+        } else {
+            $edit_assign = Assignment::where('id_assign', $request->id_assign)->first();
+            $edit_assign->assign_title= $request->title;
+            $edit_assign->assign_content= $request->ckeditor;
+            $edit_assign->save();
+        }
+        
+        return redirect('class');
     }
 
     /**

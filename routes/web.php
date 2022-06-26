@@ -46,6 +46,7 @@ Route::group(array('prefix' => 'announcement'), function(){
   Route::get('create-announcement', 'AnnouncementController@create')->name('create-announcement');
   Route::post('store-announcement', 'AnnouncementController@store')->name('store-announcement');
   Route::post('comment-announcement', 'AnnouncementController@comment')->name('comment-announcement');
+  Route::post('updateAnnouncement', 'AnnouncementController@update')->name('updateAnnouncement');
   Route::get('{id_announce}-editAnnouncement', 'AnnouncementController@edit')->name('{id_announce}-editAnnouncement');
   Route::post('deleteAnnouncement', 'AnnouncementController@destroy')->name('deleteAnnouncement');
 });

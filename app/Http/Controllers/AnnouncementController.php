@@ -171,9 +171,13 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $edit_announce = Announcement::where('id_announce', $request->id_announce)->first();
+        $edit_announce->announce_content= $request->ckeditor;
+        $edit_announce->save();
+        
+        return redirect('class');
     }
 
     /**

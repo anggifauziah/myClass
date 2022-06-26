@@ -24,23 +24,13 @@
             <!-- TEACH -->
             @if(Auth::user()->level_user == 2)
             <li class="header">Teach</li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-users"></i> <span></span>
-                </a>
-            </li>
-            <!-- END TEACH -->
 
             <!-- ENROLLED -->
             @elseif(Auth::user()->level_user == 1)
             <li class="header">Enrolled</li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-users"></i> <span></span>
-                </a>
-            </li>
             @endif
-            <!-- END ENROLLED -->
+
+            <!-- END CLASS -->
         </ul>
     </section>
     <!-- /.sidebar -->

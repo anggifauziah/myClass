@@ -25,6 +25,11 @@ class Assignment extends Model
         return $this->hasMany('Classes', 'id_class');
     }
 
+    public function User()
+    {
+        return $this->belongsToMany('User', 'id');
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

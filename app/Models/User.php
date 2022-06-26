@@ -53,4 +53,24 @@ class User extends Authenticatable
     {
         return $this->hasOne('Teacher', 'id_teacher');
     }
+
+    public function Announcement()
+    {
+        return $this->hasMany('Announcement', 'id_announce');
+    }
+
+    public function Assignment()
+    {
+        return $this->hasMany('Assignment', 'id_assign');
+    }
+
+    public function CommentAnnouncement()
+    {
+        return $this->hasMany('CommentAnnouncement', 'id_comment_announce');
+    }
+
+    public function CommentAssignment()
+    {
+        return $this->hasMany('CommentAssignment', 'id_comment_assign');
+    }
 }

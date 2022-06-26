@@ -11,27 +11,32 @@
     <!-- /.box-header -->
     @foreach($edit_announce->groupBy('id_announce') as $announce)
     <div class="box-body">
-        <form method="post" action="" enctype="multipart/form-data">
-            <textarea class="ckeditor" id="ckedtor">{{$announce[0]['announce_content']}}</textarea>
+        <form method="post" action="{{ route('updateAnnouncement') }}">
+            @csrf
+            <textarea id="ckeditor" class="ckeditor @error('ckeditor') is-invalid @enderror" name="ckeditor" required
+                autofocus>{{$announce[0]['announce_content']}}</textarea>
             <br>
             <!-- File Input -->
             <div>
-                <label for="file-input">
-                    <a class="btn btn-info" role="button" aria-disabled="false">
-                        <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                </label>
-                <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
                 @foreach($announce as $item)
+                @if($item->filename != null)
+                <p><b>File tidak dapat diubah!</b></p>
+                @endif
                 <p id="files-area">
                     <span id="files-list">
-                        <span id="files-names">{{$item->filename}}</span>
+                        <table border=1>
+                            <tr>
+                                <td><span id="files-names">{{$item->filename}}</span></td>
+                            </tr>
+                        </table>
                     </span>
                 </p>
                 @endforeach
             </div><br>
+            <input type="hidden" name="id_announce" value="{{$announce[0]['id_announce']}}">
             <!-- File Input -->
             <div class="box-footer pull-left">
-                <a href="{{ url()->previous() }}" type="button" id="btn_reset" class="btn btn-default">Cancel</a>
+                <a href="{{ url()->previous() }}" type="button" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn-primary">Posting</button>
             </div>
         </form>

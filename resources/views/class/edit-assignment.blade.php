@@ -42,15 +42,22 @@
             <div class="col-md-4">
                 <!-- form start -->
                 <div class="box-body">
+                    <!-- Old Deadline -->
+                    <div class="form-group">
+                        <label for="currdate">Current Due date</label>
+                        <input type="text" class="form-control" name="currdate" value="{!! date('d M Y H:i',
+                                    strtotime($assign[0]['assign_deadline'])) !!}" readonly>
+                    </div>
+                    <!-- End Old Deadline -->
                     <!-- Date -->
                     <div class="form-group">
-                        <label>Due date</label>
+                        <label>Change due date</label>
+                        <small style="color: red;">(Kosongkan jika tidak ingin mengubah)</small>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime"
-                                value="{{$assign[0]['assign_deadline']}}">
+                            <input type="datetime-local" class="form-control pull-right" id="datetime" name="datetime">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -58,24 +65,27 @@
 
                     <!-- File Input -->
                     <div>
-                        <label for="file-input">
-                            <a class="btn btn-info" role="button" aria-disabled="false">
-                                <span class='glyphicon glyphicon-paperclip'></span> Input File</a>
-                        </label>
-                        <input type="file" name="file[]" id="file-input" style="visibility: hidden;" multiple>
                         @foreach($assign as $item)
+                        @if($item->filename != null)
+                        <p><b>File tidak dapat diubah!</b></p>
+                        @endif
                         <p id="files-area">
                             <span id="files-list">
-                                <span id="files-names">{{$item->filename}}</span>
+                                <table border=1>
+                                    <tr>
+                                        <td><span id="files-names">{{$item->filename}}</span></td>
+                                    </tr>
+                                </table>
                             </span>
                         </p>
                         @endforeach
                     </div>
+                    <input type="hidden" name="id_assign" value="{{$assign[0]['id_assign']}}">
                     <!-- File Input -->
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer pull-right">
-                    <a href="{{ url()->previous() }}" type="button" id="btn_reset" class="btn btn-default">Cancel</a>
+                    <a href="{{ url()->previous() }}" type="button" class="btn btn-default">Cancel</a>
                     <button type="submit" class="btn btn-primary">Posting</button>
                 </div>
             </div>

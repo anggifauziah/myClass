@@ -22,4 +22,9 @@ class CommentAnnouncement extends Model
     {
         return $this->hasMany('Announcement', 'id_announce');
     }
+
+    public function User()
+    {
+        return $this->belongsToMany('User', 'id');
+    }
 }

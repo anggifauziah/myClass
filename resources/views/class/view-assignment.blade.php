@@ -36,7 +36,8 @@
                     @if($items[0]['filename'] != null)
                     <div class="attachment-block clearfix">
                         <h4 class="attachment-heading">
-                            <a href="{{ url('/files/assignment/'.$items[0]['filename']) }}">{{$items[0]['filename']}}</a>
+                            <a
+                                href="{{ url('/files/assignment/'.$items[0]['filename']) }}">{{$items[0]['filename']}}</a>
                         </h4>
                         <!-- /.attachment-pushed -->
                     </div>
@@ -50,8 +51,9 @@
                         @if($comment[0]['id_comment_assign'] != null)
                         <div class="box-comment">
                             <!-- User image -->
-                            <img class="img-circle img-sm" src="{{ url('public/files/user_photo/'.$comment[0]['user_photo']) }}"
-                                alt="User Image" style="margin-top: 4px;">
+                            <img class="img-circle img-sm"
+                                src="{{ url('public/files/user_photo/'.$comment[0]['user_photo']) }}" alt="User Image"
+                                style="margin-top: 4px;">
                             <div class="comment-text">
                                 <span class="username">
                                     {{$comment[0]['creator_comment_assign']}}
@@ -118,7 +120,8 @@
                                     @foreach($assigns as $items)
                                     <div class="attachment-block clearfix">
                                         <h4 class="attachment-heading">
-                                            <a href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}</a>
+                                            <a
+                                                href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}</a>
                                         </h4>
                                     </div>
                                     @endforeach
@@ -179,7 +182,8 @@
                                 @foreach($assigns as $items)
                                 <div class="attachment-block clearfix">
                                     <h5 class="attachment-heading">
-                                        <a href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}<br></a>
+                                        <a
+                                            href="{{ url('/files/students_assignment/'.$items->filename_student_assign) }}">{{$items->filename_student_assign}}<br></a>
                                     </h5>
                                 </div>
                                 @endforeach
