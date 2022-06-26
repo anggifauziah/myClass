@@ -73,7 +73,8 @@
                             <form action="{{ route('comment-assignment') }}" method="post">
                                 @csrf
                                 <img class="img-responsive img-circle img-sm"
-                                    src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" alt="Alt Text">
+                                    src="{{ url('public/files/user_photo/'.Auth::user()->user_photo) }}" alt="Alt Text"
+                                    style="margin-top: 9px;">
                                 <!-- .img-push is used to add margin to elements next to floating images -->
                                 <div class="img-push input-group margin">
                                     <input id="comment" type="text"
