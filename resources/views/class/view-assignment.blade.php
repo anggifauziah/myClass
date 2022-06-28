@@ -12,7 +12,7 @@
     <!-- /.box-header -->
     <!-- STUDENT ASSIGNMENT -->
     <div class="row">
-        <form>
+        
             <!-- left column -->
             <div class="col-md-8">
                 <!-- form start -->
@@ -157,7 +157,7 @@
                     <!-- /.form group -->
                 </div>
             </div>
-        </form>
+        
         <!-- END STUDENT ASSIGNMENT -->
 
         <!-- TEACHER ASSIGNMENT -->
