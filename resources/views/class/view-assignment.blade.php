@@ -137,6 +137,7 @@
                                 <!-- File Input -->
                                 <div>
                                     @if($assign[0]['assign_deadline'] >= Carbon\Carbon::now())
+                                    @if($student_assign->count() < 1)
                                     <label for="file-input" style="display: block;">
                                         <a class="btn btn-block btn-default" role="button" aria-disabled="false">
                                             <span class='fa fa-plus'></span> Add file</a>
@@ -144,6 +145,7 @@
                                     <button type="submit" class="btn btn-block btn-default btn-github">Submit</button>
                                     <input type="file" name="file[]" id="file-input" style="visibility: hidden;"
                                         multiple>
+                                    @endif
                                     @endif
                                 </div>
                                 <!-- File Input -->

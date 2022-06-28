@@ -354,7 +354,7 @@ class AssignmentController extends Controller
         DB::table("file_assignment")->where("assign_id", $id_assign)->delete();
         DB::table("comment_assignment")->where("assign_id", $id_assign)->delete();
         DB::table("students_assignment")->where("assign_id", $id_assign)->delete();
-
+        
         return redirect()->back()->with('success', 'Berhasil delete');
     }
 }
